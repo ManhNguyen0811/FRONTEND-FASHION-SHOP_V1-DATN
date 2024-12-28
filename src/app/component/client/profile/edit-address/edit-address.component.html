@@ -1,0 +1,103 @@
+<div class="table-responsive wishlist-table margin-bottom-none p-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tất Cả Địa Chỉ </th>
+           
+                <th class="text-center "> <label for="toggleForm" class="btn-open-form btn-primary"> 
+                    <span class="mobile-title"><i class="fa-solid fa-plus"></i></span> 
+                    <span class="pc-title "><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span></label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr routerLink="/client/profile/edit_address">
+                <td>
+                    <div class="address-item">
+                        <a class="address-thumb"><img src="https://cdn-icons-png.flaticon.com/512/4942/4942358.png"
+                                alt="address"></a>
+                        <div class="address-info">
+                            <h4 class="address-title"><a> 273 Đ. An Dương Vương, Phường 3, Quận 5, Hồ Chí Minh</a></h4>
+                            <div class="text-lg text-medium text-muted">Nguyễn Thanh Mạnh </div>
+                            <div>Số Điện Thoại Nhận Hàng:
+                                <div class="d-inline text-success">0986484774</div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Đặt làm địa chỉ mặc
+                                        định</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <label for="toggleForm" class="btn-open-form btn-primary"> <span class="mobile-title"> Sửa </span>
+                        <span class="pc-title">Chỉnh Sửa Địa Chỉ</span> </label>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="container">
+    <input type="checkbox" id="toggleForm" class="toggle-checkbox">
+    <!-- Nút mở form -->
+    <label for="toggleForm" class="overlay"></label>
+    <!-- Form -->
+    <div class="sliding-form">
+        <!-- <label for="toggleForm" class="close-btn ms-5">✖</label> -->
+        <form>
+            <h3 style="text-align: center;">Chỉnh Sửa</h3>
+            <div class="form-group form-edit-address">
+                <label for="name">Họ và Tên</label>
+                <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên">
+            </div>
+            <div class="form-group form-edit-address">
+                <label>Số Điện Thoại</label>
+                <input type="text" class="form-control" placeholder="Nhập số điện thoại ">
+            </div>
+            <div class="form-group form-edit-address">
+                <label>Tỉnh/Thành Phố</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group form-edit-address">
+                <label>Quận/Huyện </label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group form-edit-address">
+                <label>Phường/Xã</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group form-edit-address">
+                <label>Tên đường/Số nhà</label>
+                <input type="text" class="form-control" placeholder="Nhập Tên đường/Số nhà ">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Chọn làm địa chỉ mặc định.
+                </label>
+            </div>
+            <button type="button" class="btn btn-outline-success me-1">Thêm Địa Chỉ </button>
+            <label for="toggleForm" class="btn-open-form btn-primary" style="background-color: red !important; width: 50px;">Đóng</label>
+        </form>
+    </div>
+</div>

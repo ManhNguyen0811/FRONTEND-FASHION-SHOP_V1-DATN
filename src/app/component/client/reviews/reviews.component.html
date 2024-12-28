@@ -1,0 +1,102 @@
+<div class="container mt-5"  >
+ 
+ 
+
+    <h1 class="mt-5 pt-3 fw-normal">Đánh giá</h1>
+    <hr>
+    <div>
+      <h1 class="fw-normal">AIRism Áo Hoodie Chống UV Vải Mắt Lưới Kéo Khóa</h1>
+    </div>
+    <div class="d-flex align-items-center mb-3 ">
+      <div class="stars">
+        <ng-container *ngFor="let star of getFullStars(rating)">
+          ★
+        </ng-container>
+        <ng-container *ngFor="let star of getEmptyStars(rating)">
+          ☆
+        </ng-container>
+      </div>
+      <span class="fw-bold ms-2">{{ rating.toFixed(1) }}</span>
+      <a href="#" class="ms-2 text-black link-underline-opacity-0 link-underline">({{ reviewCount }}+)</a>
+    </div>
+  
+    <!--Đánh giá của khách hàng-->
+    <div class="container mt-4">
+      <h5 class="fw-bold">Đánh giá của khách hàng</h5>
+  
+      <div *ngFor="let star of ratings">
+        <div class="d-flex align-items-center">
+          <!-- Stars -->
+          <div class="stars text-black">
+            <ng-container *ngFor="let s of [].constructor(star.stars)">
+              ★
+            </ng-container>
+            <ng-container *ngFor="let s of [].constructor(5 - star.stars)">
+              ☆
+            </ng-container>
+          </div>
+  
+          <!-- Progress Bar -->
+          <div class="progress flex-grow-1 mx-3" style="height: 8px;">
+            <div
+              class="progress-bar bg-dark"
+              role="progressbar"
+              [style.width]="star.percentage + '%'"
+              [attr.aria-valuenow]="star.percentage"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+  
+          <!-- Count -->
+          <div class="fw-bold">{{ star.count }}</div>
+        </div>
+      </div>
+  
+      <p class="mt-3">{{ totalReviews }} Đánh giá</p>
+    </div>
+  
+    <hr>
+  
+    <!-- Dùng lặp lại cho danh sách đánh giá -->
+    <div *ngFor="let review of visibleReviews" class="review-item mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <h6 class="fw-bold">{{ review.title }}</h6>
+        <span class="text-muted">{{ review.date }}</span>
+      </div>
+      <div class="stars text-black mb-2">
+        <ng-container *ngFor="let star of getFullStars(review.rating)">
+          ★
+        </ng-container>
+        <ng-container *ngFor="let star of getEmptyStars(review.rating)">
+          ☆
+        </ng-container>
+      </div>
+      <p class="mb-1">
+        <span class="">Kích cỡ đã mua:</span> {{ review.size }}<br>
+        <span class="">Quần áo có vừa không:</span> {{ review.fit }}
+      </p>
+      <p class="mb-3">
+        {{ review.comment }}
+      </p>
+      <p class="text-muted small">
+        {{ review.user }} · {{ review.gender }} · {{ review.age }} · Chiều cao: {{ review.height }} · Cân nặng: {{ review.weight }} · Cỡ giày: {{ review.shoeSize }} · {{ review.location }}
+      </p>
+      <hr>
+    </div>
+    <!--Xem Thêm -->
+    <div class="container text-center my-4">
+      <a href="javascript:void(0)" class="load-more-link fw-bold d-flex align-items-center justify-content-center link-underline link-underline-opacity-0"
+         (click)="loadMoreReviews()">
+        TẢI THÊM <i class="bi bi-chevron-down ms-2"></i>
+      </a>
+    </div>
+  
+    <!--Sticky-buttons-->
+    <div class="sticky-buttons bg-white" [ngClass]="{ hidden: !isStickyVisible }">
+      <button class="sticky-button btn btn-dark rounded-pill">VIẾT BÀI ĐÁNH GIÁ</button>
+      <button class="sticky-button btn btn-outline-dark rounded-pill">QUAY LẠI CHI TIẾT SẢN PHẨM</button>
+    </div>
+  
+  </div>
+  

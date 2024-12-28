@@ -3,15 +3,14 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-profile',
   standalone: true,
-  imports: [RouterOutlet, RouterLink,CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [RouterOutlet, CommonModule
+    ,RouterLink],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.scss'
 })
-export class AppComponent {
-  title = 'FRONTEND-FASHION-SHOP-V1';
-
+export class ProfileComponent {
   isLoading = false;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef) {
@@ -23,9 +22,8 @@ export class AppComponent {
         setTimeout(() => {
           this.isLoading = false;
           this.cdr.detectChanges();
-        }, 200);
+        }, 200); 
       }
     });
   }
-
 }

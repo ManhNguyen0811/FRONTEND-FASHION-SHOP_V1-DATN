@@ -1,0 +1,92 @@
+
+.review-stars {
+    font-size: 18px; /* Kích thước sao */
+    color: #000; /* Màu đen */
+  }
+  
+  .review-stars span {
+    color: #000; /* Màu vàng cho sao */
+  }
+  
+  .review-count {
+    font-size: 14px; /* Kích thước chữ cho số lượng đánh giá */
+    color: #007bff; /* Màu xanh */
+    margin-left: 5px;
+  }
+  
+  /* Mô tả sản phẩm */
+  .product-description {
+    font-size: 14px; /* Kích thước chữ nhỏ */
+    color: #555; /* Màu xám nhạt */
+  }
+  
+  /* Sticky Buttons */
+  .sticky-buttons {
+    position: sticky;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 1000;
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  /* Hidden State */
+  .sticky-buttons.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  /* Button Styles */
+  .sticky-button {
+    padding: 0.8rem 12rem;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .sticky-button {
+      padding: 0.8rem 8rem; /* Reduce horizontal padding */
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .sticky-button {
+      padding: 0.8rem 5rem; /* Further reduce padding */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sticky-buttons {
+      flex-direction: column; /* Stack buttons vertically */
+      gap: 15px; /* Add spacing between stacked buttons */
+    }
+  
+    .sticky-button {
+      padding: 0.8rem 3rem; /* Adjust padding for smaller screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .sticky-buttons {
+      padding: 0.5rem; /* Reduce overall padding for very small screens */
+    }
+  
+    .sticky-button {
+      padding: 0.6rem 1rem; /* Compact button padding */
+      font-size: 0.9rem; /* Adjust font size */
+    }
+  }
+  
+  .load-more-link {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .load-more-link:hover {
+    color: #5c5c5c;
+    text-decoration: none;
+  }
+  

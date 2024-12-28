@@ -1,0 +1,68 @@
+<header 
+  [ngClass]="{
+    'header-home': isHome,
+    'header-other': !isHome
+  }"
+  class="position-fixed w-100 py-2"
+  style="z-index: 1000; top: 0;">
+  <div class="container-fluid d-flex align-items-center justify-content-around" >
+    <!-- Logo -->
+    <div
+      class="logo" style="width: 157.57px;" routerLink="/client">
+      <h5 class="">BRAND</h5>
+    </div>
+    <!-- Navigation -->
+    <ul
+
+      class="nav nav-underline d-none d-md-flex">
+      <li
+        class="nav-item">
+        <a class="head-title nav-link" href="#">NỮ</a>
+      </li>
+      <li class="nav-item">
+        <a class="head-title nav-link" routerLink="/client/product">NAM</a>
+      </li>
+      <li class="nav-item">
+        <a class="head-title nav-link" href="#">TRẺ EM</a>
+      </li>
+    </ul>
+    <!-- Icons -->
+    <div class="d-flex align-items-center">
+      <!-- Dropdown Menu -->
+      <div class="dropdown">
+        <button class="head-icon head-icon-global btn mx-2 dropdown-toggle no-focus no-caret" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i
+            [ngClass]="{
+          'text-black': !isHome
+          }"
+            class="bi bi-globe"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-custom">
+          <li><a class="dropdown-item"  >English</a></li>
+          <li>
+            <a class="dropdown-item active"  >
+              <span>Tiếng Việt</span>
+              <i class="bi bi-check2"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Other Icons -->
+      <a routerLink="/client/wishlist" class="head-icon mx-2">
+        <i
+          [ngClass]="{
+          'text-black': !isHome
+          }"
+          class="bi bi-heart"></i>
+      </a>
+      <a routerLink="/client/cart" class="head-icon mx-2">
+        <i
+          [ngClass]="{
+          'text-black': !isHome
+          }"
+          class="bi bi-cart"></i>
+            
+      </a>
+    </div>
+  </div>
+</header>
