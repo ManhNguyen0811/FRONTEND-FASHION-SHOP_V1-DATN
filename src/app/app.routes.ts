@@ -10,5 +10,13 @@
             path: 'admin',
             loadChildren: () => import('../app/component/admin/admin-router').then(m => m.adminRouter)
         },
+        {
+            path: 'staff',
+            loadChildren: () => import('../app/component/staff/staff-router').then(m => m.staffRouter)
+        },
+        {
+            path: 'store_manager',
+            loadChildren: () => import('../app/component/store-manager/store_manager-router').then(m => m.storeManagerRouter)
+        },
     
     ];
