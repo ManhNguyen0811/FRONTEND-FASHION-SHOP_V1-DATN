@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [RouterOutlet, CommonModule
-    ,RouterLink],
+    ,RouterLink,RouterLinkActive],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })

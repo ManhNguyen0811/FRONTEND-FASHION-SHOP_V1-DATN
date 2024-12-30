@@ -190,13 +190,18 @@ a.list-group-item,
   
   .loading-spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
+    border-top: 4px solid #e0e0e0;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     animation: spin 2s linear infinite;
   }
-  
+  .list-group-item.active-link {
+    background-color: #d9eaf2; /* Màu nền khi active */
+    color: rgb(0, 0, 0); /* Màu chữ */
+    font-weight: bold; /* Đậm chữ để dễ phân biệt */
+}
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
