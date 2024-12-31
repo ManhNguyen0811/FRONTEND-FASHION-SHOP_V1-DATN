@@ -1,7 +1,8 @@
 import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
 import { UserComponent } from "./user/user.component";
-import { CategoryComponent } from "./category/category.component";
+import { ListCategoryComponent } from "./categoty/list-category/list-category.component";
+import { EditCategoryComponent } from "./categoty/edit-category/edit-category.component";
  
 export const adminRouter: Routes =[
     {
@@ -14,8 +15,16 @@ export const adminRouter: Routes =[
                 component: UserComponent
             },
             {
-                path:'category',
-                component: CategoryComponent
+                path:'list_category',
+                component: ListCategoryComponent
+            },
+            {
+                path:'edit_category/:id',
+                component: EditCategoryComponent
+            },
+            {
+                path:'edit_category',
+                component: EditCategoryComponent
             }
          ]
     }
