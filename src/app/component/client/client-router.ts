@@ -14,6 +14,7 @@ import { EditAddressComponent } from "./profile/edit-address/edit-address.compon
 import { DetailProductComponent } from "./detail-product/detail-product.component";
 import { ReviewsComponent } from "./reviews/reviews.component";
 import { WishlistComponent } from "./wishlist/wishlist.component";
+import { InsertReviewComponent} from './insert-review/insert-review.component';
 
 export const clientRouter: Routes =[
     {
@@ -64,10 +65,13 @@ export const clientRouter: Routes =[
                     { path: 'edit_profile', component: EditProfileComponent },
                     { path: 'order_history/order_detail', component: OrderDetailComponent  },
                     { path: 'edit_address', component: EditAddressComponent },
-        
+
                 ]
             },
-            
+            {
+                path: 'review/new',
+                component: InsertReviewComponent
+            },
         ]
     }
 ]
