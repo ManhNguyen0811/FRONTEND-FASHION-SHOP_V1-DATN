@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ProvinceService} from '../../../services/Province/province.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -21,7 +20,6 @@ export class InsertReviewComponent implements OnInit{
   selectedRating: number = 0;
   ratingText: string = '';
   fitValue: number = 3; // Default "Đúng với kích thước"
-  provinces: any[] = [];
 
   // Static data
   //Kích cỡ đã mua
@@ -123,6 +121,73 @@ export class InsertReviewComponent implements OnInit{
     { size: 'EU50 trở lên' },
   ];
 
+  provinces = [
+    "Hà Nội",
+    "Hà Giang",
+    "Cao Bằng",
+    "Bắc Kạn",
+    "Tuyên Quang",
+    "Lào Cai",
+    "Điện Biên",
+    "Lai Châu",
+    "Sơn La",
+    "Yên Bái",
+    "Hòa Bình",
+    "Thái Nguyên",
+    "Lạng Sơn",
+    "Quảng Ninh",
+    "Bắc Giang",
+    "Phú Thọ",
+    "Vĩnh Phúc",
+    "Bắc Ninh",
+    "Hải Dương",
+    "Hải Phòng",
+    "Hưng Yên",
+    "Thái Bình",
+    "Hà Nam",
+    "Nam Định",
+    "Ninh Bình",
+    "Thanh Hóa",
+    "Nghệ An",
+    "Hà Tĩnh",
+    "Quảng Bình",
+    "Quảng Trị",
+    "Thừa Thiên Huế",
+    "Đà Nẵng",
+    "Quảng Nam",
+    "Quảng Ngãi",
+    "Bình Định",
+    "Phú Yên",
+    "Khánh Hòa",
+    "Ninh Thuận",
+    "Bình Thuận",
+    "Kon Tum",
+    "Gia Lai",
+    "Đắk Lắk",
+    "Đắk Nông",
+    "Lâm Đồng",
+    "Bình Phước",
+    "Tây Ninh",
+    "Bình Dương",
+    "Đồng Nai",
+    "Bà Rịa - Vũng Tàu",
+    "Hồ Chí Minh",
+    "Long An",
+    "Tiền Giang",
+    "Bến Tre",
+    "Trà Vinh",
+    "Vĩnh Long",
+    "Đồng Tháp",
+    "An Giang",
+    "Kiên Giang",
+    "Cần Thơ",
+    "Hậu Giang",
+    "Sóc Trăng",
+    "Bạc Liêu",
+    "Cà Mau"
+  ];
+
+
   constructor(private fb: FormBuilder) {
     this.reviewForm = this.fb.group({
       rating: [0, Validators.required],
@@ -141,11 +206,6 @@ export class InsertReviewComponent implements OnInit{
     });
   }
 
-  // ngOnInit(): void {
-  //   this.locationService.getProvinces().subscribe((data) => {
-  //     this.provinces = data; // Populate provinces dropdown
-  //   });
-  // }
 
   // Handlers
   setRating(rating: number): void {
@@ -186,6 +246,7 @@ export class InsertReviewComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
   }
 
 }
