@@ -15,6 +15,7 @@ import { DetailProductComponent } from "./detail-product/detail-product.componen
 import { ReviewsComponent } from "./reviews/reviews.component";
 import { WishlistComponent } from "./wishlist/wishlist.component";
 import { InsertReviewComponent} from './insert-review/insert-review.component';
+import { CheckSizeComponent} from './check-size/check-size.component';
 
 export const clientRouter: Routes =[
     {
@@ -72,6 +73,10 @@ export const clientRouter: Routes =[
                 path: 'review/new',
                 component: InsertReviewComponent
             },
+            {
+              path: 'size',
+              component: CheckSizeComponent
+            }
         ]
     }
 ]

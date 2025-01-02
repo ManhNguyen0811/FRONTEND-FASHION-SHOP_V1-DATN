@@ -1,7 +1,4 @@
 <div class="container mt-5"  >
- 
- 
-
     <h1 class="mt-5 pt-3 fw-normal">Đánh giá</h1>
     <hr>
     <div>
@@ -19,11 +16,11 @@
       <span class="fw-bold ms-2">{{ rating.toFixed(1) }}</span>
       <a href="#" class="ms-2 text-black link-underline-opacity-0 link-underline">({{ reviewCount }}+)</a>
     </div>
-  
+
     <!--Đánh giá của khách hàng-->
     <div class="container mt-4">
       <h5 class="fw-bold">Đánh giá của khách hàng</h5>
-  
+
       <div *ngFor="let star of ratings">
         <div class="d-flex align-items-center">
           <!-- Stars -->
@@ -35,7 +32,7 @@
               ☆
             </ng-container>
           </div>
-  
+
           <!-- Progress Bar -->
           <div class="progress flex-grow-1 mx-3" style="height: 8px;">
             <div
@@ -47,17 +44,17 @@
               aria-valuemax="100"
             ></div>
           </div>
-  
+
           <!-- Count -->
           <div class="fw-bold">{{ star.count }}</div>
         </div>
       </div>
-  
+
       <p class="mt-3">{{ totalReviews }} Đánh giá</p>
     </div>
-  
+
     <hr>
-  
+
     <!-- Dùng lặp lại cho danh sách đánh giá -->
     <div *ngFor="let review of visibleReviews" class="review-item mb-4">
       <div class="d-flex justify-content-between align-items-center">
@@ -91,12 +88,11 @@
         TẢI THÊM <i class="bi bi-chevron-down ms-2"></i>
       </a>
     </div>
-  
+
     <!--Sticky-buttons-->
     <div class="sticky-buttons bg-white" [ngClass]="{ hidden: !isStickyVisible }">
       <button class="sticky-button btn btn-dark rounded-pill">VIẾT BÀI ĐÁNH GIÁ</button>
       <button class="sticky-button btn btn-outline-dark rounded-pill">QUAY LẠI CHI TIẾT SẢN PHẨM</button>
     </div>
-  
+
   </div>
-  
