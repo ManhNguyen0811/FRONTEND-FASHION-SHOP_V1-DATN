@@ -403,4 +403,219 @@
     transition: height 0.3s ease;
   }
 
+/* Responsive CSS */
+
+/* Mobile devices (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Container adjustments */
+  .container {
+    padding: 1rem; /* Giảm khoảng cách bên trong */
+  }
+
+  /* Hình ảnh sản phẩm */
+  .col-md-7 img {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    margin-bottom: 1rem; /* Thêm khoảng cách giữa các hình */
+  }
+
+  /* Chuyển cột hình ảnh thành hàng */
+  .col-md-7 .row.g-3 > div {
+    flex: 0 0 100%; /* Chiếm toàn bộ chiều rộng */
+    max-width: 100%;
+  }
+
+  /* Bố cục sản phẩm */
+  .row {
+    flex-direction: column; /* Chuyển sang dạng cột */
+  }
+
+  .col-md-7, .col-md-5 {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  .product-details {
+    margin-top: 2rem; /* Thêm khoảng cách trên */
+  }
+
+  /* Tên sản phẩm */
+  .product-title {
+    font-size: 1.2rem; /* Giảm kích thước chữ */
+  }
+
+  /* Nút hành động */
+  .btn-icon {
+    font-size: 1.2rem; /* Giảm kích thước icon */
+  }
+
+  /* Bộ chọn màu */
+  .color-picker-list {
+    flex-wrap: wrap; /* Hiển thị dạng dòng khi không đủ chỗ */
+    gap: 8px; /* Giảm khoảng cách giữa các màu */
+  }
+
+  .color-label {
+    width: 32px; /* Giảm kích thước */
+    height: 32px;
+  }
+
+  /* Bộ chọn kích cỡ */
+  .size-picker .fr-chip-label {
+    width: 40px; /* Giảm kích thước nút */
+    height: 40px;
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  .size-picker .size-item {
+    margin-right: 5px; /* Giảm khoảng cách giữa các item */
+  }
+
+  /* Giá sản phẩm */
+  .product-price {
+    font-size: 1.5rem; /* Giảm kích thước giá */
+  }
+
+  /* Nút thêm giỏ hàng */
+  .btn-cart {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+    padding: 10px; /* Giảm padding */
+  }
+
+  /* Accordion */
+  .accordion-button {
+    font-size: 1rem; /* Giảm kích thước chữ */
+  }
+
+  .accordion-body {
+    font-size: 0.9rem; /* Giảm kích thước nội dung */
+  }
+
+  /* Đánh giá */
+  .review-stars {
+    font-size: 16px; /* Giảm kích thước sao */
+  }
+
+  .review-count {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  /* Liên kết kiểm tra kích cỡ */
+  .check-size-link {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  /* Bảng thông tin sản phẩm */
+  table {
+    font-size: 0.85rem; /* Giảm kích thước chữ */
+  }
+
+  table th, table td {
+    padding: 0.5rem; /* Giảm padding trong bảng */
+  }
+}
+
+/* Tablet devices (min-width: 769px and max-width: 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Hình ảnh sản phẩm */
+  .col-md-7 img {
+    width: 100%; /* Giảm kích thước hình ảnh */
+    margin-bottom: 1rem;
+  }
+
+  /* Bố cục sản phẩm */
+  .col-md-7, .col-md-5 {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    margin-bottom: 2rem; /* Thêm khoảng cách */
+  }
+
+  /* Tên sản phẩm */
+  .product-title {
+    font-size: 1.5rem; /* Giảm kích thước chữ */
+  }
+
+  /* Nút hành động */
+  .btn-icon {
+    font-size: 1.4rem; /* Giảm kích thước icon */
+  }
+
+  /* Bộ chọn màu */
+  .color-label {
+    width: 36px; /* Giảm kích thước */
+    height: 36px;
+  }
+
+  /* Bộ chọn kích cỡ */
+  .size-picker .fr-chip-label {
+    width: 44px; /* Giảm kích thước nút */
+    height: 44px;
+    font-size: 0.95rem; /* Giảm kích thước chữ */
+  }
+
+  /* Giá sản phẩm */
+  .product-price {
+    font-size: 1.75rem; /* Giảm kích thước giá */
+  }
+
+  /* Nút thêm giỏ hàng */
+  .btn-cart {
+    font-size: 1rem; /* Giảm kích thước chữ */
+    padding: 12px 18px;
+  }
+
+  /* Accordion */
+  .accordion-button {
+    font-size: 1.1rem; /* Giảm kích thước chữ */
+  }
+
+  .accordion-body {
+    font-size: 1rem; /* Giảm kích thước nội dung */
+  }
+
+  /* Đánh giá */
+  .review-stars {
+    font-size: 18px; /* Giảm kích thước sao */
+  }
+
+  .review-count {
+    font-size: 1rem; /* Giảm kích thước chữ */
+  }
+
+  /* Liên kết kiểm tra kích cỡ */
+  .check-size-link {
+    font-size: 1rem; /* Giảm kích thước chữ */
+  }
+
+  /* Bảng thông tin sản phẩm */
+  table {
+    font-size: 0.9rem; /* Giảm kích thước chữ */
+  }
+
+  table th, table td {
+    padding: 0.7rem; /* Giảm padding trong bảng */
+  }
+}
+
+/* Desktop devices (min-width: 1025px) */
+@media (min-width: 1025px) {
+  .container {
+    padding: 2rem; /* Tăng khoảng cách trong container */
+  }
+
+  .col-md-7 img {
+    width: 100%; /* Kích thước chuẩn */
+  }
+
+  .product-title {
+    font-size: 2rem; /* Kích thước chữ lớn */
+  }
+
+  .product-price {
+    font-size: 2rem; /* Kích thước giá lớn */
+  }
+
+  .btn-cart {
+    font-size: 1.2rem; /* Kích thước nút chuẩn */
+    padding: 14px 22px;
+  }
+}
+
 
