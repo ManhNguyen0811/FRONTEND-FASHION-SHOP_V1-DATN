@@ -1,8 +1,3 @@
-<app-header-admin title_header="Category"></app-header-admin>
-<app-table 
-  [tableData]="data" 
-  [tableHeaders]="headers"
- 
-  routerLinkString="/admin/edit_category" 
-  [eventClick]="clickNe">
-</app-table>
+<app-header-admin title_header="Category" title_btn="Add Item"
+  routerLinkString="/admin/edit_category"></app-header-admin>
+<app-table [tableData]="data" [tableHeaders]="headers" routerLinkString="/admin/edit_category" [eventClick]="clickNe"></app-table>
