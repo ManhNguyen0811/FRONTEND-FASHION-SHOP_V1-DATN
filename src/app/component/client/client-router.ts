@@ -19,7 +19,8 @@ import { CheckSizeComponent} from './check-size/check-size.component';
 
 export const clientRouter: Routes =[
     {
-        path: '',
+
+        path: ':currency/:lang', // Thêm tham số tiền tệ, ngôn ngữ
         component: ClientComponent,
         children: [
             {
@@ -78,5 +79,6 @@ export const clientRouter: Routes =[
               component: CheckSizeComponent
             }
         ]
-    }
+    },
+    { path: '', redirectTo: 'vn/vi', pathMatch: 'full' } // Mặc định là 'vi'
 ]

@@ -1,16 +1,32 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {RouterLink, RouterOutlet, ActivatedRoute} from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { NavBottomComponent } from "./nav-bottom/nav-bottom.component";
-import {FooterComponent} from './footer/footer.component';
+import { FooterComponent } from './footer/footer.component';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-client',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, HeaderComponent, NavBottomComponent, FooterComponent],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    HeaderComponent,
+    NavBottomComponent,
+    FooterComponent,
+    TranslateModule
+  ],
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss'
 })
 export class ClientComponent {
+
+  constructor(private translate: TranslateService, private route: ActivatedRoute) {
+    this.route.params.subscribe((params) => {
+      const lang = params['lang'] || 'vi'; // Lấy tham số 'lang' từ URL, mặc định là 'vi'
+      this.translate.use(lang); // Thiết lập ngôn ngữ
+    });
+  }
 
 }
