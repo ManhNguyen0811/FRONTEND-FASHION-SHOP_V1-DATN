@@ -1,0 +1,162 @@
+
+
+<!--<div class="row" >-->
+
+<div class=" fr-contents-card full">
+  <div class="accordion-item" style="border: none">
+    <div class="mb-xl">
+      <div style=" border-width: 1px 1px ;
+            border-top-style: solid;
+            border-right-style: solid;
+            border-bottom-style: initial;
+             border-left-style: solid;
+              border-top-color: rgb(224, 224, 224);
+               border-right-color: rgb(224, 224, 224);
+                border-bottom-color: initial;
+                 border-left-color: rgb(224, 224, 224);
+                  border-image: initial;
+                   padding: 28px 20px;">
+        <div class="fr-wrapper mb-m" style="width: auto;">
+          <h4 class="text-uppercase accordion-header">
+            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#delivery" aria-expanded="true" aria-controls="delivery">
+              <span class="title">1. Tùy chọn giao hàng</span>
+            </button>
+          </h4>
+        </div>
+        <div class="fr-wrapper" style="width: auto;">
+          Đủ điều kiện áp dụng miễn phí vận chuyển.
+        </div>
+      </div>
+      <div id="delivery" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+
+          <div style="border: 1px solid rgb(224, 224, 224); padding: 28px 20px;">
+            <div style="width: auto;">
+              <div class="mb-m pr-s">
+                  <span class="fr-radio fr-radio-primary bold-with-subtext">
+                  <input type="radio" id="shippingAddress" name="deliveryMethod" value="shippingAddress"/>
+                  <label for="shippingAddress" class="content-wrapper">
+                    <span class="content-text">
+                      <span class="title">Giao đến địa chỉ</span>
+                      <span class="text-price">
+                        <span class="text-label">Phí vận chuyển</span>
+                        <strong class="text-price-num">
+                          <span class="fr-price-currency">
+                            <span>Miễn phí</span>
+                          </span>
+                        </strong>
+                      </span>
+                    </span>
+                  </label>
+                </span>
+              </div>
+              <div class=" fr-wrapper pt-xxs px-l mx-xxxs" style="width: auto;">
+                <p class="text-shipping">
+                  [Thời gian giao hàng dự kiến] TP. Hồ Chí Minh: 2 ngày, các tỉnh miền Nam khác: 3 ngày, Hà Nội: 3
+                  ngày,
+                  các tỉnh miền Bắc khác: 4 ngày, các tỉnh miền Trung: 4 ngày.
+                </p>
+              </div>
+            </div>
+            <div>
+               <span class="fr-radio fr-radio-primary bold-with-subtext">
+                  <input type="radio" id="store" name="deliveryMethod" value="store" />
+                  <label for="store" class="content-wrapper">
+                    <span class="content-text">
+                      <span class="title">Click &amp; Collect</span>
+                      <span class="text-price">
+                        <span class="text-label">Phí vận chuyển</span>
+                        <strong class="text-price-num">
+                          <span class="fr-price-currency">
+                            <span>Miễn phí</span>
+                          </span>
+                        </strong>
+                      </span>
+                    </span>
+                  </label>
+                </span>
+            </div>
+            <div class=" fr-wrapper pt-xxs px-l mx-xxxs" style="width: auto;">
+              <p class="text-shipping">
+                Khách hàng sẽ nhận được email thông báo khi đơn hàng có tại cửa hàng. Cửa hàng có thể trực tiếp chuẩn
+                bị đơn hàng nếu có số lượng sản phẩm phù hợp. TP. Hồ Chí Minh: 1 - 4 ngày, Hà Nội &amp; Hải Phòng: 1 -
+                7 ngày.
+              </p>
+            </div>
+
+
+            <!-- Danh sách địa chỉ -->
+            <div class="fr-h-rule full">
+              <hr style="color: rgb(224, 224, 224)">
+            </div>
+            <div>
+              <div class="fr-contents-card">
+                <div>
+                  <div>
+                    <div>
+                      <ul id="" class="fr-list bordered-between-content mt-m mb-l">
+                        <li class="">
+                          <div>
+                            <div class="fr-panel" data-test="address-0">
+                              <div class="panel-inner">
+                                <div class="panel-contents">
+                                  <div class="info-section">
+                                    <section class="fr-info-section">
+                                      <div class="info-container">
+                                        <div class="left-info"><h4 class="info-main">Tài Báo (Địa chỉ thành viên)</h4>
+                                        </div>
+                                        <div class="right-info"><p>Hoàng Hoa Thám, Phường 5, Quận Phú Nhuận, Hồ Chí
+                                          Minh</p>
+                                          <p>0378983454</p></div>
+                                      </div>
+                                    </section>
+                                  </div>
+                                  <div class="panel-action" style="padding-left: 20px;">
+                                    <div class="mb-xs">
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" type="button" data-test="đã-chọn-button">
+                                        <div class="absolute fr-icon check_large center-vertical" aria-hidden="true"></div>
+                                        <div>Đã chọn</div>
+                                      </button>
+                                    </div>
+                                    <div class="mb-xs">
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" data-test="sửa-button">
+                                        <div>Sửa</div>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div class="button-container">
+                    <span class="mr-s">
+                      <button (click)="goToPayment()" class="fr-btn btn-dark w4-f" type="button" data-test="tiếp-tục-thanh-toán-button"
+                      >Tiếp tục thanh toán</button>
+                    </span><span>
+                    <button
+                      class="fr-btn back w4-f border" type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi">
+                    Đăng ký một địa chỉ mới</button></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+

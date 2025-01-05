@@ -16,6 +16,11 @@ import { ReviewsComponent } from "./reviews/reviews.component";
 import { WishlistComponent } from "./wishlist/wishlist.component";
 import { InsertReviewComponent} from './insert-review/insert-review.component';
 import { CheckSizeComponent} from './check-size/check-size.component';
+import {CheckoutComponent} from './checkout/checkout.component';
+import {CouponComponent} from './coupon/coupon.component';
+import {ShippingComponent} from './checkout/shipping/shipping.component';
+import {PaymentComponent} from './checkout/payment/payment.component';
+import {ReviewOrderComponent} from './checkout/review-order/review-order.component';
 
 export const clientRouter: Routes =[
     {
@@ -38,6 +43,21 @@ export const clientRouter: Routes =[
                 path: 'cart',
                 component: CartComponent
             },
+          {
+            path: 'checkout',
+            component: CheckoutComponent,
+            children: [
+              { path: 'shipping', component: ShippingComponent },
+              { path: 'payment', component: PaymentComponent },
+              { path: 'review', component: ReviewOrderComponent },
+
+              { path: '', redirectTo: 'shipping', pathMatch: 'full' },
+            ],
+          },
+
+          { path: 'coupon',
+            component: CouponComponent
+          },
             {
                 path: 'login',
                 component: LoginComponent
@@ -76,7 +96,8 @@ export const clientRouter: Routes =[
             {
               path: 'size',
               component: CheckSizeComponent
-            }
+            },
+
         ]
     }
-]
+];
