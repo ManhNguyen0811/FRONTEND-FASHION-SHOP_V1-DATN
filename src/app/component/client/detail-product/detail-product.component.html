@@ -164,7 +164,7 @@
       </div>
       <!-- Product Details (Right Section) -->
       <div class="col-md-5">
-        <div class="product-details sticky-top">
+        <div class="product-details sticky-top z-0">
   <!--        product-name-->
           <div class="product-name d-flex align-items-center">
             <!-- Tên sản phẩm -->
@@ -256,7 +256,7 @@
         </div>
   <!--        Kiểm tra kích cỡ-->
           <div class="text-end mt-2 mb-2">
-            <a routerLink="/client/size" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+            <a (click)="navigateTo('size')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
               <svg width="24" height="24" viewBox="0 0 24 24" class="icon-size">
                 <path d="M2.4 9.4V17.6H21.6V9.4H2.4ZM20.4 16.4H3.6V10.6H5.45V13H6.55V10.6H8.45V14H9.55V10.6H11.45V13H12.55V10.6H14.45V14H15.55V10.6H17.45V13H18.55V10.6H20.4V16.4Z"></path>
               </svg>

@@ -59,8 +59,24 @@ export class NavigationService {
   }
 
   updateLangAndCurrency(newLang: string, newCurrency: string) {
-    this.currentLang = newLang; // Cập nhật giá trị trong service
-    this.currentCurrency = newCurrency
-    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}`]); // Điều hướng URL với ngôn ngữ mới
+    // Cập nhật giá trị trong service
+    this.currentLang = newLang;
+    this.currentCurrency = newCurrency;
+
+    // Lấy URL hiện tại
+    const currentUrl = this.router.url;
+
+    // Tách đường dẫn thành các phần
+    const segments = currentUrl.split('/');
+
+    // Thay đổi giá trị `currency` và `lang` (giả sử vị trí currency là [2], lang là [3])
+    if (segments.length >= 4) {
+      segments[2] = newCurrency; // Cập nhật currency
+      segments[3] = newLang;     // Cập nhật language
+    }
+
+    // Điều hướng đến URL mới
+    const updatedUrl = segments.join('/');
+    this.router.navigateByUrl(updatedUrl);
   }
 }
