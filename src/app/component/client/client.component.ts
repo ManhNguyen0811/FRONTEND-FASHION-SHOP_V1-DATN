@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import {RouterLink, RouterOutlet, ActivatedRoute} from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { NavBottomComponent } from "./nav-bottom/nav-bottom.component";
-import { FooterComponent } from './footer/footer.component';
+import {FooterComponent} from './footer/footer.component';
+import {CheckoutComponent} from './checkout/checkout.component';
+import {CouponComponent} from './coupon/coupon.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 
