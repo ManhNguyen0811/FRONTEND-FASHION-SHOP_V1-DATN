@@ -58,8 +58,8 @@
 
                 <div class="products-box">
 
-               
-                    <div class="product-item" routerLink="/client/detail_product">
+
+                    <div class="product-item" (click)="navigateTo('detail_product')">
                         <div class="product-item-image">
                             <img src="../../../assets/images/pr1.png" alt="aaa">
                         </div>
@@ -103,8 +103,8 @@
                         </div>
                         <div class="product-item-price">
                             <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
+                                <span class="product-item-priceInit" >{{getConvertedCurrency(1270000)}}</span><br>
+                                <span class="product-item-priceSale"   >{{getConvertedCurrency(1270000)}}</span>
                              </p>
                         </div>
                         <div class="product-item-rate">
@@ -116,7 +116,7 @@
 
                     </div>
 
-                 
+
 
                     <div class="product-item">
                         <div class="product-item-image">

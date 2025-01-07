@@ -1,7 +1,8 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {NavigationService} from '../../../services/Navigation/navigation.service';
 
 @Component({
   selector: 'app-nav-bottom',
@@ -14,6 +15,13 @@ import { RouterLink } from '@angular/router';
   styleUrl: './nav-bottom.component.scss'
 })
 export class NavBottomComponent {
+  constructor(private navigationService: NavigationService) {
+  }
+
+  navigateTo(route:string) {
+    this.navigationService.navigateTo(route);
+  }
+
   isSearchActive: boolean = false;
 
   toggleSearch(): void {

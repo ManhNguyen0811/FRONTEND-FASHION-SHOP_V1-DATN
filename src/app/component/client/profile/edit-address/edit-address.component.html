@@ -3,15 +3,15 @@
         <thead>
             <tr>
                 <th>Tất Cả Địa Chỉ </th>
-           
-                <th class="text-center "> <label for="toggleForm" class="btn-open-form btn-primary"> 
-                    <span class="mobile-title"><i class="fa-solid fa-plus"></i></span> 
+
+                <th class="text-center "> <label for="toggleForm" class="btn-open-form btn-primary">
+                    <span class="mobile-title"><i class="fa-solid fa-plus"></i></span>
                     <span class="pc-title "><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span></label>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr routerLink="/client/profile/edit_address">
+            <tr (click)="navigateTo('profile/edit_address')">
                 <td>
                     <div class="address-item">
                         <a class="address-thumb"><img src="https://cdn-icons-png.flaticon.com/512/4942/4942358.png"

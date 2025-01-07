@@ -1,5 +1,6 @@
 import { NgClass, NgForOf } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
+import {NavigationService} from '../../../services/Navigation/navigation.service';
 
 @Component({
   selector: 'app-reviews',
@@ -10,6 +11,16 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './reviews.component.scss'
 })
 export class ReviewsComponent {
+  constructor(private navigationService: NavigationService) {
+  }
+
+  navigateTo(route: string){
+    this.navigationService.navigateTo(route);
+  }
+
+
+
+
   rating: number = 5;// Trung bình số sao
   reviewCount: number = 999;//Tổng số đánh giá
 

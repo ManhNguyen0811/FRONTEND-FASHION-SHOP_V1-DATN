@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {NavigationService} from '../../../services/Navigation/navigation.service';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-insert-review',
@@ -9,11 +13,34 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
+    TranslateModule,
   ],
   templateUrl: './insert-review.component.html',
   styleUrl: './insert-review.component.scss'
 })
 export class InsertReviewComponent implements OnInit{
+  currentLang: string = 'vi';
+  currentCurrency: string = 'vn';
+
+  navigateTo(route: string){
+    this.navigationService.navigateTo(route);
+  }
+
+  toggleLanguageAndCurrency() {
+    if (this.currentLang === 'vi') {
+      this.changeLanguageAndCurrency('en', 'us'); // Đổi sang tiếng Anh
+    } else {
+      this.changeLanguageAndCurrency('vi', 'vn'); // Đổi sang tiếng Việt
+    }
+  }
+
+  changeLanguageAndCurrency(lang: string, currency: string) {
+    this.currentLang = lang; // Cập nhật ngôn ngữ trong UI
+    this.currentCurrency = currency; // Cập nhật tiền tệ trong UI
+    this.navigationService.updateLangAndCurrency(lang, currency); // Gọi service để cập nhật URL
+  }
+
+
   reviewForm: FormGroup;
 
   // Variables for UI
@@ -188,7 +215,7 @@ export class InsertReviewComponent implements OnInit{
   ];
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private navigationService: NavigationService, private router: Router) {
     this.reviewForm = this.fb.group({
       rating: [0, Validators.required],
       fit: [3, Validators.required],
@@ -243,6 +270,14 @@ export class InsertReviewComponent implements OnInit{
         }
       });
     }
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        // Cập nhật ngôn ngữ và tiền tệ từ Service
+        this.currentLang = this.navigationService.getCurrentLang();
+        this.currentCurrency = this.navigationService.getCurrentCurrency();
+      });
   }
 
   ngOnInit(): void {

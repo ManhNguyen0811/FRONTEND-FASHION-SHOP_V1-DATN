@@ -1,10 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NavBottomComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

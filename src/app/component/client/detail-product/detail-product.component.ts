@@ -1,17 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {NavigationService} from '../../../services/Navigation/navigation.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-detail-product',
   standalone: true,
-  imports: [ CommonModule,
-    RouterLink,RouterOutlet,
-    ],
+  imports: [CommonModule,
+    RouterLink, RouterOutlet, TranslatePipe,
+  ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'
 })
 export class DetailProductComponent {
+  constructor(private router: Router, private navigationService: NavigationService) {
+  }
+
+  navigateTo(route: string) {
+    this.navigationService.navigateTo(route);
+  }
+
+  getConvertedCurrency(amount: number): string {
+    console.log(this.navigationService.getCurrentCurrency())
+    return this.navigationService.convertCurrency(amount);
+  }
+
   // Quản lý trạng thái mở/đóng cho từng accordion item
   isDetailsOpen: boolean = false; // Mặc định mở
   isCareOpen: boolean = false; // Mặc định đóng

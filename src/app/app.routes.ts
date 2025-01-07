@@ -1,6 +1,6 @@
     import { Routes } from '@angular/router';
 
-    export const routes: Routes = 
+    export const routes: Routes =
     [
         {
             path: 'client',
@@ -18,5 +18,9 @@
             path: 'store_manager',
             loadChildren: () => import('../app/component/store-manager/store_manager-router').then(m => m.storeManagerRouter)
         },
-    
+        {
+          path: '', // Nếu không có đường dẫn, chuyển hướng đến client với ngôn ngữ mặc định 'vi'
+          redirectTo: 'client/vi',
+          pathMatch: 'full',
+        },
     ];

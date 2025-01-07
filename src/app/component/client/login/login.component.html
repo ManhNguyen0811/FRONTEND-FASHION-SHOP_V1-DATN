@@ -42,7 +42,7 @@
                                         Hiên mật khẩu.
                                     </label>
                                 </div>
-                                <a class="text-success" [routerLink]="['/client/forgot_password']"  style="text-decoration: none; color: #238bc8 !important;
+                                <a class="text-success" (click)="navigateTo('forgot_password')"  style="text-decoration: none; color: #238bc8 !important;
                                 font-family: 'Kanit', sans-serif;" >Quên mật khẩu?</a>
 
 
@@ -84,7 +84,7 @@
                     <p>Hãy tạo tài khoản ngay ! Bạn có thể nhận được các dịch vụ đặc biệt cho riêng bạn như kiểm tra
                         lịch sử mua hàng và nhận phiếu giảm giá cho thành viên. Đăng ký miễn phí ngay hôm nay!</p>
                 </div>
-                <div class="anim-btn" style="margin-left: 10px;" routerLink="/client/signin">
+                <div class="anim-btn" style="margin-left: 10px;" (click)="navigateTo('signin')">
                     <div class="btnSignin slide_leftbtnSignin">ĐĂNG KÝ TÀI KHOẢN MỚI </div>
                 </div>
             </div>
@@ -93,4 +93,4 @@
     </div>
 
 
-</div>  
+</div>

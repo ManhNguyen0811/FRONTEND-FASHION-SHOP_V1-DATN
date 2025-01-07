@@ -1,0 +1,86 @@
+
+
+<div class="couponref"><span>  TRANG CHỦ </span>  / <span>THANH TOÁN</span> / <span> ÁP DỤNG MÃ GIẢM GIÁ</span></div><br><br>
+<a (click)="navigateTo('checkout')"> <p class="return">QUAY LẠI TRANG THANH TOÁN</p></a><br><br>
+
+<div class="coupon-box">
+  <h1>ÁP DỤNG PHIẾU GIẢM GIÁ</h1>
+  <p id="success"></p>
+  <div class="coupon-value">
+    <p class="text">NHẬP MÃ GIẢM GIÁ</p>
+    <input class="" id="input" type="text" placeholder="Mã giảm giá gồm 13 chữ số" [(ngModel)]="couponCode">
+    <button class="responsive-button" [disabled]="!couponCode" style=" background-color:#dadada; border-color:#dadada; color:white ">THÊM</button>
+    <!-- (click)="applyCoupon()"   -->
+  </div>
+  <hr>
+
+  <div class="mb-xl">
+    <div>
+      <div class="fr-wrapper mb-m" style="width: auto;">
+        <h5 id="" class="fr-head h5 h5"><span class="title">Phiếu giảm giá có sẵn<em class="text-emphasis">(1)</em></span>
+        </h5>
+        <div class="fr-wrapper mt-xs" style="width: auto;">
+          <div class="fr-text withtooltip fr-system-text p-3"><span class=" ">Chọn một phiếu giảm giá từ danh sách dưới đây và áp dụng cho đơn hàng của bạn.</span>
+            <div class="">
+              <div class="fr-tooltip-icon fr-tooltip-icon--pc"><span class="fr-icon info" aria-hidden="true"
+                                                                     style="font-size: 24px;"></span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <ul class="fr-list mbt-m mb-m coupon-list-wrapper">
+        <li class="coupon-tile-wrapper">
+          <div class="coupon-tile">
+            <div class="fr-panel">
+              <div class="panel-inner">
+                <div class="panel-contents fr-flbox between d-flex">
+                  <div class="fr-coupon-list-item">
+                    <div class="fr-coupon-list-item-image d-flex justify-content-between">
+                      <figure class="fr-coupon-image"><img
+                        src="https://im.uniqlo.com/coupon/images/uq/vn/pc/pc_1720432249113_2117241469.jpg"
+                        alt="Chúc Mừng Sinh Nhật" class="thumb-img"></figure>
+                    </div>
+                    <div class="fr-coupon-list-item-info"><p class="coupon-name text-uppercase">Chúc Mừng Sinh Nhật</p>
+                      <p class="coupon-expiration">Ngày hết hạn: 31/12/2024 11:59 PM</p></div>
+                  </div>
+                  <div class="panel-action"
+                       style="width: 100%; display: flex; flex-direction: column; align-items:
+                       flex-end; padding-left: 20px; justify-content: flex-end;">
+
+                      <button  class="btn border border-secondary small-btn" type="button" style="background-color:transparent;
+                      color: #1b1b1b;  font-size: 13px; font-weight: 600; text-align:center" >Chọn
+                      </button>
+
+
+                    <button class="btn border border-secondary small-btn mt-3" style="background-color:transparent;
+                     color: #1b1b1b; font-size: 13px ; font-weight: 600; text-align:center" type="button" > Chi tiết
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row g-3" >
+    <div class="col">
+      <button class="btn btn-address" style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
+              type="button" id="apply" [disabled]="!selectCoupon" (click)="applySelectedCoupon()">ÁP DỤNG
+      </button>
+    </div>
+    <div class="col">
+      <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
+              type="button"  id="cancel" (click)="cancel()">Huỷ </button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
