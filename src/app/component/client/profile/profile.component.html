@@ -20,15 +20,15 @@
                 </div>
             </aside>
             <nav class="list-group">
-                <a class="list-group-item" routerLink="/client/profile/edit_profile" routerLinkActive="active-link">
+                <a class="list-group-item" (click)="navigateTo('profile/edit_profile')" routerLinkActive="active-link">
                     <i class="fa fa-user"></i>Hồ Sơ
                 </a>
-                <a class="list-group-item with-badge" routerLink="/client/profile/order_history"
+                <a class="list-group-item with-badge" (click)="navigateTo('profile/order_history')"
                     routerLinkActive="active-link">
                     <i class="fa fa-th"></i>Lịch Sử Hóa Đơn
                     <span class="badge badge-primary badge-pill">6</span>
                 </a>
-                <a class="list-group-item" routerLink="/client/profile/edit_address" routerLinkActive="active-link">
+                <a class="list-group-item" (click)="navigateTo('profile/edit_address')" routerLinkActive="active-link">
                     <i class="fa fa-map"></i>Địa Chỉ
                 </a>
             </nav>

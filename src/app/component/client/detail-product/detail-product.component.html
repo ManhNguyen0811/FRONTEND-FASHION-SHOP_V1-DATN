@@ -150,12 +150,12 @@
         </div>
         <!--Xem thêm review và nhập review-->
         <div class="text-end mt-2 mb-2">
-          <a routerLink="/client/reviews" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+          <a (click)="navigateTo('reviews')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
             <span class="text-primary">Xem thêm</span>
           </a>
         </div>
         <div class="text-end mt-2 mb-2">
-          <a routerLink="/client/review/new" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+          <a (click)="navigateTo('review/new')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
             <i class="fa-solid fa-pen"></i>
             <span class="text-primary">Viết bài đánh giá</span>
           </a>

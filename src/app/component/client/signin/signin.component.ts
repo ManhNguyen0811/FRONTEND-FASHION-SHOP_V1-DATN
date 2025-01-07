@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import {NavigationService} from '../../../services/Navigation/navigation.service';
 
 @Component({
   selector: 'app-signin',
@@ -9,5 +10,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './signin.component.scss'
 })
 export class SigninComponent {
+constructor(private navigationService: NavigationService) {
+}
 
+navigateTo(route: string) {
+  this.navigationService.navigateTo(route);
+}
 }

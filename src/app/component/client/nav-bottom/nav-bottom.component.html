@@ -13,7 +13,7 @@
         <i class="text-dark bi bi-search" *ngIf="!isSearchActive"></i>
         <i class="fa-solid fa-x X-icon" *ngIf="isSearchActive"></i>
       </button>
-  
+
         <!-- Fullscreen Dropdown -->
         <div *ngIf="isSearchActive" class="fullscreen-dropdown">
           <header class="position-absolute w-100 py-2">
@@ -33,7 +33,7 @@
                 <li class="nav-item">
                   <a class="head-title nav-link text-black" href="#">TRẺ EM</a>
                 </li>
-  
+
               </ul>
               <!-- Icons -->
               <div class="d-flex align-items-center">
@@ -56,12 +56,12 @@
                 <a href="#" class="head-icon text-white mx-2"><i class="bi bi-heart"></i></a>
                 <a href="#" class="head-icon text-white mx-2"><i class="bi bi-cart"></i></a>
               </div>
-  
+
             </div>
           </header>
           <div class="container py-5 position-relative">
-  
-  
+
+
             <!-- Close Button -->
             <div class="text-end">
               <button class="close-btn bottom-navigation-icon-wrapper fw-bold nav-icon active bottom-navigation-icon-wrapper-center"
@@ -69,7 +69,7 @@
                 <i class="fa-solid fa-x X-icon"></i>
               </button>
             </div>
-  
+
             <!-- Categories -->
             <div class="container scrollable-categories">
             <div class="container categories">
@@ -125,7 +125,7 @@
                   </div>
                 </div>
               </div>
-  
+
             </div>
             <!-- Search Bar -->
             <div class="mb-4 position-sticky">
@@ -134,13 +134,12 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Icon 3 -->
        <!-- routerLink="/profile/edit_profile" -->
-      <button type="button" class="bottom-navigation-icon-wrapper" routerLink="/client/profile/edit_profile" >
+      <button type="button" class="bottom-navigation-icon-wrapper" (click)="navigateTo('profile/edit_profile')" >
         <i class="text-dark bi bi-person"></i>
       </button>
     </div>
   </div>
-  
-  
+

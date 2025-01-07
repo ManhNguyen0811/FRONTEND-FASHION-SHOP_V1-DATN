@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
-import {TranslateModule, TranslatePipe} from '@ngx-translate/core';
+import { NavigationEnd, Router, RouterLink} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 import { NavigationService} from '../../../services/Navigation/navigation.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class HeaderComponent {
 
   }
 
-  navigate(route: string) {
+  navigateTo(route: string) {
     this.navigationService.navigateTo(route); // Sử dụng service để chuyển hướng
   }
 

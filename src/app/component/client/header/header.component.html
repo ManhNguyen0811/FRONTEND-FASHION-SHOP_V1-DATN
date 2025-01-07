@@ -8,7 +8,7 @@
   <div class="container-fluid d-flex align-items-center justify-content-around" >
     <!-- Logo -->
     <div
-      class="logo" style="width: 157.57px;" routerLink="/client">
+      class="logo" style="width: 157.57px;" (click)="navigateTo('')">
       <h5 class="">BRAND</h5>
     </div>
     <!-- Navigation -->
@@ -20,7 +20,7 @@
         <a class="head-title nav-link" href="#">{{ 'Nữ' | translate }}</a>
       </li>
       <li class="nav-item">
-        <a class="head-title nav-link" (click)="navigate('product')">{{ 'Nam' | translate }}</a>
+        <a class="head-title nav-link" (click)="navigateTo('product')">{{ 'Nam' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="head-title nav-link" href="#">{{ 'Trẻ em' | translate }}</a>
@@ -63,14 +63,14 @@
         </ul>
       </div>
       <!-- Other Icons -->
-      <a routerLink="/client/wishlist" class="head-icon mx-2">
+      <a (click)="navigateTo('wishlist')" class="head-icon mx-2">
         <i
           [ngClass]="{
           'text-black': !isHome
           }"
           class="bi bi-heart"></i>
       </a>
-      <a routerLink="/client/cart" class="head-icon mx-2">
+      <a (click)="navigateTo('cart')" class="head-icon mx-2">
         <i
           [ngClass]="{
           'text-black': !isHome
