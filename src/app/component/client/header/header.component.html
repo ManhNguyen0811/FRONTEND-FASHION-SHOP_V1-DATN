@@ -47,7 +47,7 @@
               class="dropdown-item"
               [class.active]="currentLang === 'en'"
               (click)="changeLanguageAndCurrency('en','us')">
-              English
+              {{ "Tiếng Anh" | translate }}
               <i class="bi bi-check2"></i>
             </a>
           </li>
@@ -56,7 +56,7 @@
               class="dropdown-item"
               [class.active]="currentLang === 'vi'"
               (click)="changeLanguageAndCurrency('vi','vn')">
-              Tiếng Việt
+              {{ "Tiếng Việt" | translate }}
               <i class="bi bi-check2"></i>
             </a>
           </li>
