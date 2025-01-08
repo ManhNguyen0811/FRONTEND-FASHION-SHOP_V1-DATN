@@ -15,6 +15,7 @@ export class TableComponent {
   @Input()  eventClick :(item:any) => void= () =>{};
   @Input() routerLinkString : string ='';
   @Input()  activeRouterLinkString : string = '';
+  @Input() changePage: boolean = true;
 
 
  

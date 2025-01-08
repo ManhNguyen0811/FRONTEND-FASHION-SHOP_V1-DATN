@@ -3,6 +3,7 @@ import { AdminComponent } from "./admin.component";
 import { UserComponent } from "./user/user.component";
 import { ListCategoryComponent } from "./categoty/list-category/list-category.component";
 import { EditCategoryComponent } from "./categoty/edit-category/edit-category.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
  
 export const adminRouter: Routes =[
     {
@@ -25,6 +26,10 @@ export const adminRouter: Routes =[
             {
                 path:'edit_category',
                 component: EditCategoryComponent
+            },
+            {
+                path:'dashboard',
+                component: DashboardComponent
             }
          ]
     }

@@ -1,5 +1,5 @@
 .container-fluid {
-    padding: 10px 10px 10px 20px;
+    padding: 10px;
     background-color: #f5f5f5;
 
     display: grid;
@@ -179,7 +179,9 @@ border-radius: 3px;
   transform: translateY(1px);
   transition: transform 34ms;
 }
-
+.name-admin{
+  
+}
 .pushable:focus:not(:focus-visible) {
   outline: none;
 }
