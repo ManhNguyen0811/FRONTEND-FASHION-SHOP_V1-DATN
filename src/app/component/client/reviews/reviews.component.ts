@@ -1,12 +1,13 @@
 import { NgClass, NgForOf } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reviews',
   standalone: true,
   imports: [NgForOf,
-    NgClass],
+    NgClass,TranslateModule],
   templateUrl: './reviews.component.html',
   styleUrl: './reviews.component.scss'
 })

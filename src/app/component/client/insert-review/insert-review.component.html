@@ -11,8 +11,7 @@
 
     <!-- Description -->
     <p class="mt-3 text-muted">
-      Để đăng bài đánh giá bằng Tiếng Anh, quý khách vui lòng truy cập vào trang web tiếng Anh.
-      Trang web Tiếng Việt chỉ ghi nhận và hiển thị bài viết đánh giá bằng tiếng Việt.
+      {{"Để đăng bài đánh giá bằng Tiếng Anh, quý khách vui lòng truy cập vào trang web tiếng Anh. Trang web Tiếng Việt chỉ ghi nhận và hiển thị bài viết đánh giá bằng tiếng Việt." | translate}}
     </p>
 
     <!-- Link to English site -->
@@ -27,8 +26,8 @@
     <div class="col-md-7">
       <div class="container mt-4 border p-4">
         <div class="d-flex justify-content-between">
-          <h3 class="fw-bold">VIẾT BÀI ĐÁNH GIÁ</h3>
-          <p class="text-success-emphasis">* Bắt buộc</p>
+          <h3 class="fw-bold">{{ "VIẾT BÀI ĐÁNH GIÁ" | translate }}</h3>
+          <p class="text-success-emphasis">{{ "* Bắt buộc" | translate }}</p>
         </div>
 
         <!-- Form -->
@@ -36,7 +35,7 @@
           <!-- Đánh giá -->
           <div class="mb-4 d-flex align-items-center justify-content-between row mt-4">
             <div class="col-md-3">
-              <label class="form-label fw-bold d-inline-block ">ĐÁNH GIÁ *</label>
+              <label class="form-label fw-bold d-inline-block ">{{ "ĐÁNH GIÁ *" | translate }}</label>
             </div>
             <div class="col-md-9">
               <div class="d-flex align-items-center gap-3">
@@ -69,16 +68,16 @@
           <div class="fit-selector">
             <div class="d-flex justify-content-between align-items-center row">
               <div class="col-md-3">
-                <label class="form-label fw-bold mb-0">DÁNG *</label>
+                <label class="form-label fw-bold mb-0">{{ "DÁNG *" | translate }}</label>
               </div>
               <div class="col-md-9">
                 <div class="fr-flitem col12">
                   <div class="fr-fitting-label d-flex justify-content-between mb-2 fw-bold">
-                    <p class="fr-fitting-label-item" style="font-size: 14px;">CHẬT</p>
-                    <p class="fr-fitting-label-item" style="font-size: 14px;">HƠI CHẬT</p>
-                    <p class="fr-fitting-label-item" style="font-size: 14px;">ĐÚNG VỚI <br> KÍCH THƯỚC</p>
-                    <p class="fr-fitting-label-item" style="font-size: 14px;">HƠI RỘNG</p>
-                    <p class="fr-fitting-label-item" style="font-size: 14px;">RỘNG</p>
+                    <p class="fr-fitting-label-item" style="font-size: 14px;">{{ "CHẬT" | translate }}</p>
+                    <p class="fr-fitting-label-item" style="font-size: 14px;">{{ "HƠI CHẬT" | translate }}</p>
+                    <p class="fr-fitting-label-item" style="font-size: 14px;">{{ "ĐÚNG VỚI KÍCH THƯỚC" | translate }}</p>
+                    <p class="fr-fitting-label-item" style="font-size: 14px;">{{ "HƠI RỘNG" | translate }}</p>
+                    <p class="fr-fitting-label-item" style="font-size: 14px;">{{ "RỘNG" | translate }}</p>
                   </div>
                   <div class="fr-fitting-graph position-relative">
                     <div class="fr-fitting-point d-flex justify-content-between position-relative">
@@ -130,7 +129,7 @@
           <!-- Tiêu đề -->
           <div class="mb-4 title-row row mt-4">
             <div class="col-md-3">
-              <label class="title-form-label">TIÊU ĐỀ *</label>
+              <label class="title-form-label">{{ "TIÊU ĐỀ *" | translate }}</label>
             </div>
             <div class="col-md-9">
               <input
@@ -139,7 +138,7 @@
                 placeholder="Tóm tắt đánh giá của bạn"
                 formControlName="title"
               />
-              <small  class="title-text-muted">Tiêu đề của bạn phải ít hơn 100 ký tự.</small>
+              <small  class="title-text-muted">{{ "Tiêu đề của bạn phải ít hơn 100 ký tự." | translate }}</small>
             </div>
           </div>
 
@@ -148,7 +147,7 @@
           <!-- Bình luận -->
           <div class="mb-4 row">
             <div class="col-md-3">
-              <label  class="form-label fw-bold">BÌNH LUẬN *</label>
+              <label  class="form-label fw-bold">{{ "BÌNH LUẬN *" | translate }}</label>
             </div>
             <div class="col-md-9">
               <textarea
@@ -158,7 +157,7 @@
                 formControlName="comment"
               ></textarea>
               <div *ngIf="reviewForm.get('comment')?.hasError('minlength') && reviewForm.get('comment')?.touched">
-                <small class="text-danger">Bình luận phải có ít nhất 50 ký tự.</small>
+                <small class="text-danger">{{ "Bình luận phải có ít nhất 50 ký tự." | translate }}</small>
               </div>
             </div>
 
@@ -166,16 +165,16 @@
 
           <!-- Kích cỡ đã mua -->
           <div class="mb-4">
-            <label class="form-label fw-bold">KÍCH CỠ ĐÃ MUA *</label>
+            <label class="form-label fw-bold">{{ "KÍCH CỠ ĐÃ MUA *" | translate }}</label>
             <select class="form-select" formControlName="sizePurchased">
-              <option value="">Chọn</option>
+              <option value="">{{ "Chọn" | translate }}</option>
               <option *ngFor="let s of sizes" [value]="s.size">{{ s.size }}</option>
             </select>
           </div>
 
           <!-- Biệt danh -->
           <div class="mb-4">
-            <label class="form-label fw-bold">BIỆT DANH *</label>
+            <label class="form-label fw-bold">{{ "BIỆT DANH *" | translate }}</label>
             <input
               type="text"
               class="form-control"
@@ -186,49 +185,49 @@
 
           <!-- Thông tin người mặc -->
           <div class="mb-4">
-            <h6 class="fw-bold">THÔNG TIN NGƯỜI MẶC</h6>
+            <h6 class="fw-bold">{{ "THÔNG TIN NGƯỜI MẶC" | translate }}</h6>
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label fw-bold">GIỚI TÍNH *</label>
+                <label class="form-label fw-bold">{{ "GIỚI TÍNH *" | translate }}</label>
                 <select class="form-select" formControlName="gender">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let g of genders" [value]="g.gender">{{ g.gender }}</option>
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">VỊ TRÍ *</label>
+                <label class="form-label fw-bold">{{ "VỊ TRÍ *" | translate }}</label>
                 <select formControlName="location" class="form-select">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let province of provinces" [ngValue]="province">
                     {{ province }}
                   </option>
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">ĐỘ TUỔI *</label>
+                <label class="form-label fw-bold">{{ "ĐỘ TUỔI *" | translate }}</label>
                 <select class="form-select" formControlName="age">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let a of ages" [value]="a.age">{{ a.age }}</option>
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">CHIỀU CAO *</label>
+                <label class="form-label fw-bold">{{ "CHIỀU CAO *" | translate }}</label>
                 <select class="form-select" formControlName="height">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let h of heights" [value]="h.height">{{ h.height }}</option>
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">CÂN NẶNG *</label>
+                <label class="form-label fw-bold">{{ "CÂN NẶNG *" | translate }}</label>
                 <select class="form-select" formControlName="weight">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let w of weights" [value]="w.weight">{{ w.weight }}</option>
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">CỠ GIÀY *</label>
+                <label class="form-label fw-bold">{{ "CỠ GIÀY *" | translate }}</label>
                 <select class="form-select" formControlName="shoeSize">
-                  <option value="">Chọn</option>
+                  <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let ss of shoeSizes" [value]="ss.size">{{ ss.size }}</option>
                 </select>
               </div>
@@ -238,27 +237,27 @@
           <!-- Điều khoản -->
           <div class="review-form-container mt-4">
             <!-- Header -->
-            <h5 class="fw-bold">ĐĂNG BÀI ĐÁNH GIÁ CỦA BẠN:</h5>
+            <h5 class="fw-bold">{{ "ĐĂNG BÀI ĐÁNH GIÁ CỦA BẠN:" | translate }}</h5>
             <ul class="review-form-text-muted">
-              <li>Bình luận đã đăng của bạn có thể được sử dụng cho mục đích quảng cáo.</li>
-              <li>Chúng tôi không chấp nhận các yêu cầu đăng quảng cáo cho các thương hiệu, cá nhân, tổ chức khác. Ngoài ra, chúng tôi không thể đăng tình trạng còn hàng và kích cỡ sản phẩm.</li>
+              <li>{{ "Bình luận đã đăng của bạn có thể được sử dụng cho mục đích quảng cáo." | translate }}</li>
+              <li>{{"Chúng tôi không chấp nhận các yêu cầu đăng quảng cáo cho các thương hiệu, cá nhân, tổ chức khác. Ngoài ra, chúng tôi không thể đăng tình trạng còn hàng và kích cỡ sản phẩm." | translate}}</li>
             </ul>
 
             <!-- Checkbox -->
             <div class="review-checkbox-container">
               <input class="review-form-checkbox-input" style="height: 1.3rem;width: 1.3rem" type="checkbox" id="terms" formControlName="agree" required />
               <label class="review-form-checkbox-label" for="terms">
-                Tôi đồng ý với <span class="review-form-link">ĐIỀU KHOẢN SỬ DỤNG CỦA UNIQLO</span>
+                {{ "Tôi đồng ý với" | translate }} <span class="review-form-link">{{ "ĐIỀU KHOẢN SỬ DỤNG CỦA BRAND" | translate }}</span>
               </label>
             </div>
 
             <!-- Terms Link -->
-            <a href="#" class="review-form-link d-block mb-4 fw-bold">ĐIỀU KHOẢN SỬ DỤNG</a>
+            <a href="#" class="review-form-link d-block mb-4 fw-bold">{{ "ĐIỀU KHOẢN SỬ DỤNG" | translate }}</a>
 
             <!-- Buttons -->
             <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-dark px-5 review-submit-btn fw-bold">GỬI</button>
-              <button type="button" class="btn btn-outline-dark px-5 review-back-btn fw-bold" (click)="navigateTo('detail_product')">QUAY LẠI CHI TIẾT SẢN PHẨM</button>
+              <button type="submit" class="btn btn-dark px-5 review-submit-btn fw-bold">{{ "GỬI" | translate }}</button>
+              <button type="button" class="btn btn-outline-dark px-5 review-back-btn fw-bold" (click)="navigateTo('detail_product')">{{"QUAY LẠI CHI TIẾT SẢN PHẨM" | translate}}</button>
             </div>
           </div>
 

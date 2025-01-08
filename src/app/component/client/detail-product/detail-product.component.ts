@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-detail-product',
   standalone: true,
   imports: [CommonModule,
-    RouterLink, RouterOutlet, TranslatePipe,
+    RouterLink, RouterOutlet, TranslateModule,
   ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'

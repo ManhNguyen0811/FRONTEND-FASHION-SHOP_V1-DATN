@@ -30,8 +30,8 @@
         </div>
 
         <div class="accordion mt-4" id="productAccordion">
-          <h5 class="fw-bold">Mô tả</h5>
-          <p class="text-muted">Mã sản phẩm: 465748</p>
+          <h5 class="fw-bold">{{ "Mô tả" | translate }}</h5>
+          <p class="text-muted">{{ "Mã sản phẩm:" | translate }} 465748</p>
           <hr>
           <!-- Chi tiết -->
           <div class="accordion-item">
@@ -44,7 +44,7 @@
                 [attr.aria-expanded]="isDetailsOpen"
                 aria-controls="collapseDetails"
               >
-                Chi tiết
+                {{ "Chi tiết" | translate }}
               </button>
             </h2>
             <div
@@ -80,7 +80,7 @@
                 [attr.aria-expanded]="isCareOpen"
                 aria-controls="collapseCare"
               >
-                Chất liệu / Cách chăm sóc
+                {{ "Chất liệu / Cách chăm sóc" | translate }}
               </button>
             </h2>
             <div
@@ -106,7 +106,7 @@
         </div>
   <!------------------------------Review-->
         <div class="container mt-5">
-          <h5 class="fw-bold">Đánh giá</h5>
+          <h5 class="fw-bold">{{ "Đánh giá" | translate }}</h5>
           <div class="d-flex align-items-center mb-3">
             <div class="stars">
               <ng-container *ngFor="let star of getFullStars(rating)">
@@ -136,8 +136,8 @@
               </ng-container>
             </div>
             <p class="mb-1">
-              <span class="">Kích cỡ đã mua:</span> {{ review.size }}<br>
-              <span class="">Quần áo có vừa không:</span> {{ review.fit }}
+              <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.size }}<br>
+              <span class="">{{ "Quần áo có vừa không:" | translate }}</span> {{ review.fit }}
             </p>
             <p class="mb-3">
               {{ review.comment }}
@@ -150,14 +150,14 @@
         </div>
         <!--Xem thêm review và nhập review-->
         <div class="text-end mt-2 mb-2">
-          <a (click)="navigateTo('reviews')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
-            <span class="text-primary">Xem thêm</span>
+          <a (click)="navigateTo('reviews')" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+            <span class="text-primary">{{ "Xem thêm" | translate }}</span>
           </a>
         </div>
         <div class="text-end mt-2 mb-2">
-          <a (click)="navigateTo('review/new')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+          <a (click)="navigateTo('review/new')" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
             <i class="fa-solid fa-pen"></i>
-            <span class="text-primary">Viết bài đánh giá</span>
+            <span class="text-primary">{{ "Viết bài đánh giá" | translate }}</span>
           </a>
         </div>
         <!----------------------------END------------------------------>
@@ -214,7 +214,7 @@
                 </dt>
               </div>
             </dl>
-            <p class="color-selected">Màu sắc: WHITE</p>
+            <p class="color-selected">{{ "Màu sắc:" | translate }} WHITE</p>
           </div>
   <!--            product-size-->
           <div class="size-picker">
@@ -246,7 +246,7 @@
             </dl>
             <div class="d-flex justify-content-between" style="width: auto;">
               <p class="hintText hintTextPicker hint-text--color-secondary textAlignLeft text-transform-normal">
-                <span class="">Kích cỡ:
+                <span class="">{{ "Kích cỡ:" | translate }}
                   <span class="">&nbsp;Nữ&nbsp;</span>S
                 </span>
               </p>
@@ -256,11 +256,14 @@
         </div>
   <!--        Kiểm tra kích cỡ-->
           <div class="text-end mt-2 mb-2">
-            <a (click)="navigateTo('size')" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+            <a (click)="navigateTo('size')"
+               class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none"
+               style="cursor: pointer"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" class="icon-size">
                 <path d="M2.4 9.4V17.6H21.6V9.4H2.4ZM20.4 16.4H3.6V10.6H5.45V13H6.55V10.6H8.45V14H9.55V10.6H11.45V13H12.55V10.6H14.45V14H15.55V10.6H17.45V13H18.55V10.6H20.4V16.4Z"></path>
               </svg>
-              <span class="text-primary">Kiểm tra kích cỡ</span>
+              <span class="text-primary">{{ "Kiểm tra kích cỡ" | translate }}</span>
             </a>
           </div>
           <!--            Giá SP - Đánh giá chất lượng-->
@@ -278,7 +281,7 @@
             </div>
           </div>
           <div class="product-description">
-            <span>Sản phẩm được làm từ chất liệu tái chế</span>
+            <span>{{ "Sản phẩm được làm từ chất liệu tái chế" | translate }}</span>
           </div>
         <!-- product-quantity-->
           <div class="product-actions mt-3">
@@ -294,12 +297,12 @@
 
             <!-- Add to Cart Button -->
             <div class="add-to-cart mt-3">
-              <button class="btn-cart">THÊM VÀO GIỎ HÀNG</button>
+              <button class="btn-cart">{{ "THÊM VÀO GIỎ HÀNG" | translate }}</button>
             </div>
 
             <!-- Find Product in Inventory -->
             <div class="inventory-check mt-3 text-end">
-              <a href="#" class="link-inventory">Tìm sản phẩm còn hàng trong cửa hàng</a>
+              <a href="#" style="cursor: pointer" class="link-inventory">{{ "Tìm sản phẩm còn hàng trong cửa hàng" | translate }}</a>
             </div>
           </div>
 
