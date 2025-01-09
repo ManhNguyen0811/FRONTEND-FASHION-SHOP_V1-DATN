@@ -13,7 +13,7 @@ import {TranslateModule} from '@ngx-translate/core';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
-    TranslateModule,
+    TranslateModule
   ],
   templateUrl: './insert-review.component.html',
   styleUrl: './insert-review.component.scss'
