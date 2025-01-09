@@ -6,7 +6,14 @@
 
                 <th class="text-center "> <label for="toggleForm" class="btn-open-form btn-primary">
                     <span class="mobile-title"><i class="fa-solid fa-plus"></i></span>
-                    <span class="pc-title "><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span></label>
+                    
+                    <!-- <span class="pc-title "><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span> -->
+                    <span class="pc-title "  type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile"><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span>
+                     
+                    <!-- <button
+                  type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile">
+                  Đăng ký một địa chỉ mới</button>  -->
+                </label>
                 </th>
             </tr>
         </thead>
@@ -32,7 +39,9 @@
                 </td>
                 <td class="text-center">
                     <label for="toggleForm" class="btn-open-form btn-primary"> <span class="mobile-title"> Sửa </span>
-                        <span class="pc-title">Chỉnh Sửa Địa Chỉ</span> </label>
+                        <span class="pc-title "  type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile"><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span>
+
+                     </label>
                 </td>
             </tr>
 
@@ -43,12 +52,13 @@
 
 
 <div class="container">
-    <input type="checkbox" id="toggleForm" class="toggle-checkbox">
+    <!-- <input type="checkbox" id="toggleForm" class="toggle-checkbox"> -->
     <!-- Nút mở form -->
-    <label for="toggleForm" class="overlay"></label>
+    <!-- <label for="toggleForm" class="overlay"></label> -->
+     
     <!-- Form -->
-    <div class="sliding-form">
-        <!-- <label for="toggleForm" class="close-btn ms-5">✖</label> -->
+    <!-- <div class="sliding-form">
+        <label for="toggleForm" class="close-btn ms-5">✖</label>
         <form>
             <h3 style="text-align: center;">Chỉnh Sửa</h3>
             <div class="form-group form-edit-address">
@@ -99,5 +109,151 @@
             <button type="button" class="btn btn-outline-success me-1">Thêm Địa Chỉ </button>
             <label for="toggleForm" class="btn-open-form btn-primary" style="background-color: red !important; width: 50px;">Đóng</label>
         </form>
-    </div>
+    </div> -->
+
+
+    <div class="modal" id="dang-ky-dia-chi-profile" tabindex="-1" aria-labelledby="modal-new-address"  aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title text-uppercase">Đăng ký một địa chỉ mới</h3>
+              <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Hủy"></button>
+            </div>
+            <div class="modal-body">
+              <div class="wrapper">
+                <form novalidate="" class="form-new-address">
+      
+                  <div class="row mb-3">
+                    <label  class="col-sm-3 col-form-label">Tên&nbsp;</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" maxlength="30" name="givenName"
+                             placeholder="Vui lòng nhập tên của bạn" autocomplete="on" required="" type="text"
+                             pattern="^.{1,30}$">
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <label  class="col-sm-3 col-form-label">Họ&nbsp;</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" maxlength="30" name="familyName" pattern="^.{1,30}$"
+                             placeholder="Vui lòng nhập họ của bạn" autocomplete="on" required="" type="text">
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">Tỉnh&nbsp;</label>
+                    <div class="col-sm-9">
+                      <select
+                        class="form-select" name="state" type="select" required=""
+                      ><option value="">Vui lòng chọn một tỉnh.</option><option
+                        value="Lào Cai">Lào Cai</option><option value="Hưng Yên">Hưng Yên</option><option
+                        value="Hòa Bình">Hòa Bình</option><option value="Sơn La">Sơn La</option><option
+                        value="Điện Biên">Điện Biên</option><option value="Lai Châu">Lai Châu</option><option
+                        value="Yên Bái">Yên Bái</option><option value="Bình Định">Bình Định</option><option
+                        value="Ninh Thuận">Ninh Thuận</option><option value="Phú Yên">Phú Yên</option><option
+                        value="Kon Tum">Kon Tum</option><option value="Bình Thuận">Bình Thuận</option><option
+                        value="Bạc Liêu">Bạc Liêu</option><option value="Cà Mau">Cà Mau</option><option
+                        value="Hậu Giang">Hậu Giang</option><option value="Bắc Ninh">Bắc Ninh</option><option
+                        value="Bắc Giang">Bắc Giang</option><option value="Lạng Sơn">Lạng Sơn</option><option
+                        value="Cao Bằng">Cao Bằng</option><option value="Bắc Kạn">Bắc Kạn</option><option
+                        value="Thái Nguyên">Thái Nguyên</option><option value="Quảng Nam">Quảng Nam</option><option
+                        value="Quảng Ngãi">Quảng Ngãi</option><option value="Đắk Nông">Đắk Nông</option><option
+                        value="Tây Ninh">Tây Ninh</option><option value="Bình Phước">Bình Phước</option><option
+                        value="Quảng Trị">Quảng Trị</option><option value="Quảng Bình">Quảng Bình</option><option
+                        value="Hà Tĩnh">Hà Tĩnh</option><option value="Nghệ An">Nghệ An</option><option
+                        value="Thanh Hóa">Thanh Hóa</option><option value="Ninh Bình">Ninh Bình</option><option
+                        value="Hà Nam">Hà Nam</option><option value="Nam Định">Nam Định</option><option
+                        value="Quảng Ninh">Quảng Ninh</option><option value="Phú Thọ">Phú Thọ</option><option
+                        value="Tuyên Quang">Tuyên Quang</option><option value="Hà Giang">Hà Giang</option><option
+                        value="Thái Bình">Thái Bình</option><option value="Hải Dương">Hải Dương</option><option
+                        value="Hải Phòng">Hải Phòng</option><option
+                        value="Thừa Thiên - Huế">Thừa Thiên - Huế</option><option
+                        value="Vĩnh Phúc">Vĩnh Phúc</option><option value="Cần Thơ">Cần Thơ</option><option
+                        value="Kiên Giang">Kiên Giang</option><option value="Sóc Trăng">Sóc Trăng</option><option
+                        value="An Giang">An Giang</option><option value="Đồng Tháp">Đồng Tháp</option><option
+                        value="Vĩnh Long">Vĩnh Long</option><option value="Trà Vinh">Trà Vinh</option><option
+                        value="Bến Tre">Bến Tre</option><option value="Tiền Giang">Tiền Giang</option><option
+                        value="Long An">Long An</option><option value="Đắk Lắk">Đắk Lắk</option><option
+                        value="Lâm Đồng">Lâm Đồng</option><option value="Khánh Hòa">Khánh Hòa</option><option
+                        value="Gia Lai">Gia Lai</option><option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option><option
+                        value="Bình Dương">Bình Dương</option><option value="Đồng Nai">Đồng Nai</option><option
+                        value="Đà Nẵng">Đà Nẵng</option><option value="Hồ Chí Minh">Hồ Chí Minh</option><option
+                        value="Hà Nội">Hà Nội</option></select>
+                    </div>
+                  </div>
+      
+      
+      
+                  <div class="row mb-3">
+                    <label  class="col-sm-3 col-form-label">Quận&nbsp;</label>
+                    <div class="col-sm-9">
+                      <select class="form-select" name="city" type="select" required="">
+                        <option value="">Vui lòng chọn quận của bạn.</option>
+                      </select>
+      
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3" >
+                    <label  class="col-sm-3 col-form-label">Phường&nbsp;</label>
+                    <div class="col-sm-9">
+                      <select  class="form-select" name="street1" type="select" required="">
+                        <option value="">Vui lòng chọn phường của bạn.</option></select>
+                    </div>
+                  </div>
+      
+      
+                  <div class="row mb-3">
+                    <label  class="col-sm-3 col-form-label">Chi tiết địa chỉ&nbsp;</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" maxlength="70" name="street2" pattern="^.{0,70}$"
+                             placeholder="Căn hộ, dãy phòng, khu, tòa nhà, tầng, v.v." autocomplete="on" required=""
+                             type="text" >
+                      <div class="form-text">
+                        Để hóa đơn hợp lệ, yêu cầu điền chính xác thông tin bằng tiếng Việt có dấu.&nbsp;
+                      </div>
+                    </div>
+                  </div>
+      
+      
+                  <div class="row mb-3" style="width: auto;">
+                    <label  class="col-sm-3 col-form-label"> Điện thoại&nbsp;</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" maxlength="11" name="phone"
+                             pattern="^0[235789][0-9]{8,9}$" placeholder="Nhập 10-11 số bắt đầu bằng số 0"
+                             autocomplete="on" type="text">
+                      <div class="form-text">
+                        Vui lòng nhập 10-11 số bắt đầu bằng 0&nbsp;
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <div class="form-text">Chúng tôi có thể liên hệ với bạn qua điện thoại hoặc email nếu chúng tôi có
+                      thắc mắc về đơn đặt hàng và tùy chọn giao hàng của bạn.
+                    </div>
+                  </div>
+      
+                  <div class="row g-3" >
+                    <div class="col">
+                      <button class="btn btn-address" style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
+                              type="button" data-test="đăng-ký-button">Đăng ký
+                      </button>
+      
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
+                              type="button" data-bs-dismiss="modal">Huỷ </button>
+                    </div>
+                  </div>
+      
+                </form>
+              </div>
+            </div>
+      
+          </div>
+      
+        </div>
+      
+      </div>
 </div>

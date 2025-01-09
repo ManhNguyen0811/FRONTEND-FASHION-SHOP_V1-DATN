@@ -10,6 +10,6 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderAdminComponent {
   @Input() title_header: string = 'Trống ';
-  @Input() title_btn : string = 'btn';
+  @Input() title_btn : string = 'Add Item';
   @Input() routerLinkString : string = ''
 }
