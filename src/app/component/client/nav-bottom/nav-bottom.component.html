@@ -1,7 +1,9 @@
 <div id="bottomNav" class="bottom-navigation position-fixed bottom-0 start-50 translate-middle-x">
     <div class="bottom-navigation position-fixed bottom-0 start-50 translate-middle-x d-flex justify-content-center align-items-center gap-5">
       <!-- Icon 1 -->
-      <button type="button" class="bottom-navigation-icon-wrapper">
+      <button type="button" class="bottom-navigation-icon-wrapper"
+              [routerLink]="['/client', currentCurrency, currentLang]"
+      >
         <i class="text-dark bi bi-house-door-fill"></i>
       </button>
       <!-- Icon 2 -->
@@ -137,7 +139,10 @@
 
       <!-- Icon 3 -->
        <!-- routerLink="/profile/edit_profile" -->
-      <button type="button" class="bottom-navigation-icon-wrapper" (click)="navigateTo('profile/edit_profile')" >
+      <button type="button" class="bottom-navigation-icon-wrapper"
+              [routerLink]="['/client', currentCurrency, currentLang, 'profile','edit_profile']"
+              queryParamsHandling="merge"
+      >
         <i class="text-dark bi bi-person"></i>
       </button>
     </div>

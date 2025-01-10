@@ -31,7 +31,7 @@
               <div><span class="text-uppercase">Tổng đơn hàng</span><span class="">| 1 Sản phẩm</span>
               </div>
               <div class="" data-test="order-summary-edit"><span
-                class="text-dark"><a class="text-uppercase text-decoration-underline" (click)="navigateTo('cart')" style="">Sửa</a></span></div>
+                class="text-dark"><a class="text-uppercase text-decoration-underline" [routerLink]="['../cart']" style="">Sửa</a></span></div>
             </div>
             <div class="fr-table">
               <table>
@@ -78,7 +78,7 @@
           <div class="mt-m">
             <div class="a11y-focus-section">
               <nav class="fr-transition-btn-cards">
-                <ul class="fr-link-wrapper" (click)="navigateTo('coupon')">
+                <ul class="fr-link-wrapper" [routerLink]="['../coupon']">
                   <li class="btn">
                     <button  style="text-decoration: none">
                       <div class="fr-link-wrapper fr-flbox middle"><span class="block-icon"><span

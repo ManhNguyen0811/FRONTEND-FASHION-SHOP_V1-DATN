@@ -38,10 +38,7 @@ export class ProfileComponent implements AfterViewInit  {
       this.currentActiveElement = firstElement;
     }
   }
-  
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route);
-  }
+
 
 
   setActiveClass(event: MouseEvent, router: string) {
@@ -54,6 +51,5 @@ export class ProfileComponent implements AfterViewInit  {
 
     clickedElement.classList.add('active-link');
     this.currentActiveElement = clickedElement;
-    this.navigateTo(router);
   }
 }

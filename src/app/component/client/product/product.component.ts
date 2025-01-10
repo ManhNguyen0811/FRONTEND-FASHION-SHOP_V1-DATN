@@ -14,11 +14,4 @@ export class ProductComponent {
   constructor(private router: Router, private navigationService: NavigationService) {
   }
 
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route);
-  }
-
-  getConvertedCurrency(amount: number): string {
-    return this.navigationService.convertCurrency(amount);
-  }
 }
