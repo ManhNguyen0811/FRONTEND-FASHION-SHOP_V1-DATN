@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router, RouterLink} from '@angular/router';
 import {filter} from 'rxjs';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -13,7 +13,8 @@ import {TranslateModule} from '@ngx-translate/core';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
-    TranslateModule
+    TranslateModule,
+    RouterLink
   ],
   templateUrl: './insert-review.component.html',
   styleUrl: './insert-review.component.scss'
@@ -22,9 +23,6 @@ export class InsertReviewComponent implements OnInit{
   currentLang: string = 'vi';
   currentCurrency: string = 'vn';
 
-  navigateTo(route: string){
-    this.navigationService.navigateTo(route);
-  }
 
   toggleLanguageAndCurrency() {
     if (this.currentLang === 'vi') {
@@ -32,12 +30,22 @@ export class InsertReviewComponent implements OnInit{
     } else {
       this.changeLanguageAndCurrency('vi', 'vn'); // Đổi sang tiếng Việt
     }
+    console.log("ok lun")
   }
 
   changeLanguageAndCurrency(lang: string, currency: string) {
-    this.currentLang = lang; // Cập nhật ngôn ngữ trong UI
-    this.currentCurrency = currency; // Cập nhật tiền tệ trong UI
-    this.navigationService.updateLangAndCurrency(lang, currency); // Gọi service để cập nhật URL
+    // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
+    this.navigationService.updateLang(lang);
+    this.navigationService.updateCurrency(currency);
+
+    // Tạo URL mới với ngôn ngữ và tiền tệ đã thay đổi
+    const updatedUrl = this.router.url.replace(
+      /\/client\/[^\/]+\/[^\/]+/,
+      `/client/${currency}/${lang}`
+    );
+
+    // Điều hướng đến URL mới
+    this.router.navigateByUrl(updatedUrl);
   }
 
 
@@ -231,6 +239,15 @@ export class InsertReviewComponent implements OnInit{
       shoeSize: ['', Validators.required],
       agree: [false, Validators.requiredTrue]
     });
+
+    // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+
+    this.navigationService.currentCurrency$.subscribe((currency) => {
+      this.currentCurrency = currency;
+    });
   }
 
 
@@ -271,13 +288,6 @@ export class InsertReviewComponent implements OnInit{
       });
     }
 
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Cập nhật ngôn ngữ và tiền tệ từ Service
-        this.currentLang = this.navigationService.getCurrentLang();
-        this.currentCurrency = this.navigationService.getCurrentCurrency();
-      });
   }
 
   ngOnInit(): void {

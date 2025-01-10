@@ -42,7 +42,7 @@
                                       {{ "Hiên mật khẩu." | translate }}
                                     </label>
                                 </div>
-                                <a class="text-success" (click)="navigateTo('forgot_password')"  style="text-decoration: none; color: #238bc8 !important;
+                                <a class="text-success" [routerLink]="['../forgot_password']" style="text-decoration: none; color: #238bc8 !important;
                                 font-family: 'Kanit', sans-serif;" >{{ "Quên mật khẩu ?" | translate }}</a>
 
 
@@ -84,7 +84,7 @@
                     <p>{{
                         "Hãy tạo tài khoản ngay ! Bạn có thể nhận được các dịch vụ đặc biệt cho riêng bạn như kiểm tra lịch sử mua hàng và nhận phiếu giảm giá cho thành viên. Đăng ký miễn phí ngay hôm nay!" | translate}}</p>
                 </div>
-                <div class="anim-btn" style="margin-left: 10px;" (click)="navigateTo('signin')">
+                <div class="anim-btn" style="margin-left: 10px;" [routerLink]="['../signin']" >
                     <div class="btnSignin slide_leftbtnSignin">{{ "ĐĂNG KÝ TÀI KHOẢN MỚI" | translate }} </div>
                 </div>
             </div>

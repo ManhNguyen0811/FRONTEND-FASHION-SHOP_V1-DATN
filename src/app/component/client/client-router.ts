@@ -21,12 +21,14 @@ import {CouponComponent} from './coupon/coupon.component';
 import {ShippingComponent} from './checkout/shipping/shipping.component';
 import {PaymentComponent} from './checkout/payment/payment.component';
 import {ReviewOrderComponent} from './checkout/review-order/review-order.component';
+import {LanguageCurrencyResolver} from '../../resolvers/language-currency.resolver';
 
 export const clientRouter: Routes =[
     {
 
         path: ':currency/:lang', // Thêm tham số tiền tệ, ngôn ngữ
         component: ClientComponent,
+        resolve:{langCurrency: LanguageCurrencyResolver },
         children: [
             {
                 path: '',

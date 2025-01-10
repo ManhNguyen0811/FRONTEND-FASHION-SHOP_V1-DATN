@@ -28,7 +28,4 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route); // Sử dụng service để chuyển hướng
-  }
 }

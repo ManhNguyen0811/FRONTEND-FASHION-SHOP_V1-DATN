@@ -15,12 +15,20 @@ import {NavigationService} from '../../../services/Navigation/navigation.service
   styleUrl: './nav-bottom.component.scss'
 })
 export class NavBottomComponent {
+  currentLang: string = 'vi'; // Ngôn ngữ mặc định
+  currentCurrency: string = 'vn'; // Tiền tệ mặc định
+
   constructor(private navigationService: NavigationService) {
+    // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+
+    this.navigationService.currentCurrency$.subscribe((currency) => {
+      this.currentCurrency = currency;
+    });
   }
 
-  navigateTo(route:string) {
-    this.navigationService.navigateTo(route);
-  }
 
   isSearchActive: boolean = false;
 

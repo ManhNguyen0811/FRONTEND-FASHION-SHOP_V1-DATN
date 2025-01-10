@@ -150,12 +150,12 @@
         </div>
         <!--Xem thêm review và nhập review-->
         <div class="text-end mt-2 mb-2">
-          <a (click)="navigateTo('reviews')" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+          <a [routerLink]="['../reviews']" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
             <span class="text-primary">{{ "Xem thêm" | translate }}</span>
           </a>
         </div>
         <div class="text-end mt-2 mb-2">
-          <a (click)="navigateTo('review/new')" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
+          <a [routerLink]="['../review/new']" style="cursor: pointer" class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
             <i class="fa-solid fa-pen"></i>
             <span class="text-primary">{{ "Viết bài đánh giá" | translate }}</span>
           </a>
@@ -256,7 +256,7 @@
         </div>
   <!--        Kiểm tra kích cỡ-->
           <div class="text-end mt-2 mb-2">
-            <a (click)="navigateTo('size')"
+            <a [routerLink]="['../size']"
                class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none"
                style="cursor: pointer"
             >
@@ -270,7 +270,7 @@
           <div class="product-price-review d-flex justify-content-between">
             <div class="price-container d-flex align-items-center justify-content-between">
               <div class="product-price">
-                <span class="price">{{getConvertedCurrency(686000)}}</span>
+                <span class="price">686.000</span>
               </div>
             </div>
             <div class="review-container d-flex align-items-center">

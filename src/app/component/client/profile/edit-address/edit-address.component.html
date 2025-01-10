@@ -6,10 +6,10 @@
 
                 <th class="text-center "> <label for="toggleForm" class="btn-open-form btn-primary">
                     <span class="mobile-title"><i class="fa-solid fa-plus"></i></span>
-                    
+
                     <!-- <span class="pc-title "><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span> -->
                     <span class="pc-title "  type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile"><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span>
-                     
+
                     <!-- <button
                   type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile">
                   Đăng ký một địa chỉ mới</button>  -->
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr (click)="navigateTo('profile/edit_address')">
+            <tr [routerLink]="['../profile/edit_address']" routerLinkActive="active-link">
                 <td>
                     <div class="address-item">
                         <a class="address-thumb"><img src="https://cdn-icons-png.flaticon.com/512/4942/4942358.png"
@@ -55,7 +55,7 @@
     <!-- <input type="checkbox" id="toggleForm" class="toggle-checkbox"> -->
     <!-- Nút mở form -->
     <!-- <label for="toggleForm" class="overlay"></label> -->
-     
+
     <!-- Form -->
     <!-- <div class="sliding-form">
         <label for="toggleForm" class="close-btn ms-5">✖</label>
@@ -122,7 +122,7 @@
             <div class="modal-body">
               <div class="wrapper">
                 <form novalidate="" class="form-new-address">
-      
+
                   <div class="row mb-3">
                     <label  class="col-sm-3 col-form-label">Tên&nbsp;</label>
                     <div class="col-sm-9">
@@ -131,7 +131,7 @@
                              pattern="^.{1,30}$">
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <label  class="col-sm-3 col-form-label">Họ&nbsp;</label>
                     <div class="col-sm-9">
@@ -139,7 +139,7 @@
                              placeholder="Vui lòng nhập họ của bạn" autocomplete="on" required="" type="text">
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">Tỉnh&nbsp;</label>
                     <div class="col-sm-9">
@@ -181,19 +181,19 @@
                         value="Hà Nội">Hà Nội</option></select>
                     </div>
                   </div>
-      
-      
-      
+
+
+
                   <div class="row mb-3">
                     <label  class="col-sm-3 col-form-label">Quận&nbsp;</label>
                     <div class="col-sm-9">
                       <select class="form-select" name="city" type="select" required="">
                         <option value="">Vui lòng chọn quận của bạn.</option>
                       </select>
-      
+
                     </div>
                   </div>
-      
+
                   <div class="row mb-3" >
                     <label  class="col-sm-3 col-form-label">Phường&nbsp;</label>
                     <div class="col-sm-9">
@@ -201,8 +201,8 @@
                         <option value="">Vui lòng chọn phường của bạn.</option></select>
                     </div>
                   </div>
-      
-      
+
+
                   <div class="row mb-3">
                     <label  class="col-sm-3 col-form-label">Chi tiết địa chỉ&nbsp;</label>
                     <div class="col-sm-9">
@@ -214,8 +214,8 @@
                       </div>
                     </div>
                   </div>
-      
-      
+
+
                   <div class="row mb-3" style="width: auto;">
                     <label  class="col-sm-3 col-form-label"> Điện thoại&nbsp;</label>
                     <div class="col-sm-9">
@@ -227,33 +227,33 @@
                       </div>
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <div class="form-text">Chúng tôi có thể liên hệ với bạn qua điện thoại hoặc email nếu chúng tôi có
                       thắc mắc về đơn đặt hàng và tùy chọn giao hàng của bạn.
                     </div>
                   </div>
-      
+
                   <div class="row g-3" >
                     <div class="col">
                       <button class="btn btn-address" style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
                               type="button" data-test="đăng-ký-button">Đăng ký
                       </button>
-      
+
                     </div>
                     <div class="col">
                       <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
                               type="button" data-bs-dismiss="modal">Huỷ </button>
                     </div>
                   </div>
-      
+
                 </form>
               </div>
             </div>
-      
+
           </div>
-      
+
         </div>
-      
+
       </div>
 </div>

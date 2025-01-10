@@ -8,8 +8,8 @@
   <div class="container-fluid d-flex align-items-center justify-content-around" >
     <!-- Logo -->
     <div
-      class="logo" style="width: 157.57px;" (click)="navigateTo('')">
-      <h5 class="">BRAND</h5>
+      class="logo" style="width: 157.57px;" >
+      <h5 class="" style="cursor: pointer" [routerLink]="['/client', currentCurrency, currentLang]">BRAND</h5>
     </div>
     <!-- Navigation -->
     <ul
@@ -20,7 +20,7 @@
         <a class="head-title nav-link" href="#">{{ 'Nữ' | translate }}</a>
       </li>
       <li class="nav-item">
-        <a class="head-title nav-link" (click)="navigateTo('product')">{{ 'Nam' | translate }}</a>
+        <a class="head-title nav-link" [routerLink]="['/client', currentCurrency, currentLang, 'product']">{{ 'Nam' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="head-title nav-link" href="#">{{ 'Trẻ em' | translate }}</a>
@@ -63,14 +63,18 @@
         </ul>
       </div>
       <!-- Other Icons -->
-      <a (click)="navigateTo('wishlist')" class="head-icon mx-2">
+      <a [routerLink]="['/client', currentCurrency, currentLang, 'wishlist']" class="head-icon mx-2">
         <i
           [ngClass]="{
           'text-black': !isHome
           }"
           class="bi bi-heart"></i>
       </a>
-      <a (click)="navigateTo('cart')" class="head-icon mx-2">
+      <a [routerLink]="['/client', currentCurrency, currentLang, 'cart']"
+         [queryParams]="null"
+         queryParamsHandling="merge"
+         class="head-icon mx-2"
+      >
         <i
           [ngClass]="{
           'text-black': !isHome

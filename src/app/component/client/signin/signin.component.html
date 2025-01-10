@@ -82,12 +82,12 @@
                                 </label>
                             </div>
                             <a class="text-success" style="text-decoration: none; color: #238bc8 !important;
-                            font-family: 'Kanit', sans-serif;" (click)="navigateTo('forgot_password')" routerLinkActive="router-link-active" >Quên mật khẩu?</a>
+                            font-family: 'Kanit', sans-serif;" [routerLink]="['../forgot_password']" routerLinkActive="router-link-active" >Quên mật khẩu?</a>
 
 
                         </div>
 
-                            <div class="anim-btn"  (click)="navigateTo('signin')">
+                            <div class="anim-btn" [routerLink]="['../signin']">
                                 <button type="submit" class="btnSignin slide_leftbtnSignin">ĐĂNG KÝ TÀI KHOẢN </button>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="login-buttons">
 
-                    <div class="btnLogin slide_leftbtnLogin" (click)="navigateTo('login')">ĐĂNG NHẬP </div>
+                    <div class="btnLogin slide_leftbtnLogin" [routerLink]="['../login']">ĐĂNG NHẬP </div>
                     <div class="btnLoginWithGoogle slide_leftbtnbtnLoginWithGoogle">
                          <i></i>
                         <i style="color: #4285f4;" class="ggText">G</i>
