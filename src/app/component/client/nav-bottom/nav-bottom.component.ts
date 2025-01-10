@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import {Router, RouterLink} from '@angular/router';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nav-bottom',
@@ -10,7 +11,7 @@ import {NavigationService} from '../../../services/Navigation/navigation.service
   imports: [NgClass,
     CommonModule,
     HeaderComponent,
-    RouterLink ],
+    RouterLink, TranslatePipe],
   templateUrl: './nav-bottom.component.html',
   styleUrl: './nav-bottom.component.scss'
 })
@@ -27,13 +28,18 @@ export class NavBottomComponent {
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
     });
+
+    // Subscribe để nhận giá trị từ service
+    this.navigationService.isSearchActive$.subscribe((value) => {
+      this.isSearchActive = value;
+    });
   }
 
 
   isSearchActive: boolean = false;
 
   toggleSearch(): void {
-    this.isSearchActive = !this.isSearchActive;
+    this.navigationService.toggleSearchActive();
   }
 
   categories = [

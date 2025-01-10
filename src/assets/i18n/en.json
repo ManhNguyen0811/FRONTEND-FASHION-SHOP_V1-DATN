@@ -2,7 +2,8 @@
   "_comment": "---------------------------Phần Header---------------------",
   "Nam": "MEN",
   "Nữ": "WOMEN",
-  "Trẻ em": "BABY",
+  "Trẻ em": "KIDS",
+  "Em bé": "BABY",
   "Tiếng Việt": "Vietnamese",
   "Tiếng Anh": "English",
 
@@ -126,5 +127,5 @@
   "TỔNG HÓA ĐƠN": "TOTAL BILL",
   "MÃ GIẢM": "DISCOUNT CODE",
   "MUA NGAY": "BUY NOW",
-  "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING",
+  "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING"
 }

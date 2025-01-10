@@ -25,4 +25,16 @@ export class NavigationService {
     this.currencySubject.next(newCurrency);
   }
 
+//--------------------------------isSearchActiveSource------------------------------
+  private isSearchActiveSource = new BehaviorSubject<boolean>(false); // Biến boolean được quản lý
+  isSearchActive$ = this.isSearchActiveSource.asObservable(); // Observable để các component subscribe
+
+  setSearchActive(value: boolean): void {
+    this.isSearchActiveSource.next(value);
+  }
+
+  toggleSearchActive(): void {
+    const currentValue = this.isSearchActiveSource.value;
+    this.isSearchActiveSource.next(!currentValue);
+  }
 }
