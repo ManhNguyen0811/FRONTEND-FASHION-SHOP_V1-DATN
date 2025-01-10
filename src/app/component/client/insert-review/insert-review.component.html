@@ -2,7 +2,7 @@
   <!--  <div class="mt-5"></div>-->
   <div class="container mt-3">
     <!-- Back to product link -->
-    <a href="#" class="text-decoration-underline fw-bold text-dark d-block mb-3">
+    <a [routerLink]="['../detail_product']" href="#" class="text-decoration-underline fw-bold text-dark d-block mb-3">
       {{ "QUAY LẠI CHI TIẾT SẢN PHẨM" | translate }}
     </a>
 
@@ -257,7 +257,7 @@
             <!-- Buttons -->
             <div class="d-flex justify-content-between">
               <button type="submit" class="btn btn-dark px-5 review-submit-btn fw-bold">{{ "GỬI" | translate }}</button>
-              <button type="button" class="btn btn-outline-dark px-5 review-back-btn fw-bold" (click)="navigateTo('detail_product')">{{"QUAY LẠI CHI TIẾT SẢN PHẨM" | translate}}</button>
+              <button type="button" class="btn btn-outline-dark px-5 review-back-btn fw-bold" [routerLink]="['../detail_product']">{{"QUAY LẠI CHI TIẾT SẢN PHẨM" | translate}}</button>
             </div>
           </div>
 

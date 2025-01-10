@@ -17,14 +17,6 @@ export class DetailProductComponent {
   constructor(private router: Router, private navigationService: NavigationService) {
   }
 
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route);
-  }
-
-  getConvertedCurrency(amount: number): string {
-    console.log(this.navigationService.getCurrentCurrency())
-    return this.navigationService.convertCurrency(amount);
-  }
 
   // Quản lý trạng thái mở/đóng cho từng accordion item
   isDetailsOpen: boolean = false; // Mặc định mở

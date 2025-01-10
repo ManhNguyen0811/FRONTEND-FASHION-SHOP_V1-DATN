@@ -13,36 +13,41 @@ import { NavigationService} from '../../../services/Navigation/navigation.servic
 })
 export class HeaderComponent {
   isHome: boolean = false;
-  currentLang: string = 'vi';
-  currentCurrency: string = 'vn';
+  currentLang: string = 'vi'; // Ngôn ngữ mặc định
+  currentCurrency: string = 'vn'; // Tiền tệ mặc định
 
   constructor(private router: Router, private navigationService: NavigationService) {
     // Lắng nghe sự kiện NavigationEnd để kiểm tra URL hiện tại
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Kiểm tra nếu URL hiện tại là dạng "/client/:currency/:lang"
+        // Kiểm tra nếu URL hiện tại là trang Home
         const segments = this.router.url.split('/');
         this.isHome = segments.length === 4 && segments[1] === 'client';
       }
-      // Theo dõi ngôn ngữ hiện tại
-      this.currentLang = this.navigationService.getCurrentLang();
     });
 
+    // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
 
-  }
-
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route); // Sử dụng service để chuyển hướng
+    this.navigationService.currentCurrency$.subscribe((currency) => {
+      this.currentCurrency = currency;
+    });
   }
 
   changeLanguageAndCurrency(lang: string, currency: string) {
-    if (this.currentLang !== lang) {
-      this.currentLang = lang; // Cập nhật ngôn ngữ trong UI
-      this.navigationService.updateLangAndCurrency(this.currentLang, this.currentCurrency); // Cập nhật URL
-    }
-    if (this.currentCurrency !== currency) {
-      this.currentCurrency = currency; // Cập nhật ngôn ngữ trong UI
-      this.navigationService.updateLangAndCurrency(this.currentLang, this.currentCurrency); // Cập nhật URL
-    }
+    // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
+    this.navigationService.updateLang(lang);
+    this.navigationService.updateCurrency(currency);
+
+    // Tạo URL mới với ngôn ngữ và tiền tệ đã thay đổi
+    const updatedUrl = this.router.url.replace(
+      /\/client\/[^\/]+\/[^\/]+/,
+      `/client/${currency}/${lang}`
+    );
+
+    // Điều hướng đến URL mới
+    this.router.navigateByUrl(updatedUrl);
   }
 }

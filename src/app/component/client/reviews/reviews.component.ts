@@ -2,12 +2,13 @@ import { NgClass, NgForOf } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-reviews',
   standalone: true,
   imports: [NgForOf,
-    NgClass,TranslateModule],
+    NgClass, TranslateModule, RouterLink],
   templateUrl: './reviews.component.html',
   styleUrl: './reviews.component.scss'
 })
@@ -15,9 +16,6 @@ export class ReviewsComponent {
   constructor(private navigationService: NavigationService) {
   }
 
-  navigateTo(route: string){
-    this.navigationService.navigateTo(route);
-  }
 
 
 

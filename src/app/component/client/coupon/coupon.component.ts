@@ -33,9 +33,6 @@ export class CouponComponent {
   constructor(private router: Router, private navigationService: NavigationService) {
   }
 
-  navigateTo(route:string){
-    this.navigationService.navigateTo(route);
-  }
 
 
   selectCoupon(couponName: string) {

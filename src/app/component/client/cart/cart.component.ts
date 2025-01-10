@@ -12,11 +12,7 @@ import {NavigationService} from '../../../services/Navigation/navigation.service
   styleUrl: './cart.component.scss'
 })
 export class CartComponent {
-constructor(private navigationService: NavigationService) {
+constructor() {
 }
-
-  navigateTo(route: string) {
-    this.navigationService.navigateTo(route); // Sử dụng service để chuyển hướng
-  }
 
 }

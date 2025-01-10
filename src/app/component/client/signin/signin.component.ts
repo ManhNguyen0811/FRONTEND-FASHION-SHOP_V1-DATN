@@ -13,7 +13,4 @@ export class SigninComponent {
 constructor(private navigationService: NavigationService) {
 }
 
-navigateTo(route: string) {
-  this.navigationService.navigateTo(route);
-}
 }
