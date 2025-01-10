@@ -6,6 +6,7 @@ import { BarChartComponent } from '../chart/bar-chart/bar-chart.component';
 import { LineChartComponent } from '../chart/line-chart/line-chart.component';
 import { DoughnutChartComponent } from '../chart/doughnut-chart/doughnut-chart.component';
 import { TableComponent } from '../table/table.component';
+import { MenuComponent } from '../menu/menu.component';
 
 export interface TableDataModel {
   id: number;
@@ -21,7 +22,7 @@ export interface TableDataModel {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderAdminComponent, RouterLink, BarChartComponent, TableComponent
+  imports: [MenuComponent,HeaderAdminComponent, RouterLink, BarChartComponent, TableComponent
     , LineChartComponent, DoughnutChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']

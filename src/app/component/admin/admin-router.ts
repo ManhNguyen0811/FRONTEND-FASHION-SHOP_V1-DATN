@@ -1,11 +1,13 @@
 import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
-import { UserComponent } from "./user/user.component";
+ 
 import { ListCategoryComponent } from "./categoty/list-category/list-category.component";
 import { EditCategoryComponent } from "./categoty/edit-category/edit-category.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ListOrderComponent } from "./order/list-order/list-order.component";
 import { EditOrderComponent } from "./order/edit-order/edit-order.component";
+import { ListUserComponent } from "./user/list-user/list-user.component";
+import { EditUserComponent } from "./user/edit-user/edit-user.component";
  
 export const adminRouter: Routes =[
     {
@@ -14,8 +16,16 @@ export const adminRouter: Routes =[
          children:
          [
             {
-                path:'user',
-                component: UserComponent
+                path:'list_user',
+                component: ListUserComponent
+            },
+            {
+                path:'edit_user',
+                component: EditUserComponent
+            },
+            {
+                path:'edit_user/:id',
+                component: EditUserComponent
             },
             {
                 path:'list_category',
