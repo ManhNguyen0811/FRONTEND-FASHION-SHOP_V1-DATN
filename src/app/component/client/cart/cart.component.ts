@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {NavigationService} from '../../../services/Navigation/navigation.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    TranslateModule
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'

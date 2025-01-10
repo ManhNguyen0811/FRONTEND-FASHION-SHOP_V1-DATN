@@ -2,7 +2,8 @@
   "_comment": "---------------------------Phần Header---------------------",
   "Nam": "MEN",
   "Nữ": "WOMEN",
-  "Trẻ em": "BABY",
+  "Trẻ em": "KIDS",
+  "Em bé": "BABY",
   "Tiếng Việt": "Vietnamese",
   "Tiếng Anh": "English",
 
@@ -110,16 +111,21 @@
   "ĐÚNG VỚI KÍCH THƯỚC": "TRUE TO SIZE",
   "HƠI RỘNG": "SLIGHTLY LOOSE",
   "RỘNG": "LOOSE",
-
-
-
-
-
-
-
-
-
   "TRUY CẬP ĐẾN TRANG TIẾNG ANH": "GO TO VIETNAMESE SITE",
-  "QUAY LẠI CHI TIẾT SẢN PHẨM": "RETURN TO PRODUCT DETAILS"
+  "QUAY LẠI CHI TIẾT SẢN PHẨM": "RETURN TO PRODUCT DETAILS",
 
+  "_commentCart": "----------------------Phần Cart----------------------------",
+  "GIỎ HÀNG": "Shopping Cart",
+  "Kích thước:": "Size:",
+  "Xóa": "Remove",
+  "Giá:": "Price:",
+  "Tổng:": "Total:",
+  "TỔNG SỐ LƯỢNG": "TOTAL QUANTITY",
+  "SẢN PHẨM": "PRODUCTS",
+  "KHẤU TRỪ": "DEDUCTION",
+  "TỔNG TIỀN": "TOTAL PRICE",
+  "TỔNG HÓA ĐƠN": "TOTAL BILL",
+  "MÃ GIẢM": "DISCOUNT CODE",
+  "MUA NGAY": "BUY NOW",
+  "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING"
 }

@@ -13,7 +13,7 @@
 
             <div class="cart-title">
                 <i class="fa-solid fa-cart-shopping"> </i>
-                <h2> GIỎ HÀNG </h2>
+                <h2> {{ "GIỎ HÀNG" | translate }} </h2>
             </div>
             <p></p>
             <div class="cart-allProduct">
@@ -30,10 +30,10 @@
                         <div class="item-inforColorSizeQty">
                             <div style="flex: 4;">
                                 <p class="item-size">
-                                    <span>Màu sắc: <span class="text-size-color">66 BLUE</span> </span>
+                                    <span>{{ "Màu sắc:" | translate }} <span class="text-size-color">66 BLUE</span> </span>
                                 </p>
                                 <p class="item-color">
-                                    <span>Kích thước: <span class="text-size-color">MEN S</span> </span>
+                                    <span>{{ "Kích thước:" | translate }} <span class="text-size-color">MEN S</span> </span>
                                 </p>
                             </div>
                             <div style="flex: 6;">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="item-inforPrice_btnRemove">
-                            <span class="item-btnRemove"><a href="">Remove</a></span>
+                            <span class="item-btnRemove"><a href="">{{ "Xóa" | translate }}</a></span>
                             <div class="item-price">Giá: <span class="textTotal"> 200,000 Vnd</span></div>
                             <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000 Vnd </span>
                             </div>
@@ -182,26 +182,26 @@
 
                 <div class="cart-order">
                     <div class="priceBill">
-                        <p class="total-decor-bold"> <span>TỔNG SỐ LƯỢNG </span> <span>20 SẢN PHẨM</span> </p>
+                        <p class="total-decor-bold"> <span>{{ "TỔNG SỐ LƯỢNG" | translate }} </span> <span>20 {{ "SẢN PHẨM" | translate }}</span> </p>
                         <hr>
-                        <p class="total-decor"> <span>KHẤU TRỪ </span> <span>20,000 VND </span> </p>
-                        <p class="total-decor"> <span>TỔNG TIỀN </span> <span>20,000,000 VND </span> </p>
+                        <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p>
+                        <p class="total-decor"> <span>{{ "TỔNG TIỀN" | translate }} </span> <span>20,000,000 VND </span> </p>
                         <hr>
-                        <p class="total-decor-bold"> <span>TỔNG HÓA ĐƠN </span> <span>20,000,000 VND </span> </p>
+                        <p class="total-decor-bold"> <span>{{ "TỔNG HÓA ĐƠN" | translate }} </span> <span>20,000,000 VND </span> </p>
                     </div>
 
                     <div class="priceBill">
                         <p class="total-decor-bold-coupon" style="margin: 0;
                         align-items: center; min-width: 100px;
-                        "> <span class="coupon-item"> MÃ GIẢM </span> <span  class="iput-coupon-item"> <input type="text"> </span> </p>
+                        "> <span class="coupon-item"> {{ "MÃ GIẢM" | translate }} </span> <span  class="iput-coupon-item"> <input type="text"> </span> </p>
                     </div>
 
 
                     <div class="priceBill">
-                        <div class="btnBuyCart slide_leftbtnBuyCart" [routerLink]="['../checkout']" > MUA NGAY </div>
+                        <div class="btnBuyCart slide_leftbtnBuyCart" [routerLink]="['../checkout']" > {{ "MUA NGAY" | translate }} </div>
                         <!-- <span class="hr-element-decor"><hr>or <hr></span -->
                             <hr>
-                        <div class="btnBuyToContinue slide_leftbtnBuyToContinue" [routerLink]="['../product']">TIẾP TỤC MUA SẮM</div>
+                        <div class="btnBuyToContinue slide_leftbtnBuyToContinue" [routerLink]="['../product']">{{"TIẾP TỤC MUA SẮM" | translate}}</div>
 
                     </div>
 

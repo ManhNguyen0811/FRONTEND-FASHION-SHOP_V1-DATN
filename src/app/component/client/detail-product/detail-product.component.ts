@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 
 @Component({
   selector: 'app-detail-product',
   standalone: true,
   imports: [CommonModule,
-    RouterLink, RouterOutlet, TranslateModule,
+    RouterLink, RouterOutlet, TranslateModule, NavBottomComponent,
   ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'

@@ -15,7 +15,7 @@ export class HeaderComponent {
   isHome: boolean = false;
   currentLang: string = 'vi'; // Ngôn ngữ mặc định
   currentCurrency: string = 'vn'; // Tiền tệ mặc định
-
+  isSearchActive: boolean = false;
   constructor(private router: Router, private navigationService: NavigationService) {
     // Lắng nghe sự kiện NavigationEnd để kiểm tra URL hiện tại
     this.router.events.subscribe((event) => {
@@ -33,6 +33,11 @@ export class HeaderComponent {
 
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
+    });
+
+    // Subscribe để nhận giá trị từ service
+    this.navigationService.isSearchActive$.subscribe((value) => {
+      this.isSearchActive = value;
     });
   }
 
