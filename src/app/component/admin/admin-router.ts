@@ -4,6 +4,8 @@ import { UserComponent } from "./user/user.component";
 import { ListCategoryComponent } from "./categoty/list-category/list-category.component";
 import { EditCategoryComponent } from "./categoty/edit-category/edit-category.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { ListOrderComponent } from "./order/list-order/list-order.component";
+import { EditOrderComponent } from "./order/edit-order/edit-order.component";
  
 export const adminRouter: Routes =[
     {
@@ -30,6 +32,14 @@ export const adminRouter: Routes =[
             {
                 path:'dashboard',
                 component: DashboardComponent
+            },
+            {
+                path:'list_order',
+                component: ListOrderComponent
+            },
+            {
+                path:'edit_order',
+                component: EditOrderComponent
             }
          ]
     }

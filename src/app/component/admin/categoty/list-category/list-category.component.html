@@ -1,3 +1,41 @@
 <app-header-admin title_header="Category" title_btn="Add Item"
   routerLinkString="/admin/edit_category"></app-header-admin>
-<app-table [tableData]="data" [tableHeaders]="headers" routerLinkString="/admin/edit_category" [eventClick]="clickNe"></app-table>
+<div class="select-box">
+  <div class="content-fiter-tools">
+    <div class="tools-title">
+      <i class="fa-solid fa-sort"></i>
+      <span>Filter</span>
+    </div>
+    <div class="tool-elements">
+      <div class="element-select">
+        <select class="form-select">
+          <option selected>Giá Tăng Dần Dần Dần Dần</option>
+          <option>Giá Giảm Dần</option>
+        </select>
+      </div>
+      <div class="element-select">
+        <select class="form-select">
+          <option selected>Giá Tăng Dần</option>
+          <option>Giá Giảm Dần</option>
+        </select>
+      </div>
+      <div class="element-select">
+        <select class="form-select">
+          <option selected>Giá Tăng Dần</option>
+          <option>Giá Giảm Dần</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+  <div class="tool-search">
+    <div class="count-product">
+      <span><span class="mobile-text-product">Kết Quả Tìm Kiếm:</span> 10 Sản Phẩm</span>
+    </div>
+    <div class="search-product">
+      <input type="text">
+    </div>
+  </div>
+</div>
+<app-table [tableData]="data" [tableHeaders]="headers" routerLinkString="/admin/edit_category"
+  [eventClick]="clickNe"></app-table>
