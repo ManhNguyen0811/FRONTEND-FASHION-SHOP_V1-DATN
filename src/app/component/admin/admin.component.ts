@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { HeaderAdminComponent } from './header-admin/header-admin.component';
@@ -12,10 +12,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
-  isMenuVisible: boolean = true; // Menu ban đầu hiển thị
+ 
+  isMenuActive: boolean = false; // Biến để theo dõi trạng thái
 
-  // Hàm để ẩn/tắt menu
-  toggleMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+  toggleMenu() {
+    this.isMenuActive = !this.isMenuActive; // Đảo trạng thái khi nhấn nút
   }
 }

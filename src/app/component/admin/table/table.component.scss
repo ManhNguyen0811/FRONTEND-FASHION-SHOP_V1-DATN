@@ -69,3 +69,41 @@ table {
 }
 
  
+.card-footer .pagination .page-item {
+    margin: 0 5px; /* Giãn cách giữa các nút */
+}
+
+.card-footer .pagination .page-link {
+    border-radius: 50%; /* Tạo hình tròn cho các nút */
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    text-align: center;
+    font-size: 18px;
+    color: #007bff; /* Màu chữ của nút */
+    background-color: #fff;
+    border: 2px solid #007bff;
+    transition: all 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+}
+
+.card-footer .pagination .page-link:hover {
+    background-color: #84adea; /* Màu nền khi hover */
+    color: #fff; /* Màu chữ khi hover */
+    border-color: #0056b3; /* Màu border khi hover */
+    transform: translateY(-2px); /* Di chuyển lên một chút khi hover */
+}
+
+.card-footer .pagination .page-item.disabled .page-link {
+    background-color: #f8f9fa; /* Màu nền cho nút disabled */
+    border-color: #e0e0e0; /* Màu border cho nút disabled */
+    color: #6c757d; /* Màu chữ cho nút disabled */
+}
+
+.card-footer .pagination .page-item.active .page-link {
+    background-color: #007bff; /* Màu nền cho nút active */
+    color: #fff; /* Màu chữ cho nút active */
+    border-color: #007bff; /* Màu border cho nút active */
+}
