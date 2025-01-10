@@ -16,8 +16,8 @@ export class TableComponent {
   @Input() routerLinkString : string ='';
   @Input()  activeRouterLinkString : string = '';
   @Input() changePage: boolean = true;
-
+  @Input() toggleCheckbox: (item: any) => void = () => {};
 
  
+  }
  
-}
