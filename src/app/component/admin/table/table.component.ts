@@ -12,11 +12,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class TableComponent {
   @Input() tableHeaders: string[] = [];  
   @Input() tableData: any[] = [];   
-  @Input()  eventClick :(item:any) => void= () =>{};
+  @Input()  eventClick : (item:any) => void= () =>{};
   @Input() routerLinkString : string ='';
   @Input()  activeRouterLinkString : string = '';
   @Input() changePage: boolean = true;
-  @Input() toggleCheckbox: (item: any) => void = () => {};
+  @Input() toggleCheckbox : (item: any) => void = () => {};
+
+
+  
 
  
   }

@@ -29,6 +29,7 @@ export class ListCategoryComponent implements OnInit {
 
 
   data: TableDataModel[] = [
+
     {
       id: 1,
       name: 'Product A',
@@ -89,6 +90,7 @@ export class ListCategoryComponent implements OnInit {
     }
   
     console.log(item.checked);
+    console.log(item.ParentsID);
     console.log(item.id);
     console.log(this.checkedItems);
   }

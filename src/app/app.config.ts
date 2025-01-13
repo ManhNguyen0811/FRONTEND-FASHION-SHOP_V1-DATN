@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 // Tạo TranslateHttpLoader
@@ -17,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
+    provideHttpClient(withFetch()),
     provideHttpClient(),
     provideRouter(routes),
     TranslateModule.forRoot({
