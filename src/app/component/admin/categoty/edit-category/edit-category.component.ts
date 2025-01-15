@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from '../../button/button.component';
 
 interface Category {
   id: number,
@@ -13,7 +14,7 @@ interface Category {
 @Component({
   selector: 'app-edit-category',
   standalone: true,
-  imports: [HeaderAdminComponent, RouterLink, CommonModule, FormsModule],
+  imports: [HeaderAdminComponent, RouterLink, CommonModule, FormsModule,ButtonComponent],
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.scss'
 })
@@ -175,6 +176,10 @@ export class EditCategoryComponent {
   }
 
 
+
+  clickEvent(){
+    console.log("aaaaa")
+  }
 
 
 

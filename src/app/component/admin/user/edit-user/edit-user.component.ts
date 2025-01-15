@@ -3,11 +3,12 @@ import { HeaderAdminComponent } from '../../header-admin/header-admin.component'
 import { AdminComponent } from "../../admin.component";
 import { Router } from 'express';
 import { ActivatedRoute } from '@angular/router';
+import { ButtonComponent } from '../../button/button.component';
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [HeaderAdminComponent, AdminComponent],
+  imports: [HeaderAdminComponent, AdminComponent,ButtonComponent],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss'
 })

@@ -47,7 +47,7 @@ i {
 
 .admin-menu {
     margin: 10px;
-    min-width: 5px;
+    min-width: 60px;
     position: fixed;
     top: 0;
     left: 0;
@@ -107,4 +107,5 @@ i {
     .container-layout-admin {
         grid-template-columns: clamp(180px, calc(120px + 8vw), 350px) 2fr 2fr 2fr;
     }
-}
+ 
+} 
