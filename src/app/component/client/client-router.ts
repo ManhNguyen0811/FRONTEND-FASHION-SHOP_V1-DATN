@@ -22,6 +22,7 @@ import {ShippingComponent} from './checkout/shipping/shipping.component';
 import {PaymentComponent} from './checkout/payment/payment.component';
 import {ReviewOrderComponent} from './checkout/review-order/review-order.component';
 import {LanguageCurrencyResolver} from '../../resolvers/language-currency.resolver';
+import {ImageDetailComponent} from './image-detail/image-detail.component';
 
 export const clientRouter: Routes =[
     {
@@ -100,7 +101,10 @@ export const clientRouter: Routes =[
               path: 'size',
               component: CheckSizeComponent
             },
-
+            {
+              path: 'imageDetail',
+              component: ImageDetailComponent
+            },
         ]
     },
     { path: '', redirectTo: 'vn/vi', pathMatch: 'full' } // Mặc định là 'vi'
