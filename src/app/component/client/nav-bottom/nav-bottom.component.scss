@@ -1,3 +1,6 @@
+
+
+
 .overlay {
   position: fixed;
   top: 0;
@@ -7,8 +10,9 @@
   background-color: white;
   z-index: 10; /* Lớp phủ nằm trên các phần tử khác */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start; /* Sửa từ center thành flex-start */
+  align-items: flex-start; /* Sửa từ center thành flex-start */
+  padding-top: 4.5rem; /* Nếu cần khoảng cách phía trên */
 }
 /* Bottom Navigation Styling */
 .bottom-navigation {
@@ -289,32 +293,86 @@
     padding-top: 4rem !important;
   }
 
-  /* Scrollable Categories */
-  .scrollable-categories {
-    max-height: 31.15rem; /* Chiều cao tối đa của danh sách category */
-    overflow-y: auto; /* Tạo scroll dọc khi nội dung quá dài */
-    padding-top: 10px; /* Khoảng cách trên */
-    padding-bottom: 10px; /* Khoảng cách dưới */
+
+
+  .Search-Bar{
+    position: fixed;
+    bottom: 5.5rem;
+    overflow-y: auto;
+    width: 78%;
   }
 
-  /* Tùy chỉnh thanh cuộn */
-  .scrollable-categories::-webkit-scrollbar {
-    width: 8px; /* Độ rộng thanh cuộn */
+  .form-control{
+    font-size: 1.2rem !important;
   }
 
-  .scrollable-categories::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Màu nền thanh cuộn */
-  }
+/*-----------------------------------------------------*/
+/* Wrapper for Carousel */
+.carousel-wrapper {
+  display: flex;
+  width: 200%; /* 2 tầng: mỗi tầng chiếm 100% */
+  overflow: hidden; /* Ẩn thanh cuộn */
+  transition: transform 0.5s ease-in-out;
+}
 
-  .scrollable-categories::-webkit-scrollbar-thumb {
-    background: #ccc; /* Màu của thanh trượt */
-    border-radius: 10px; /* Bo tròn thanh trượt */
-  }
+.carousel-move-left {
+  transform: translateX(-50%); /* Di chuyển sang tầng 3 */
+}
 
-  .scrollable-categories::-webkit-scrollbar-thumb:hover {
-    background: #999; /* Màu thanh trượt khi hover */
-  }
+.carousel-move-right {
+  transform: translateX(0); /* Quay lại tầng 2 */
+}
 
+/* Categories Level Styling */
+.categories-level {
+  flex: 0 0 51%; /* Chiếm 50% chiều rộng (vì tổng là 200%) */
+  width: 100%;
+}
+
+/* Ẩn thanh cuộn nhưng vẫn cho phép nội dung di chuyển */
+.carousel-wrapper::-webkit-scrollbar {
+  display: none; /* Ẩn trên WebKit (Chrome, Safari) */
+}
+
+.carousel-wrapper {
+  -ms-overflow-style: none; /* Ẩn trên IE và Edge */
+  scrollbar-width: none; /* Ẩn trên Firefox */
+}
+
+/* Nút Quay lại */
+.btn-back {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: #fff;
+  color: #000;
+  border: 0px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+
+/* Ẩn thanh cuộn trong scrollable-categories */
+.scrollable-categories {
+  overflow: hidden; /* Loại bỏ thanh cuộn hoàn toàn */
+}
+
+/* Ẩn thanh cuộn nhưng vẫn cho phép cuộn nội dung (nếu cần) */
+.scrollable-categories::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn trên WebKit (Chrome, Safari) */
+}
+
+.scrollable-categories {
+  -ms-overflow-style: none; /* Ẩn thanh cuộn trên IE và Edge */
+  scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+
+
+/*--------------Responsive------------------*/
 
 
   /* Responsive Scrollable Categories */
@@ -403,3 +461,5 @@
       height: 45px;
     }
   }
+
+
