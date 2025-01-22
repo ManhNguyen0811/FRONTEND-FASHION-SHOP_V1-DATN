@@ -59,7 +59,25 @@ export class NavBottomComponent {
     { name: 'AIRism', img: 'assets/airism.png' },
     { name: 'HÀNG MỚI VỀ', img: 'assets/new.png' },
     { name: 'KHUYẾN MÃI', img: 'assets/limited.png' },
-    { name: 'SẮP MỞ BÁN', img: 'assets/comingsoon.png' }
+    { name: 'SẮP MỞ BÁN', img: 'assets/comingsoon.png' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
+    { name: 'QUẦN', img: 'https://im.uniqlo.com/global-cms/spa/resd5da71558f0752d65dd506a2e5f11e38fr.png' },
+    { name: 'ĐỒ MẶC NHÀ', img: 'https://im.uniqlo.com/global-cms/spa/resb64771b00f5cd167bfb4016c05133d1afr.png' },
+    { name: 'PHỤ KIỆN', img: 'https://im.uniqlo.com/global-cms/spa/resf8cea0298a7dc731c3904021ee06995ffr.jpg' },
   ];
 
   currentLevel: number = 2;

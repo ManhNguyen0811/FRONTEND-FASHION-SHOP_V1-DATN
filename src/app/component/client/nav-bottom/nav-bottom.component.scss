@@ -1,3 +1,8 @@
+.body-category{
+  height: 34rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
 
 
@@ -297,7 +302,7 @@
 
   .Search-Bar{
     position: fixed;
-    bottom: 5.5rem;
+    bottom: 9rem;
     overflow-y: auto;
     width: 78%;
   }
@@ -327,6 +332,11 @@
 .categories-level {
   flex: 0 0 51%; /* Chiếm 50% chiều rộng (vì tổng là 200%) */
   width: 100%;
+
+}
+
+.categories-level.level-3 {
+  min-height: auto; /* Đảm bảo chiều cao vừa đủ */
 }
 
 /* Ẩn thanh cuộn nhưng vẫn cho phép nội dung di chuyển */
@@ -334,10 +344,7 @@
   display: none; /* Ẩn trên WebKit (Chrome, Safari) */
 }
 
-.carousel-wrapper {
-  -ms-overflow-style: none; /* Ẩn trên IE và Edge */
-  scrollbar-width: none; /* Ẩn trên Firefox */
-}
+
 
 /* Nút Quay lại */
 .btn-back {
@@ -351,23 +358,6 @@
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-
-
-/* Ẩn thanh cuộn trong scrollable-categories */
-.scrollable-categories {
-  overflow: hidden; /* Loại bỏ thanh cuộn hoàn toàn */
-}
-
-/* Ẩn thanh cuộn nhưng vẫn cho phép cuộn nội dung (nếu cần) */
-.scrollable-categories::-webkit-scrollbar {
-  display: none; /* Ẩn thanh cuộn trên WebKit (Chrome, Safari) */
-}
-
-.scrollable-categories {
-  -ms-overflow-style: none; /* Ẩn thanh cuộn trên IE và Edge */
-  scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
 }
 
 
@@ -460,6 +450,12 @@
       width: 45px;
       height: 45px;
     }
+
+    .Search-Bar{
+      bottom: 10rem;
+      left: 5rem;
+    }
   }
+
 
 

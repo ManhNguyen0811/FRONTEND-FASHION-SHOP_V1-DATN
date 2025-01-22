@@ -1,152 +1,3 @@
-<!--<div id="bottomNav" class="bottom-navigation position-fixed bottom-0 start-50 translate-middle-x">-->
-<!--    <div class="bottom-navigation position-fixed bottom-0 start-50 translate-middle-x d-flex justify-content-center align-items-center gap-5">-->
-<!--      &lt;!&ndash; Icon 1 &ndash;&gt;-->
-<!--      <button type="button" class="bottom-navigation-icon-wrapper"-->
-<!--              [routerLink]="['/client', currentCurrency, currentLang]"-->
-<!--      >-->
-<!--        <i class="text-dark bi bi-house-door-fill"></i>-->
-<!--      </button>-->
-<!--      &lt;!&ndash; Icon 2 &ndash;&gt;-->
-<!--      <div class="dropdown position-relative">-->
-<!--      <button type="button"-->
-<!--              class="bottom-navigation-icon-wrapper fw-bold nav-icon bottom-navigation-icon-wrapper-center"-->
-<!--              [ngClass]="{'active': isSearchActive}"-->
-<!--              (click)="toggleSearch()">-->
-<!--        <i class="text-dark bi bi-search" *ngIf="!isSearchActive"></i>-->
-<!--        <i class="fa-solid fa-x X-icon" *ngIf="isSearchActive"></i>-->
-<!--      </button>-->
-
-<!--        &lt;!&ndash; Fullscreen Dropdown &ndash;&gt;-->
-<!--        <div *ngIf="isSearchActive" class="fullscreen-dropdown">-->
-<!--          <header class="position-absolute w-100 py-2">-->
-<!--            <div class="container-fluid d-flex align-items-center justify-content-around ">-->
-<!--              &lt;!&ndash; Logo &ndash;&gt;-->
-<!--              <div class="logo" style="width: 157.57px;">-->
-<!--                <h5 class="text-black">BRAND</h5>-->
-<!--              </div>-->
-<!--              &lt;!&ndash; Navigation &ndash;&gt;-->
-<!--              <ul class="nav nav-underline d-none d-md-flex">-->
-<!--                <li class="nav-item">-->
-<!--                  <a class="head-title nav-link text-black" href="#">NỮ</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                  <a class="head-title nav-link text-black" href="#">NAM</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                  <a class="head-title nav-link text-black" href="#">TRẺ EM</a>-->
-<!--                </li>-->
-
-<!--              </ul>-->
-<!--              &lt;!&ndash; Icons &ndash;&gt;-->
-<!--              <div class="d-flex align-items-center">-->
-<!--                &lt;!&ndash; Dropdown Menu &ndash;&gt;-->
-<!--                <div class="dropdown">-->
-<!--                  <button class="head-icon head-icon-global btn text-white mx-2 dropdown-toggle no-focus no-caret" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                    <i class="bi bi-globe"></i>-->
-<!--                  </button>-->
-<!--                  <ul class="dropdown-menu dropdown-custom">-->
-<!--                    <li><a class="dropdown-item" href="#">English</a></li>-->
-<!--                    <li>-->
-<!--                      <a class="dropdown-item active" href="#">-->
-<!--                        <span>Tiếng Việt</span>-->
-<!--                        <i class="bi bi-check2"></i>-->
-<!--                      </a>-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Other Icons &ndash;&gt;-->
-<!--                <a href="#" class="head-icon text-white mx-2"><i class="bi bi-heart"></i></a>-->
-<!--                <a href="#" class="head-icon text-white mx-2"><i class="bi bi-cart"></i></a>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--          </header>-->
-<!--          <div class="container py-5 position-relative">-->
-
-
-<!--            &lt;!&ndash; Close Button &ndash;&gt;-->
-<!--            <div class="text-end">-->
-<!--              <button class="close-btn bottom-navigation-icon-wrapper fw-bold nav-icon active bottom-navigation-icon-wrapper-center"-->
-<!--                      (click)="toggleSearch()">-->
-<!--                <i class="fa-solid fa-x X-icon"></i>-->
-<!--              </button>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; Categories &ndash;&gt;-->
-<!--            <div class="container scrollable-categories">-->
-<!--            <div class="container categories">-->
-<!--              <div class="row text-center">-->
-<!--                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4" *ngFor="let category of categories; let i = index">-->
-<!--                  <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                      <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                      <p class="fw-normal">{{ category.name }}</p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--              <hr>-->
-<!--              <div class="container categories">-->
-<!--                <div class="row text-center">-->
-<!--                  <div class="col-6 col-md-3 mb-4" *ngFor="let category of categories; let i = index">-->
-<!--                    <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                      <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                      <p class="fw-normal">{{ category.name }}</p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <hr>-->
-<!--              <div class="container categories">-->
-<!--                <div class="row text-center">-->
-<!--                  <div class="col-6 col-md-3 mb-4" *ngFor="let category of categories; let i = index">-->
-<!--                    <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                      <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                      <p class="fw-normal">{{ category.name }}</p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <hr>-->
-<!--              <div class="container categories">-->
-<!--                <div class="row text-center">-->
-<!--                  <div class="col-6 col-md-3 mb-4" *ngFor="let category of categories; let i = index">-->
-<!--                    <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                      <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                      <p class="fw-normal">{{ category.name }}</p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="container categories">-->
-<!--                <div class="row text-center">-->
-<!--                  <div class="col-6 col-md-3 mb-4" *ngFor="let category of categories; let i = index">-->
-<!--                    <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                      <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                      <p class="fw-normal">{{ category.name }}</p>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--            </div>-->
-<!--            &lt;!&ndash; Search Bar &ndash;&gt;-->
-<!--            <div class="mb-4 position-sticky">-->
-<!--              <input type="text" class="form-control rounded-pill" placeholder="Tìm kiếm theo từ khóa">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash; Icon 3 &ndash;&gt;-->
-<!--       &lt;!&ndash; routerLink="/profile/edit_profile" &ndash;&gt;-->
-<!--      <button type="button" class="bottom-navigation-icon-wrapper"-->
-<!--              [routerLink]="['/client', currentCurrency, currentLang, 'profile','edit_profile']"-->
-<!--              queryParamsHandling="merge"-->
-<!--      >-->
-<!--        <i class="text-dark bi bi-person"></i>-->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </div>-->
 
 <!---------------------------------------------------------------------------------------------->
 <button type="button" class="bottom-navigation-icon-wrapper btn1"
@@ -173,11 +24,13 @@
 <div class="overlay" *ngIf="isSearchActive">
   <app-header></app-header>
     <div class="container position-relative window-category">
-      <div class="container">
+      <div class="container body-category" style="">
         <!-- Wrapper for Carousel -->
         <div class="carousel-wrapper" [ngClass]="{'carousel-move-left': currentLevel === 3, 'carousel-move-right': currentLevel === 2}">
           <!-- Tầng 2 -->
-          <div class="categories-level level-2">
+          <div class="categories-level level-2"
+               [ngClass]="{'hidden': currentLevel !== 2}"
+          >
             <div class="row text-center">
               <div
                 class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
@@ -193,7 +46,9 @@
           </div>
 
           <!-- Tầng 3 -->
-          <div class="categories-level level-3">
+          <div class="categories-level level-3"
+               [ngClass]="{'hidden': currentLevel !== 3}"
+          >
             <button class="btn-back mb-3" (click)="goBack()">
               <i class="fa-solid fa-chevron-left me-2"></i> {{ selectedCategory?.name }}
             </button>
@@ -210,6 +65,38 @@
             </div>
           </div>
         </div>
+        <hr>
+        <div>
+          <h1>Thông báo</h1>
+          <div class="categories-level level-2">
+            <div class="row text-center">
+              <div
+                class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+                *ngFor="let category of categories; let i = index"
+                (click)="selectCategory(category)"
+              >
+                <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
+                  <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
+                  <p class="fw-normal">{{ category.name }}</p>
+                </div>
+              </div>
+            </div>
+          </div><div class="categories-level level-2">
+          <div class="row text-center">
+            <div
+              class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+              *ngFor="let category of categories; let i = index"
+              (click)="selectCategory(category)"
+            >
+              <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
+                <img [src]="category.img" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
+                <p class="fw-normal">{{ category.name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
       </div>
       <!-- Search Bar -->
       <div class="container Search-Bar">
