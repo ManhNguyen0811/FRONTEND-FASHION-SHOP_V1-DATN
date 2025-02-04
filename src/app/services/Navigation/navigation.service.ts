@@ -1,13 +1,37 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, filter} from 'rxjs';
+import {BehaviorSubject, filter, map, Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Language} from '../../models/Language';
+import {Currency} from '../../models/Currency';
+import {LanguageDTO} from '../../dto/LanguageDTO';
+import {CurrencyDTO} from '../../dto/CurrencyDTO';
+import {response} from 'express';
+import {ApiResponse} from '../../dto/Response/ApiResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
+  private apiUrl= `${environment.apiBaseUrl}`;
+  constructor(private http: HttpClient) { }
+
+  getLanguage(): Observable<LanguageDTO[]> {
+    return this.http.get<ApiResponse<LanguageDTO[]>>(`${this.apiUrl}/languages`).pipe(
+      map(response => response.data) // Lấy phần data từ ApiResponse
+    );
+  }
+
+  getCurrency(): Observable<CurrencyDTO[]> {
+    return this.http.get<CurrencyDTO[]>(`${this.apiUrl}/currencies`);
+  }
+
+
   // Biến BehaviorSubject để lưu trữ giá trị ngôn ngữ và tiền tệ
   private langSubject = new BehaviorSubject<string>('vi');
   private currencySubject = new BehaviorSubject<string>('vn');
+
+
 
 
   // Observable để các component subscribe và nhận giá trị mới

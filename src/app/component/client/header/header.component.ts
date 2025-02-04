@@ -1,22 +1,36 @@
-import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import {NgClass, CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
 import { NavigationEnd, Router, RouterLink} from '@angular/router';
-import {TranslateModule} from '@ngx-translate/core';
+import {Language, TranslateModule} from '@ngx-translate/core';
 import { NavigationService} from '../../../services/Navigation/navigation.service';
+import {LanguageDTO} from '../../../dto/LanguageDTO';
+import {CurrencyDTO} from '../../../dto/CurrencyDTO';
+import {CategoryService} from '../../../services/client/CategoryService/category.service';
+import {CategoryDTO} from '../../../dto/CategoryDTO';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgClass, RouterLink, TranslateModule ],
+  imports: [NgClass, RouterLink, TranslateModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
+  languageList: LanguageDTO[] = [];
+  currencyList: CurrencyDTO[] = [];
+  categoriesParent: CategoryDTO[] = [];
+  apiError: any;
+
+  categories: CategoryDTO[] = [];
+
+  categoriesChildren: CategoryDTO[] = [];
+
+
   isHome: boolean = false;
   currentLang: string = 'vi'; // Ngôn ngữ mặc định
   currentCurrency: string = 'vn'; // Tiền tệ mặc định
   isSearchActive: boolean = false;
-  constructor(private router: Router, private navigationService: NavigationService) {
+  constructor(private router: Router, private navigationService: NavigationService, private categoryService: CategoryService) {
     // Lắng nghe sự kiện NavigationEnd để kiểm tra URL hiện tại
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -41,11 +55,19 @@ export class HeaderComponent {
     });
   }
 
-  changeLanguageAndCurrency(lang: string, currency: string) {
+  changeLanguageAndCurrency(lang: string) {
     // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
+    let currency: string= "";
+    if(lang === "vi"){
+      currency = "vn";
+    }else if(lang === "en"){
+      currency = "us";
+    }else if(lang === "ja"){
+      currency = "jp";
+    }
     this.navigationService.updateLang(lang);
     this.navigationService.updateCurrency(currency);
-
+    this.getCategoriesParent(this.currentLang);
     // Tạo URL mới với ngôn ngữ và tiền tệ đã thay đổi
     const updatedUrl = this.router.url.replace(
       /\/client\/[^\/]+\/[^\/]+/,
@@ -54,5 +76,66 @@ export class HeaderComponent {
 
     // Điều hướng đến URL mới
     this.router.navigateByUrl(updatedUrl);
+  }
+
+  getLanguage(): void {
+    this.navigationService.getLanguage().subscribe({
+      next: (languages: LanguageDTO[]) => {
+        this.languageList = languages;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  getCurrency(): void {
+    this.navigationService.getCurrency().subscribe({
+      next: (currencies: CurrencyDTO[]) => {
+        this.currencyList = currencies;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  tranformCurrncy(code: string): string{
+    if(code === "USD"){
+      return "us"
+    }else if(code === "VND"){
+      return "vn"
+    }else if(code === "JPY"){
+      return "jp"
+    }
+    return "";
+  }
+
+  getCategoriesParent(lang: string){
+
+    this.categoryService.getCategoryParent(lang).subscribe({
+      next: (response) => {
+        this.categoriesParent = response.data;
+        this.apiError = response.errors;
+      },
+      error: (err) => {
+        console.log('Http Error: ',err);
+        console.log('Lỗi: ',this.apiError);
+      }
+    })
+  }
+
+
+
+  onCategoryClick( parentId: number): void {
+    // Lấy ngôn ngữ hiện tại
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+    // lấy category theo ngôn ngữ và parentId
+    this.categoryService.loadCategories(this.currentLang, parentId);
+  }
+
+  ngOnInit(): void {
+    this.getLanguage();
+    this.getCurrency();
+    this.getCategoriesParent(this.currentLang);
+    this.categoryService.loadCategories(this.currentLang,1);
   }
 }

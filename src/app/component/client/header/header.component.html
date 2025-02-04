@@ -15,28 +15,15 @@
     </div>
     <!-- Navigation -->
     <ul
-
       class="nav nav-underline d-none d-md-flex justify-content-center align-items-center ">
-      <li
+      <li *ngFor="let category of categoriesParent"
         class="nav-item">
-        <a [ngClass]="{
+        <a href="javascript:void(0)"
+          [ngClass]="{
           'text-black': !isHome || isSearchActive
-          }" class="head-title nav-link text-center" href="#">{{ "Nữ" | translate }}</a>
-      </li>
-      <li class="nav-item">
-        <a [ngClass]="{
-          'text-black': !isHome || isSearchActive
-          }" class="head-title nav-link text-center" [routerLink]="['/client', currentCurrency, currentLang, 'product']">{{ "Nam" | translate }}</a>
-      </li>
-      <li class="nav-item">
-        <a [ngClass]="{
-          'text-black': !isHome || isSearchActive
-          }" class="head-title nav-link text-center" href="#">{{ "Trẻ em" | translate }}</a>
-      </li>
-      <li class="nav-item">
-        <a [ngClass]="{
-          'text-black': !isHome || isSearchActive
-          }" class="head-title nav-link text-center" href="#">{{ "Em bé" | translate }}</a>
+          }" class="head-title nav-link text-center"
+          (click)="onCategoryClick(category.id)"
+        >{{ category.name }}</a>
       </li>
     </ul>
     <!-- Icons -->
@@ -55,24 +42,25 @@
             class="bi bi-globe"></i>
         </button>
         <ul class="dropdown-menu dropdown-custom z-3">
-          <li>
-            <a
-              class="dropdown-item"
-              [class.active]="currentLang === 'en'"
-              (click)="changeLanguageAndCurrency('en','us')">
-              {{ "Tiếng Anh" | translate }}
-              <i class="bi bi-check2"></i>
-            </a>
+          <li *ngFor="let language of languageList">
+            <p  class="dropdown-item"
+              href="javascript:void(0)"
+              [ngClass]="{ 'active': currentLang === language.code }"
+              (click)="changeLanguageAndCurrency(language.code)"
+            >
+              {{ language.name | translate}}
+              <i *ngIf="currentLang === language.code" class="bi bi-check2 ms-2"></i>
+            </p>
           </li>
-          <li>
-            <a
-              class="dropdown-item"
-              [class.active]="currentLang === 'vi'"
-              (click)="changeLanguageAndCurrency('vi','vn')">
-              {{ "Tiếng Việt" | translate }}
-              <i class="bi bi-check2"></i>
-            </a>
-          </li>
+<!--          <li *ngFor="let language of languageList">-->
+<!--            <a-->
+<!--              class="dropdown-item"-->
+<!--              [class.active]="currentLang === language.code"-->
+<!--              (click)="changeLanguageAndCurrency(language.code)">-->
+<!--              {{ language.name | translate }}-->
+<!--              <i class="bi bi-check2"></i>-->
+<!--            </a>-->
+<!--          </li>-->
         </ul>
       </div>
       <!-- Other Icons -->
