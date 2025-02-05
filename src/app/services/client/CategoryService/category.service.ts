@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, map, Observable} from 'rxjs';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
 import {ApiResponse} from '../../../dto/Response/ApiResponse';
+import {response} from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,11 @@ export class CategoryService {
 
   getCategories(languageCode: string, parentId: number): Observable<ApiResponse<CategoryDTO[]>> {
     return this.http.get<ApiResponse<CategoryDTO[]>>(`${this.apiUrl}/categories/${languageCode}/category/parent/${parentId}`);
+  }
+
+  getCategory(languageCode: string, id: number): Observable<CategoryDTO> {
+    return this.http.get<ApiResponse<CategoryDTO>>(`${this.apiUrl}/categories/${languageCode}/category/${id}`).pipe(
+      map(response =>  response.data)
+    );
   }
 }

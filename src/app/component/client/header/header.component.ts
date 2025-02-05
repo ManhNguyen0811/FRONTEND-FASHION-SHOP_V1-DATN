@@ -23,8 +23,6 @@ export class HeaderComponent implements OnInit{
 
   categories: CategoryDTO[] = [];
 
-  categoriesChildren: CategoryDTO[] = [];
-
 
   isHome: boolean = false;
   currentLang: string = 'vi'; // Ngôn ngữ mặc định

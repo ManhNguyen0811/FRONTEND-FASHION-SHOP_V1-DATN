@@ -35,7 +35,7 @@
               <div
                 class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
                 *ngFor="let category of categories$ | async; let i = index"
-                (click)="selectCategory(category)"
+                (click)="onCategoryChildClick(category.id)"
               >
                 <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
                   <img [src]="category.imageUrl" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
@@ -46,24 +46,28 @@
           </div>
 
           <!-- Tầng 3 -->
-<!--          <div class="categories-level level-3"-->
-<!--               [ngClass]="{'hidden': currentLevel !== 3}"-->
-<!--          >-->
-<!--            <button class="btn-back mb-3" (click)="goBack()">-->
-<!--              <i class="fa-solid fa-chevron-left me-2"></i> {{ selectedCategory?.name }}-->
-<!--            </button>-->
-<!--            <div class="row text-center">-->
-<!--              <div-->
-<!--                class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"-->
-<!--                *ngFor="let child of selectedCategory?.children; let i = index"-->
-<!--              >-->
-<!--                <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">-->
-<!--                  <img [src]="child.img" alt="{{ child.name }}" class="img-fluid" style="max-height: 60px;">-->
-<!--                  <p class="fw-normal">{{ child.name }}</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="categories-level level-3"
+               [ngClass]="{'hidden': currentLevel !== 3}"
+          >
+            <button
+              class="btn-back mb-3"
+              (click)="goBack()"
+              *ngIf="selectedCategory | async as category"
+            >
+              <i class="fa-solid fa-chevron-left me-2"></i> {{ category.name }}
+            </button>
+            <div class="row text-center">
+              <div
+                class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+                *ngFor="let child of categoriesChid; let i = index"
+              >
+                <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
+                  <img [src]="child.imageUrl" alt="{{ child.name }}" class="img-fluid" style="max-height: 60px;">
+                  <p class="fw-normal">{{ child.name }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <hr>
         <div>
