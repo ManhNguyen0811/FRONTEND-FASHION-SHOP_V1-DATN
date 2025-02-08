@@ -1,4 +1,4 @@
-import { Route, Routes } from "@angular/router";
+import {Route, RouterModule, Routes} from "@angular/router";
 import { ClientComponent } from "./client.component";
 import { HomeComponent } from "./home/home.component";
 import { ProductComponent } from "./product/product.component";
@@ -23,6 +23,8 @@ import {PaymentComponent} from './checkout/payment/payment.component';
 import {ReviewOrderComponent} from './checkout/review-order/review-order.component';
 import {LanguageCurrencyResolver} from '../../resolvers/language-currency.resolver';
 import {ImageDetailComponent} from './image-detail/image-detail.component';
+import {routes} from '../../app.routes';
+import {NgModule} from '@angular/core';
 
 export const clientRouter: Routes =[
     {
@@ -109,3 +111,8 @@ export const clientRouter: Routes =[
     },
     { path: '', redirectTo: 'vn/vi', pathMatch: 'full' } // Mặc định là 'vi'
 ]
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

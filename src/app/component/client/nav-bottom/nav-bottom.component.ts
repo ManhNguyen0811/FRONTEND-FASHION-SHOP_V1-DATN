@@ -7,6 +7,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
 import {Observable, of} from 'rxjs';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-nav-bottom',
@@ -25,7 +26,7 @@ export class NavBottomComponent implements OnInit{
   categoriesChid: CategoryDTO[] = [];
   selectedCategory!: Observable<CategoryDTO>;
   apiError: any;
-  constructor(private router: Router,private navigationService: NavigationService, private categoryService: CategoryService) {
+  constructor(private router: Router,private navigationService: NavigationService, private categoryService: CategoryService, private sanitizer: DomSanitizer) {
     // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
     this.navigationService.currentLang$.subscribe((lang) => {
       this.currentLang = lang;
@@ -78,6 +79,40 @@ export class NavBottomComponent implements OnInit{
 // Hàm quay lại tầng 2
   goBack(): void {
     this.currentLevel = 2; // Quay lại tầng 2
+  }
+
+  getCategoryImage(fileName: string): string {
+    return this.categoryService.getCategoryImage(fileName)
+  }
+
+  toProduct(categoryId: number): void {
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+
+    this.navigationService.currentCurrency$.subscribe((currency) => {
+      this.currentCurrency = currency;
+    });
+    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/vi/product`], {
+      queryParams: {
+        categoryId: categoryId,
+        isActive: true,
+        page: 0,
+        size: 10,
+        sortBy: 'id',
+        sortDir: 'asc'
+      }
+    });
+    console.log(this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
+      queryParams: {
+        categoryId: categoryId,
+        isActive: true,
+        page: 0,
+        size: 10,
+        sortBy: 'id',
+        sortDir: 'asc'
+      }
+    }));
   }
 
 

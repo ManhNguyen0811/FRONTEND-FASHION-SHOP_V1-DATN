@@ -204,7 +204,7 @@ input {
     color: #252525;
 
 }
- 
+
 .product-item-btnWishList button i:hover{
     color: rgb(220, 63, 176);
 }
@@ -236,11 +236,9 @@ input {
 
 }
 .product-item-priceInit{
-    text-decoration: line-through;
-    font-size: 0.875rem;
+
 }
 .product-item-priceSale{
-    
     color: rgb(255, 44, 44);
 }
 .product-item-rate{
@@ -266,13 +264,13 @@ font-size: 13px;
 }
 .product-item{
     transition: transform 0.3s ease;
-  
+
   }
   .product-item:hover{
   cursor: pointer;
     transform: scale(0.9);
   }
-  
+
 @media (max-width: 900px) {
     .content-product-title {
         text-align: center;
@@ -321,40 +319,40 @@ font-size: 13px;
         justify-content: space-evenly;
     }
     .product-item {
-    
+
         flex-basis: 45%;
     }
-     
+
     .product-item-price p{
         font-size: 0.9rem;
-    
+
     }
     .product-item-priceInit{
         font-size: 0.7rem;
     }
-     
+
 }
 
 @media (max-width: 400px) {
-    
- 
+
+
     .product-item {
-  
+
 
         flex-basis: 100%;
     }
-     
+
 
     .product-item-name p{
         font-size: 1rem ;
-        
-    
+
+
     }
- 
+
     .product-item-priceInit{
         font-size: 10px;
     }
-     
-  
-    
+
+
+
 }

@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit{
   categoriesParent: CategoryDTO[] = [];
   apiError: any;
 
-  categories: CategoryDTO[] = [];
 
 
   isHome: boolean = false;
@@ -94,16 +93,6 @@ export class HeaderComponent implements OnInit{
     });
   }
 
-  tranformCurrncy(code: string): string{
-    if(code === "USD"){
-      return "us"
-    }else if(code === "VND"){
-      return "vn"
-    }else if(code === "JPY"){
-      return "jp"
-    }
-    return "";
-  }
 
   getCategoriesParent(lang: string){
 

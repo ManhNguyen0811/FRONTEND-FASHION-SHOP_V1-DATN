@@ -38,10 +38,11 @@
                 (click)="onCategoryChildClick(category.id)"
               >
                 <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
-                  <img [src]="category.imageUrl" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
+                  <img src="{{getCategoryImage(category.imageUrl)}}" alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
                   <p class="fw-normal">{{ category.name }}</p>
                 </div>
               </div>
+
             </div>
           </div>
 
@@ -61,9 +62,24 @@
                 class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
                 *ngFor="let child of categoriesChid; let i = index"
               >
-                <div class="category-item" [style.animationDelay]="i * 0.05 + 's'">
-                  <img [src]="child.imageUrl" alt="{{ child.name }}" class="img-fluid" style="max-height: 60px;">
+                <div
+                  class="category-item" [style.animationDelay]="i * 0.05 + 's'"
+                  (click)="toProduct(child.id)"
+                >
+                  <img [src]="getCategoryImage(child.imageUrl)"  alt="{{ child.name }}" class="img-fluid" style="max-height: 60px;">
                   <p class="fw-normal">{{ child.name }}</p>
+                </div>
+              </div>
+              <div
+                class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+                *ngIf="selectedCategory | async as category"
+              >
+                <div
+                  class="category-item" [style.animationDelay]="2 * 0.05 + 's'"
+                  (click)="toProduct(category.id)"
+                >
+                  <img [src]="getCategoryImage(category.imageUrl)"  alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
+                  <p class="fw-normal">Tất Cả {{ category.name }}</p>
                 </div>
               </div>
             </div>

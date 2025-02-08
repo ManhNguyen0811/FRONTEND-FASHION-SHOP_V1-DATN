@@ -119,526 +119,80 @@
 
 
 
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
+                  <div
+                    class="product-item"
+                    *ngFor="let product of products"
+                  >
+
+                    <div class="product-item-image">
+                      <img src="{{getImageProduct(product.detail?.variantImage)}}" alt="aaa">
+                    </div>
+                    <div class="product-item-ColorAndbtnWishList">
+                      <div class="product-item-color">
+                        <label class="fr-chip-label"
+                               style="background-size: 50px; background-position: center center;
                                  width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
                                  background-image:
                                   url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
+                        </label>
+<!--                        <ng-container *ngIf="getColorNameProduct(product.id) | async as colors">-->
+<!--                          <label-->
+<!--                            *ngFor="let color of colors"-->
+<!--                            class="fr-chip-label"-->
+<!--                            [style.background-size]="'50px'"-->
+<!--                            [style.background-position]="'center center'"-->
+<!--                            [style.width]="'21px'"-->
+<!--                            [style.height]="'21px'"-->
+<!--                            [style.display]="'flex'"-->
+<!--                            [style.min-height]="'0px'"-->
+<!--                            [style.min-width]="'0px'"-->
+<!--                            [style.background-image]="'url(' + getColorImage(color.valueImg) + ')'"-->
+<!--                            [attr.title]="color.valueName"-->
+<!--                          >-->
+<!--                          </label>-->
+<!--                        </ng-container>-->
 
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
+                      </div>
+                      <div class="product-item-btnWishList">
+                        <button><i class="fa-regular fa-heart"></i></button>
+                      </div>
 
-                        </div>
+                    </div>
+                    <div class="product-item-size">
+                      <span>S-M-L-XL</span>
+                    </div>
+                    <div class="product-item-name">
+                      <p>{{ product.detail?.name }}</p>
+                    </div>
+                    <div class="product-item-price">
+                      <p style="line-height: 1;padding-top: 4px;">
+                        <!-- Nếu basePrice === salePrice, chỉ hiển thị giá gốc -->
+                        <span *ngIf="product.detail?.basePrice === product.detail?.salePrice" class="product-item-priceInit">
+                          {{ product.detail?.basePrice }}
+                        </span>
+
+                        <!-- Nếu basePrice > salePrice, hiển thị cả hai giá -->
+                        <span *ngIf="product.detail?.basePrice != product.detail?.salePrice">
+                          <span class="product-item-priceInit" style="text-decoration: line-through;">
+                            {{ product.detail?.basePrice }}
+                          </span>
+                        <br>
+                          <span class="product-item-priceSale">
+                            {{ product.detail?.salePrice }}
+                          </span>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="product-item-rate">
+                      <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
+                      <span class="rate-total">4.9</span>
+                      <span class="rate-count">(94)</span>
 
                     </div>
 
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
+                  </div>
 
 
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="product-item">
-                        <div class="product-item-image">
-                            <img src="../../../assets/images/pr1.png" alt="aaa">
-                        </div>
-                        <div class="product-item-ColorAndbtnWishList">
-                            <div class="product-item-color">
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                   width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                   background-image:
-                                    url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                     width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                     background-image:
-                                      url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                                <label class="fr-chip-label"
-                                    style="background-size: 50px; background-position: center center;
-                                       width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                       background-image:
-                                        url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
-                                </label>
-                            </div>
-                            <div class="product-item-btnWishList">
-                                <button><i class="fa-regular fa-heart"></i></button>
-                            </div>
-
-                        </div>
-                        <div class="product-item-size">
-                            <span>S-M-L-XL</span>
-                        </div>
-                        <div class="product-item-name">
-                            <p>Áo Khoác Vải Jersey Mềm Dáng Rộng</p>
-                        </div>
-                        <div class="product-item-price">
-                            <p style="line-height: 1;padding-top: 4px;">
-                                <span class="product-item-priceInit" >1,270,000 VND</span><br>
-                                <span class="product-item-priceSale"   >1,270,000 VND</span>
-                             </p>
-                        </div>
-                        <div class="product-item-rate">
-                            <span class="rate-icon"><i class="fa-solid fa-star"></i></span>
-                            <span class="rate-total">4.9</span>
-                            <span class="rate-count">(94)</span>
-
-                        </div>
-
-                    </div>
 
                 </div>
 
@@ -650,3 +204,4 @@
 
 
     </div>
+</div>

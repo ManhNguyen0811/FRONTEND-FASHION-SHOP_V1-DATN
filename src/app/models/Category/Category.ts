@@ -20,20 +20,13 @@ export class CategoryImpl implements Category {
   translations: CategoryTranslation[];
   subCategories: Category[];
 
-  constructor(
-    id: number,
-    imageUrl: string,
-    isActive: boolean,
-    parentCategory: Category | null,
-    translations: CategoryTranslation[],
-    subCategories: Category[]
-  ) {
-    this.id = id;
-    this.imageUrl = imageUrl;
-    this.isActive = isActive;
-    this.parentCategory = parentCategory;
-    this.translations = translations;
-    this.subCategories = subCategories;
+  constructor(data?: Partial<Category>) {
+    this.id = data?.id || 0;
+    this.imageUrl = data?.imageUrl || '';
+    this.isActive = data?.isActive ?? true;
+    this.parentCategory = data?.parentCategory ? new CategoryImpl(data.parentCategory) : null;
+    this.translations = data?.translations || [];
+    this.subCategories = data?.subCategories?.map(sub => new CategoryImpl(sub)) || [];
   }
 
   getTranslationByLanguage(languageCode: string): string | null {
