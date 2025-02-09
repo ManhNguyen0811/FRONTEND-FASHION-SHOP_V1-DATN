@@ -56,11 +56,11 @@ export class HeaderComponent implements OnInit{
     // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
     let currency: string= "";
     if(lang === "vi"){
-      currency = "vn";
+      currency = "vnd";
     }else if(lang === "en"){
-      currency = "us";
-    }else if(lang === "ja"){
-      currency = "jp";
+      currency = "usd";
+    }else if(lang === "jp"){
+      currency = "jpy";
     }
     this.navigationService.updateLang(lang);
     this.navigationService.updateCurrency(currency);

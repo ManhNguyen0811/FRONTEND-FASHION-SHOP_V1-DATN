@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, filter, map, Observable} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {Language} from '../../models/Language';
-import {Currency} from '../../models/Currency';
 import {LanguageDTO} from '../../dto/LanguageDTO';
 import {CurrencyDTO} from '../../dto/CurrencyDTO';
-import {response} from 'express';
 import {ApiResponse} from '../../dto/Response/ApiResponse';
 
 @Injectable({
@@ -14,6 +11,7 @@ import {ApiResponse} from '../../dto/Response/ApiResponse';
 })
 export class NavigationService {
   private apiUrl= `${environment.apiBaseUrl}`;
+  private currencies: CurrencyDTO[] = [];
   constructor(private http: HttpClient) { }
 
   getLanguage(): Observable<LanguageDTO[]> {
@@ -23,8 +21,11 @@ export class NavigationService {
   }
 
   getCurrency(): Observable<CurrencyDTO[]> {
-    return this.http.get<CurrencyDTO[]>(`${this.apiUrl}/currencies`);
+    return this.http.get<ApiResponse<CurrencyDTO[]>>(`${this.apiUrl}/currencies`).pipe(
+      map(response => response.data) // Lấy phần data từ ApiResponse
+    );
   }
+
 
 
   // Biến BehaviorSubject để lưu trữ giá trị ngôn ngữ và tiền tệ

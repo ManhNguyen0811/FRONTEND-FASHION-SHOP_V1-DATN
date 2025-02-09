@@ -129,29 +129,14 @@
                     </div>
                     <div class="product-item-ColorAndbtnWishList">
                       <div class="product-item-color">
-                        <label class="fr-chip-label"
-                               style="background-size: 50px; background-position: center center;
-                                 width: 21px; height: 21px; display: flex; min-height: 0px; min-width: 0px;
-                                 background-image:
-                                  url(&quot;https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456261/chip/goods_61_456261_chip.jpg&quot;);">
+                        <label *ngFor="let color of product.colors"
+                               class="fr-chip-label"
+                               [style.background-image]="'url(' + getColorImage(color.valueImg) + ')'"
+                               [style.background-size]="'50px'"
+                               [style.background-position]="'center center'"
+                               [style.width]="'21px'"
+                               [style.height]="'21px'">
                         </label>
-<!--                        <ng-container *ngIf="getColorNameProduct(product.id) | async as colors">-->
-<!--                          <label-->
-<!--                            *ngFor="let color of colors"-->
-<!--                            class="fr-chip-label"-->
-<!--                            [style.background-size]="'50px'"-->
-<!--                            [style.background-position]="'center center'"-->
-<!--                            [style.width]="'21px'"-->
-<!--                            [style.height]="'21px'"-->
-<!--                            [style.display]="'flex'"-->
-<!--                            [style.min-height]="'0px'"-->
-<!--                            [style.min-width]="'0px'"-->
-<!--                            [style.background-image]="'url(' + getColorImage(color.valueImg) + ')'"-->
-<!--                            [attr.title]="color.valueName"-->
-<!--                          >-->
-<!--                          </label>-->
-<!--                        </ng-container>-->
-
                       </div>
                       <div class="product-item-btnWishList">
                         <button><i class="fa-regular fa-heart"></i></button>
@@ -174,7 +159,7 @@
                         <!-- Nếu basePrice > salePrice, hiển thị cả hai giá -->
                         <span *ngIf="product.detail?.basePrice != product.detail?.salePrice">
                           <span class="product-item-priceInit" style="text-decoration: line-through;">
-                            {{ product.detail?.basePrice }}
+                            {{product.detail?.basePrice}}
                           </span>
                         <br>
                           <span class="product-item-priceSale">

@@ -8,20 +8,25 @@ import {PageResponse} from '../../../dto/Response/page-response';
 import {ProductListDTO} from '../../../dto/ProductListDTO';
 import {catchError, firstValueFrom, forkJoin, map, Observable, of, switchMap} from 'rxjs';
 import {ProductVariantDetailDTO} from '../../../models/ProductVariant/product-variant-detailDTO';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {ColorDTO} from '../../../models/colorDTO';
 import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
 export class ProductComponent implements OnInit {
   currentLang: string = '';
-  products: (ProductListDTO & { detail?: ProductVariantDetailDTO | null })[] = [];
+  currentCurrency: string = '';
+  products: (ProductListDTO & {
+    detail?: ProductVariantDetailDTO | null,
+    colors?: ColorDTO[]
+  })[] = [];
+
   pageNo: number = 0;
   pageSize: number = 10;
   totalPages: number = 0;
@@ -67,11 +72,13 @@ export class ProductComponent implements OnInit {
           if (response.data && Array.isArray(response.data.content)) {
             const productList = response.data.content.flat();
 
-            // Gọi API chi tiết sản phẩm song song bằng forkJoin
+            // Gọi API lấy chi tiết sản phẩm & màu song song
             const productRequests = productList.map(product =>
-              this.getProductDetail(product.id).pipe(
-                map((detail) => ({ ...product, detail })), // Gán dữ liệu chi tiết vào sản phẩm
-                catchError(() => of({ ...product, detail: null }))
+              forkJoin({
+                detail: this.getProductDetail(product.id).pipe(catchError(() => of(null))),
+                colors: this.getColorNameProduct(product.id).pipe(catchError(() => of([])))
+              }).pipe(
+                map(({ detail, colors }) => ({ ...product, detail, colors }))
               )
             );
 
@@ -124,4 +131,6 @@ export class ProductComponent implements OnInit {
   getColorImage(fileName: string | undefined): string {
     return fileName ? `${environment.apiBaseUrl}/attribute_values/color/${fileName}` : 'default-color.jpg';
   }
+
+
 }
