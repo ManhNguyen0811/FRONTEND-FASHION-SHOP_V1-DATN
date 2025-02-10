@@ -204,12 +204,25 @@ input {
     color: #252525;
 
 }
-
+// .product-item-categoryParent{
+//     margin-left: 8.8rem;
+// }
+.product-item-coupon{
+    font-weight: 700;
+    color: red;
+    font-size: 0.8rem;
+    padding: 10px 6px 6px 6px;
+}
 .product-item-btnWishList button i:hover{
     color: rgb(220, 63, 176);
 }
+.product-item-size{
+    display: flex;
+    justify-content: space-between;
+}
 .product-item-size span{
-    padding-left: 6px;
+    padding-left: 3px;
+    padding-right: 6px;
     color: #6a6a6a;
     font-size: 15px;
     font-family: "Kanit", sans-serif;

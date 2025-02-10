@@ -1,30 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import { NavigationService} from '../../../services/Navigation/navigation.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { TranslateModule } from '@ngx-translate/core';
-import {ProductServiceService} from '../../../services/client/ProductService/product-service.service';
-import {ApiResponse} from '../../../dto/Response/ApiResponse';
-import {PageResponse} from '../../../dto/Response/page-response';
-import {ProductListDTO} from '../../../dto/ProductListDTO';
-import {catchError, firstValueFrom, forkJoin, map, Observable, of, switchMap} from 'rxjs';
-import {ProductVariantDetailDTO} from '../../../models/ProductVariant/product-variant-detailDTO';
-import {AsyncPipe, CurrencyPipe, NgForOf, NgIf} from '@angular/common';
-import {ColorDTO} from '../../../models/colorDTO';
-import {environment} from '../../../../environments/environment';
+import { ProductServiceService } from '../../../services/client/ProductService/product-service.service';
+import { ApiResponse } from '../../../dto/Response/ApiResponse';
+import { PageResponse } from '../../../dto/Response/page-response';
+import { ProductListDTO } from '../../../dto/ProductListDTO';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { ProductVariantDetailDTO } from '../../../models/ProductVariant/product-variant-detailDTO';
+import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
+import { ColorDTO } from '../../../models/colorDTO';
+import { environment } from '../../../../environments/environment';
+import { CurrencyService } from '../../../services/currency/currency-service.service';
+import { Currency } from '../../../models/Currency';
+import { response } from 'express';
+import { SizeDTO } from '../../../models/sizeDTO';
+import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
+import { ReviewServiceService } from '../../../services/client/ReviewService/review-service.service';
+import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
+import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe,DatePipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
 export class ProductComponent implements OnInit {
   currentLang: string = '';
-  currentCurrency: string = '';
-  products: (ProductListDTO & {
+  currentCurrency?: Currency;
+  products: (
+    ProductListDTO & {
     detail?: ProductVariantDetailDTO | null,
-    colors?: ColorDTO[]
+    colors?: ColorDTO[],
+    sizes?: SizeDTO[],
+    categoryParent?: CategoryParentDTO[],
+    reviewTotal?: number,
+    reviewAverage?: number
+
   })[] = [];
 
   pageNo: number = 0;
@@ -38,14 +52,17 @@ export class ProductComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductServiceService,
-    private navigationService: NavigationService
-  ) {}
+    private reviewService: ReviewServiceService,
+    private navigationService: NavigationService,
+    private currencySevice: CurrencyService
+  ) { }
 
   async ngOnInit(): Promise<void> {
     // Lấy ngôn ngữ hiện tại trước khi gọi API
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
+    this.fetchCurrency()
 
-    // Lắng nghe queryParams để cập nhật sản phẩm theo category, paging, v.v.
+
     this.route.queryParams.subscribe(params => {
       const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : 1;
       const isActive = params['isActive'] === 'true';
@@ -57,6 +74,9 @@ export class ProductComponent implements OnInit {
       this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
     });
   }
+
+
+
 
   fetchProducts(
     categoryId: number,
@@ -76,9 +96,13 @@ export class ProductComponent implements OnInit {
             const productRequests = productList.map(product =>
               forkJoin({
                 detail: this.getProductDetail(product.id).pipe(catchError(() => of(null))),
-                colors: this.getColorNameProduct(product.id).pipe(catchError(() => of([])))
+                colors: this.getColorNameProduct(product.id).pipe(catchError(() => of([]))),
+                sizes: this.getSizeProduct(product.id).pipe(catchError(() => of([]))),
+                categoryParent: this.getCategoryParent(this.currentLang, product.id).pipe(catchError(() => of([]))),
+                reviewTotal: this.getReviewTotal(product.id).pipe(catchError(() => of(0))),
+                reviewAverage: this.getReviewAverage(product.id).pipe(catchError(()=> of(0)))
               }).pipe(
-                map(({ detail, colors }) => ({ ...product, detail, colors }))
+                map(({ detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}) => ({ ...product, detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}))
               )
             );
 
@@ -102,6 +126,19 @@ export class ProductComponent implements OnInit {
         }
       );
   }
+
+  fetchCurrency() {
+    this.getCurrency().subscribe(({ data }) => {
+      const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
+      const currency = data?.[index] || { code: '', name: '', symbol: '', exchangeRate: 0 };
+      this.currentCurrency = currency
+      // this.currencyRateToBase = currency.rateToBase;
+      // this.currncySymbol = currency.symbol;
+      console.log('Thông tin tiền tệ:', currency);
+    });
+
+
+  }
   //lấy dữ liệu chi tiết của sản phẩm
   getProductDetail(productId: number): Observable<ProductVariantDetailDTO | null> {
     return this.productService.getProductDertail(this.currentLang, productId).pipe(
@@ -111,11 +148,44 @@ export class ProductComponent implements OnInit {
   }
 
 
+  getCurrency(): Observable<ApiResponse<Currency[]>> {
+    return this.currencySevice.getCurrency().pipe(
+      map((response: ApiResponse<Currency[]>) => {
+        // console.log('Dữ liệu tiền tệ lấy thành công:', response );
+        return response;
+      }),
 
+      catchError(error => {
+        console.error('Lỗi khi lấy danh sách tiền tệ:', error);
+        return of({
+          timestamp: new Date().toISOString(),
+          status: 500,
+          message: 'Lỗi khi gọi API tiền tệ',
+          data: [],
+          errors: ['Không thể lấy dữ liệu tiền tệ']
+        } as ApiResponse<Currency[]>); // Trả về một ApiResponse<Currency[]> hợp lệ
+      })
+    );
+  }
 
-// Lấy đường dẫn hình ảnh từ tên file
+  getCurrencyPrice(price: number, rate: number,symbol : string): string {
+    const convertedPrice = price * rate;
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+  }
+  
+
+  getSizeProduct(productId: number): Observable<SizeDTO[]> {
+    return this.productService.getSizeProduct(productId)
+      .pipe(
+        map((
+          response: ApiResponse<SizeDTO[]>) => response.data || []),
+        catchError(() => of([]))
+      )
+  }
+
+  // Lấy đường dẫn hình ảnh từ tên file
   getImageProduct(fileName: string | undefined): string {
-    console.log(this.productService.getImageProduct(fileName))
+    // console.log(this.productService.getImageProduct(fileName))
     return this.productService.getImageProduct(fileName);
   }
 
@@ -126,11 +196,34 @@ export class ProductComponent implements OnInit {
       catchError(() => of([])) // Trả về mảng rỗng nếu lỗi
     );
   }
-
   // Lấy ảnh màu theo tên màu
   getColorImage(fileName: string | undefined): string {
     return fileName ? `${environment.apiBaseUrl}/attribute_values/color/${fileName}` : 'default-color.jpg';
   }
 
+  getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {
+    return this.productService.getCategoryParent(lang, productId)
+      .pipe(
+        map((response: ApiResponse<CategoryParentDTO[]>) => response.data || []),
+        catchError(() => of([]))
+      )
+  }
+  getReviewTotal(productId: number): Observable<number> {
+    return this.reviewService.getReviewTotal(productId)
+      .pipe(
+        map(
+          (response: ApiResponse<ReviewTotalDTO>) => response.data.totalReviews || 0),
+        catchError(() => of(0))
+      )
+
+  }
+
+  getReviewAverage(productId: number): Observable<number> {
+    return this.reviewService.getReviewAverage(productId)
+      .pipe(
+        map((response: ApiResponse<ReviewAverageDTO>) => response.data.avgRating || 0),
+        catchError(() => of(0))
+      )
+  }
 
 }

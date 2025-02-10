@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import {environment} from '../../../../environments/environment';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Product} from '../../../models/Product/product';
-import {ApiResponse} from '../../../dto/Response/ApiResponse';
-import {PageResponse} from '../../../dto/Response/page-response';
-import {ProductListDTO} from '../../../dto/ProductListDTO';
-import {ProductVariantDetailDTO} from '../../../models/ProductVariant/product-variant-detailDTO';
-import {ColorDTO} from '../../../models/colorDTO';
+import { environment } from '../../../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Product } from '../../../models/Product/product';
+import { ApiResponse } from '../../../dto/Response/ApiResponse';
+import { PageResponse } from '../../../dto/Response/page-response';
+import { ProductListDTO } from '../../../dto/ProductListDTO';
+import { ProductVariantDetailDTO } from '../../../models/ProductVariant/product-variant-detailDTO';
+import { ColorDTO } from '../../../models/colorDTO';
+import { SizeDTO } from '../../../models/sizeDTO';
+import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class ProductServiceService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl= `${environment.apiBaseUrl}/products`;
+  private apiUrl = `${environment.apiBaseUrl}/products`;
 
   //Lấy danh sách các product
   getProducts(
@@ -59,13 +61,16 @@ export class ProductServiceService {
   }
 
   //lấy chi tiết sản phẩm
-  getProductDertail(lang: string, productId: number): Observable<ApiResponse<ProductVariantDetailDTO>>{
+  getProductDertail(lang: string, productId: number): Observable<ApiResponse<ProductVariantDetailDTO>> {
     return this.http.get<ApiResponse<ProductVariantDetailDTO>>(`${this.apiUrl}/lowest-price-variant/${lang}/${productId}`);
   }
 
+  getSizeProduct(productId: number): Observable<ApiResponse<SizeDTO[]>> {
+    return this.http.get<ApiResponse<SizeDTO[]>>(`${this.apiUrl}/size/${productId}`)
+  }
 
   //lấy 1 hình ảnh từ file name
-  getImageProduct(fileName: string | undefined): string{
+  getImageProduct(fileName: string | undefined): string {
     return `${this.apiUrl}/media/${fileName}`;
   }
   //Lấy danh sách màu của sản phẩm
@@ -73,7 +78,11 @@ export class ProductServiceService {
     return this.http.get<ApiResponse<ColorDTO[]>>(`${this.apiUrl}/color/${productId}`);
   }
   //Lấy ảnh màu theo tên màu
-  getColorImage(fileName: string | undefined): string{
+  getColorImage(fileName: string | undefined): string {
     return `${environment.apiBaseUrl}/attribute_values/color/${fileName}`;
+  }
+  // lấy category parent nha 
+  getCategoryParent(lang: string, productId: number): Observable<ApiResponse<CategoryParentDTO[]>>{
+    return this.http.get<ApiResponse<CategoryParentDTO[]>>(`${this.apiUrl}/${lang}/${productId}/categories/root`)
   }
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { HeaderAdminComponent } from './header-admin/header-admin.component';
@@ -11,11 +11,15 @@ import { NgClass } from '@angular/common';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   isMenuActive: boolean = false;
 
-  constructor() {
-    this.updateMenuState(window.innerWidth);
+   
+
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      this.updateMenuState(window.innerWidth);
+    }
   }
 
   @HostListener('window:resize', ['$event'])
