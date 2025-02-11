@@ -42,7 +42,7 @@ export const clientRouter: Routes =[
                 component: ProductComponent
             },
             {
-                path: 'detail_product',
+                path: 'detail_product/:productId/:colorId/:sizeId',
                 component: DetailProductComponent
             },
             {

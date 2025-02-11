@@ -117,7 +117,10 @@
 
 
 
-          <div class="product-item" *ngFor="let product of products">
+          <div class="product-item" *ngFor="let product of products"
+           [routerLink]="['/client', currentCurrency, currentLang,'detail_product', product.id,
+                                                                                    product.colors?.[0]?.id,
+                                                                                    product.sizes?.[0]?.id]"  >
 
             <div class="product-item-image">
               <img src="{{getImageProduct(product.detail?.variantImage)}}" alt="aaa">
@@ -165,22 +168,22 @@
                 <!-- Nếu basePrice === salePrice, chỉ hiển thị giá gốc -->
 
                 <span *ngIf="product.detail?.basePrice === product.detail?.salePrice" class="product-item-priceInit">
-                  {{ getCurrencyPrice(product.detail?.basePrice ?? 0, currentCurrency?.rateToBase ??
-                  1,currentCurrency?.code ?? '' )}}
+                  {{ getCurrencyPrice(product.detail?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ??
+                  1,currentCurrencyDetail?.code ?? '' )}}
 
                 </span>
                 <!-- Nếu basePrice > salePrice, hiển thị cả hai giá -->
                 <span *ngIf="product.detail?.basePrice != product.detail?.salePrice">
                   <span class="product-item-priceInit" style="text-decoration: line-through;">
-                    {{ getCurrencyPrice(product.detail?.basePrice ?? 0, currentCurrency?.rateToBase ??
-                    1,currentCurrency?.code ?? '' )}}
+                    {{ getCurrencyPrice(product.detail?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ??
+                    1,currentCurrencyDetail?.code ?? '' )}}
 
                   </span>
                   <br>
                   <span class="product-item-priceSale">
 
-                    {{ getCurrencyPrice(product.detail?.salePrice ?? 0, currentCurrency?.rateToBase ??
-                    1,currentCurrency?.code ?? '' )}}
+                    {{ getCurrencyPrice(product.detail?.salePrice ?? 0, currentCurrencyDetail?.rateToBase ??
+                    1,currentCurrencyDetail?.code ?? '' )}}
 
                   </span>
 

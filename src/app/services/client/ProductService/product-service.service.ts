@@ -10,6 +10,9 @@ import { ProductVariantDetailDTO } from '../../../models/ProductVariant/product-
 import { ColorDTO } from '../../../models/colorDTO';
 import { SizeDTO } from '../../../models/sizeDTO';
 import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
+import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
+import { VariantsDetailProductDTO } from '../../../dto/VariantsDetailProductDTO';
+import { InventoryDTO } from '../../../dto/InventoryDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -84,5 +87,20 @@ export class ProductServiceService {
   // lấy category parent nha 
   getCategoryParent(lang: string, productId: number): Observable<ApiResponse<CategoryParentDTO[]>>{
     return this.http.get<ApiResponse<CategoryParentDTO[]>>(`${this.apiUrl}/${lang}/${productId}/categories/root`)
+  }
+  getAllImageProduct(productId: number): Observable<ApiResponse<ImagesDetailProductDTO[]>>{
+    return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/images/${productId}`)
+  }
+  getSalePrice(productId: number, colorId: number, sizeId: number): Observable<ApiResponse<VariantsDetailProductDTO>> {
+    return this.http.get<ApiResponse<VariantsDetailProductDTO>>(
+      `${this.apiUrl}/variants/${productId}?colorId=${colorId}&sizeId=${sizeId}`
+    );
+  }
+  getChangeImageOne(productId: number, colorId: number) : Observable<ApiResponse<ImagesDetailProductDTO[]>>{
+    return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/media/${productId}/${colorId}`)
+  }
+
+  getQuantityInStock(productId : number, colorId : number) : Observable<ApiResponse<InventoryDTO[]>>{
+    return this.http.get<ApiResponse<InventoryDTO[]>>(`${this.apiUrl}/${productId}/inventory?colorId=${colorId}`)
   }
 }

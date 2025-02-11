@@ -28,8 +28,10 @@ import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
   styleUrl: './product.component.scss'
 })
 export class ProductComponent implements OnInit {
-  currentLang: string = '';
-  currentCurrency?: Currency;
+  currentLang: string = ''; // Ngôn ngữ mặc định
+  currentCurrency: string ='' ; // Tiền tệ mặc định
+
+  currentCurrencyDetail?: Currency;
   products: (
     ProductListDTO & {
     detail?: ProductVariantDetailDTO | null,
@@ -60,6 +62,7 @@ export class ProductComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // Lấy ngôn ngữ hiện tại trước khi gọi API
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
+    this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
 
 
@@ -102,7 +105,8 @@ export class ProductComponent implements OnInit {
                 reviewTotal: this.getReviewTotal(product.id).pipe(catchError(() => of(0))),
                 reviewAverage: this.getReviewAverage(product.id).pipe(catchError(()=> of(0)))
               }).pipe(
-                map(({ detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}) => ({ ...product, detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}))
+                map(({ detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}) => 
+                  ({ ...product, detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}))
               )
             );
 
@@ -131,9 +135,8 @@ export class ProductComponent implements OnInit {
     this.getCurrency().subscribe(({ data }) => {
       const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
       const currency = data?.[index] || { code: '', name: '', symbol: '', exchangeRate: 0 };
-      this.currentCurrency = currency
-      // this.currencyRateToBase = currency.rateToBase;
-      // this.currncySymbol = currency.symbol;
+      this.currentCurrencyDetail = currency
+ 
       console.log('Thông tin tiền tệ:', currency);
     });
 
