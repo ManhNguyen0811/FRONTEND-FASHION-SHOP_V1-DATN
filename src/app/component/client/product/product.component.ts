@@ -171,9 +171,12 @@ export class ProductComponent implements OnInit {
     );
   }
 
-  getCurrencyPrice(price: number, rate: number,symbol : string): string {
+  getCurrencyPrice(price: number, rate: number, symbol: string): string {
     const convertedPrice = price * rate;
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+  
+    // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
+    return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
   }
   
 

@@ -9,6 +9,12 @@
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
+    
+          <video class="col-6" *ngFor="let video of dataVideoProduct" controls autoplay >
+            <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ phát video.
+          </video>
+         
         <!-- <div class="col-6 position-relative">
             <img src="https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456261/sub/vngoods_456261_sub7_3x4.jpg?width=369" alt="Model Pose 2" class="img-fluid rounded">
             <a [routerLink]="['../imageDetail']" class="image-icon">
@@ -180,18 +186,29 @@
                 <dt>
                   <input type="radio" [value]="size.id" name="product-size-picker"
                     [id]="'product-size-picker' + size.valueName" class="color-input" (click)="selectSize(size)"
-                    [checked]="size.id === selectedSizeId">
-                  <label class="fr-chip-label" [for]="'product-size-picker' + size.valueName"
+                    [checked]="size.id === selectedSizeId && !isSizeOutOfStock(size)"  >
+
+                  <label class="fr-chip-label" [for]="'product-size-picker' + size.valueName" [class.ignore]="isSizeOutOfStock(size)"
                     style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
                     <span class="fr-chip-text" role="img" [attr.aria-label]="size.valueName">{{ size.valueName }}</span>
                   </label>
                 </dt>
               </div>
-
-
-
-              <!-- hết hàng  -->
               <!-- <div class="size-item" data-test="M">
+                <dt>
+                  <input type="radio" value="00" name="product-color-picker" id="product-size-picker2"
+                    class="color-input">
+                  <label class="fr-chip-label ignore" for="product-size-picker2"
+                    style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
+                    <span class="fr-chip-text" role="img" aria-label="M">M</span>
+                  </label>
+                </dt>
+              </div> -->
+            </dl>
+
+
+            <!-- hết hàng  -->
+            <!-- <div class="size-item" data-test="M">
                 <dt>
                   <input type="radio" value="00" name="product-color-picker" id="product-size-picker2" class="color-input">
                   <label class="fr-chip-label ignore" for="product-size-picker2" style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
@@ -199,7 +216,7 @@
                   </label>
                 </dt>
               </div> -->
-            </dl>
+
             <div class="d-flex justify-content-between" style="width: auto;">
               <p class="hintText hintTextPicker hint-text--color-secondary textAlignLeft text-transform-normal">
                 <span class="">{{ "Kích cỡ:" | translate }}
@@ -241,36 +258,40 @@
               </span> -->
 
               <!-- Nếu basePrice === salePrice, chỉ hiển thị giá gốc -->
-<span *ngIf="dataDetailsProduct?.basePrice === salePrice" class="product-item-priceInit">
-  {{ getCurrencyPrice(dataDetailsProduct?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1, currentCurrencyDetail?.code ?? '' )}}
-</span>
+              <span *ngIf="dataDetailsProduct?.basePrice === salePrice" class="product-item-priceInit">
+                {{ getCurrencyPrice(dataDetailsProduct?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1,
+                currentCurrencyDetail?.code ?? '' )}}
+              </span>
 
-<!-- Nếu basePrice > salePrice, hiển thị cả giá gốc (gạch ngang) và giá khuyến mãi -->
-<span *ngIf="(dataDetailsProduct?.basePrice ?? 0) > (salePrice ?? 0)">
+              <!-- Nếu basePrice > salePrice, hiển thị cả giá gốc (gạch ngang) và giá khuyến mãi -->
+              <span *ngIf="(dataDetailsProduct?.basePrice ?? 0) > (salePrice ?? 0)">
 
 
-  <!-- Giá gốc (gạch ngang) -->
-  <span class="product-item-priceInit" style="text-decoration: line-through;">
-    {{ getCurrencyPrice(dataDetailsProduct?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1, currentCurrencyDetail?.code ?? '' )}}
-  </span>
-  <br>
+                <!-- Giá gốc (gạch ngang) -->
+                <span class="product-item-priceInit" style="text-decoration: line-through;">
+                  {{ getCurrencyPrice(dataDetailsProduct?.basePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1,
+                  currentCurrencyDetail?.code ?? '' )}}
+                </span>
+                <br>
 
-  <!-- Giá khuyến mãi -->
-  <span class="product-item-priceSale" style="color: red;">
-    {{ getCurrencyPrice(salePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1, currentCurrencyDetail?.code ?? '' )}}
-  </span>
+                <!-- Giá khuyến mãi -->
+                <span class="product-item-priceSale" style="color: red;">
+                  {{ getCurrencyPrice(salePrice ?? 0, currentCurrencyDetail?.rateToBase ?? 1,
+                  currentCurrencyDetail?.code ?? '' )}}
+                </span>
 
-  <!-- Nếu có khuyến mãi, hiển thị ngày hết hạn -->
-  <ng-container *ngIf="dataDetailsProduct?.promotion?.isActive">
-    <br>  
-    <div class="product-item-coupon" style="font-size: 0.88rem; color: red;">
-      <span>{{ "Giảm giá hết thời hạn" | translate }} {{ dataDetailsProduct?.promotion?.endDate | date:'dd/MM/yyyy, hh:mm a' }}</span>
-    </div>
-  </ng-container>
-</span>
+                <!-- Nếu có khuyến mãi, hiển thị ngày hết hạn -->
+                <ng-container *ngIf="dataDetailsProduct?.promotion?.isActive">
+                  <br>
+                  <div class="product-item-coupon" style="font-size: 0.88rem; color: red;">
+                    <span>{{ "Giảm giá hết thời hạn" | translate }} {{ dataDetailsProduct?.promotion?.endDate |
+                      date:'dd/MM/yyyy, hh:mm a' }}</span>
+                  </div>
+                </ng-container>
+              </span>
 
-         
-            
+
+
 
 
 
@@ -296,7 +317,8 @@
             <button class="quantity-btn">+</button>
           </div>
           <div class="stock-status mt-2">
-            <span>Còn ít hàng</span>
+            
+            <span>Còn {{quantityInStock?.quantityInStock}} sản phẩm</span>
           </div>
 
           <!-- Add to Cart Button -->

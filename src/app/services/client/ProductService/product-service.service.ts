@@ -64,10 +64,15 @@ export class ProductServiceService {
   }
 
   //lấy chi tiết sản phẩm
-  getProductDertail(lang: string, productId: number): Observable<ApiResponse<ProductVariantDetailDTO>> {
-    return this.http.get<ApiResponse<ProductVariantDetailDTO>>(`${this.apiUrl}/lowest-price-variant/${lang}/${productId}`);
+  getProductDertail(lang: string, productId: number, userId?: number): Observable<ApiResponse<ProductVariantDetailDTO>> {
+    let params = new HttpParams();
+    if (userId) {
+      params = params.set('UserId', userId.toString());
+    }
+  
+    return this.http.get<ApiResponse<ProductVariantDetailDTO>>(`${this.apiUrl}/lowest-price-variant/${lang}/${productId}`, { params });
   }
-
+  
   getSizeProduct(productId: number): Observable<ApiResponse<SizeDTO[]>> {
     return this.http.get<ApiResponse<SizeDTO[]>>(`${this.apiUrl}/size/${productId}`)
   }
@@ -103,4 +108,11 @@ export class ProductServiceService {
   getQuantityInStock(productId : number, colorId : number) : Observable<ApiResponse<InventoryDTO[]>>{
     return this.http.get<ApiResponse<InventoryDTO[]>>(`${this.apiUrl}/${productId}/inventory?colorId=${colorId}`)
   }
+  getStatusQuantityInStock(productId: number, colorId: number, sizeId: number):  Observable<ApiResponse<InventoryDTO>>{
+    return this.http.get<ApiResponse<InventoryDTO>>(`${this.apiUrl}/${productId}/${colorId}/${sizeId}/inventory`)
+  }
+  getVideosProduct(productId: number): Observable<ApiResponse<ImagesDetailProductDTO[]>>{
+    return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/videos/${productId}`)
+  }
+  
 }

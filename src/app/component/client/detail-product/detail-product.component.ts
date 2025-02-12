@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,10 +38,11 @@ export class DetailProductComponent implements OnInit {
   selectedColorId!: number;
   currentLang: string = '';
   currentCurrency: string = '';
-    currentCurrencyDetail?: Currency;
-  
+  currentCurrencyDetail?: Currency;
+
 
   dataImagesProduct: ImagesDetailProductDTO[] = [];
+  dataVideoProduct : ImagesDetailProductDTO[] = []
   dataSizes: SizeDTO[] = [];
   dataColors: ColorDTO[] = [];
   dataCategoryParent: CategoryParentDTO[] = [];
@@ -50,6 +51,7 @@ export class DetailProductComponent implements OnInit {
   reviewAverage: number = 0
   reviewTotal: number = 0
   salePrice: number = 0;
+  quantityInStock?: InventoryDTO | null = null;
 
   constructor(
     private router: Router,
@@ -59,8 +61,9 @@ export class DetailProductComponent implements OnInit {
     private detailProductService: DetailProductService,
     private location: Location,
     private reviewService: ReviewServiceService,
-        private currencySevice: CurrencyService
-    
+    private currencySevice: CurrencyService,
+    private cdr: ChangeDetectorRef,
+
 
   ) { }
 
@@ -92,8 +95,9 @@ export class DetailProductComponent implements OnInit {
         dataDetailsProduct: this.getDetailsProduct(this.currentLang, productId).pipe(catchError(() => of(null))),
         dataQuantityInStock: this.getQuantityInStock(productId, this.colorId ?? 0).pipe(catchError(() => of([]))),
         reviewTotal: this.getReviewTotal(productId).pipe(catchError(() => of(0))),
-        reviewAverage: this.getReviewAverage(productId).pipe(catchError(() => of(0)))
-
+        reviewAverage: this.getReviewAverage(productId).pipe(catchError(() => of(0))),
+        quantityInStock: this.getStatusQuantityInStock(productId, this.colorId ?? 0, this.sizeId ?? 0).pipe(catchError(() => of(null))),
+        dataVideoProduct : this.getVideosProduct(productId).pipe(catchError(() => of([])))
       })
     );
 
@@ -106,7 +110,9 @@ export class DetailProductComponent implements OnInit {
     this.reviewTotal = response.reviewTotal;
     this.dataDetailsProduct = response.dataDetailsProduct
     this.dataQuantityInStock = response.dataQuantityInStock
-    console.log("lllll: " + this.dataDetailsProduct?.description)
+    this.quantityInStock = response.quantityInStock
+    this.dataVideoProduct = response.dataVideoProduct
+    console.log("dataQuantityInStock : " + this.quantityInStock)
   }
 
 
@@ -128,6 +134,7 @@ export class DetailProductComponent implements OnInit {
         return of(null);
       })
     );
+
   }
   getQuantityInStock(productId: number, colorId: number): Observable<InventoryDTO[]> {
     return this.productService.getQuantityInStock(productId, colorId).pipe(
@@ -135,37 +142,39 @@ export class DetailProductComponent implements OnInit {
       catchError(() => of([]))
     );
   }
+
+
   fetchCurrency() {
     this.getCurrency().subscribe(({ data }) => {
       const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
       const currency = data?.[index] || { code: '', name: '', symbol: '', exchangeRate: 0 };
       this.currentCurrencyDetail = currency
- 
+
       console.log('Thông tin tiền tệ:', currency);
     });
 
 
   }
-  
-    getCurrency(): Observable<ApiResponse<Currency[]>> {
-      return this.currencySevice.getCurrency().pipe(
-        map((response: ApiResponse<Currency[]>) => {
-          // console.log('Dữ liệu tiền tệ lấy thành công:', response );
-          return response;
-        }),
-  
-        catchError(error => {
-          console.error('Lỗi khi lấy danh sách tiền tệ:', error);
-          return of({
-            timestamp: new Date().toISOString(),
-            status: 500,
-            message: 'Lỗi khi gọi API tiền tệ',
-            data: [],
-            errors: ['Không thể lấy dữ liệu tiền tệ']
-          } as ApiResponse<Currency[]>); // Trả về một ApiResponse<Currency[]> hợp lệ
-        })
-      );
-    }
+
+  getCurrency(): Observable<ApiResponse<Currency[]>> {
+    return this.currencySevice.getCurrency().pipe(
+      map((response: ApiResponse<Currency[]>) => {
+        // console.log('Dữ liệu tiền tệ lấy thành công:', response );
+        return response;
+      }),
+
+      catchError(error => {
+        console.error('Lỗi khi lấy danh sách tiền tệ:', error);
+        return of({
+          timestamp: new Date().toISOString(),
+          status: 500,
+          message: 'Lỗi khi gọi API tiền tệ',
+          data: [],
+          errors: ['Không thể lấy dữ liệu tiền tệ']
+        } as ApiResponse<Currency[]>); // Trả về một ApiResponse<Currency[]> hợp lệ
+      })
+    );
+  }
 
   getAllImagesProduct(productId: number): Observable<ImagesDetailProductDTO[]> {
     return this.productService.getAllImageProduct(productId).pipe(
@@ -173,11 +182,21 @@ export class DetailProductComponent implements OnInit {
       catchError(() => of([]))
     );
   }
-  getCurrencyPrice(price: number, rate: number,symbol : string): string {
-    const convertedPrice = price * rate;
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+  getVideosProduct(productId: number): Observable<ImagesDetailProductDTO[]> {
+    return this.productService.getVideosProduct(productId).pipe(
+      map((response: ApiResponse<ImagesDetailProductDTO[]>) => response.data || []),
+      catchError(() => of([]))
+    );
   }
-  
+  getCurrencyPrice(price: number, rate: number, symbol: string): string {
+    const convertedPrice = price * rate;
+    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+
+    // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
+    return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
+  }
+
+
 
   getImageProduct(fileName: string | undefined): string {
     return this.productService.getImageProduct(fileName);
@@ -223,41 +242,56 @@ export class DetailProductComponent implements OnInit {
     );
   }
   //chọn để lấy giá trị màu và sizesize
+
   selectSize(size: SizeDTO): void {
     this.selectedSizeId = size.id;
     this.sizeId = size.id;
+  
     this.getSalePrice(this.productId ?? 0, this.colorId ?? 0, size.id).subscribe(price => {
       this.salePrice = price;
-    });
+      this.cdr.detectChanges();
 
+    });
+    this.getStatusQuantityInStock(this.productId ?? 0,this.colorId ?? 0 , size.id).subscribe(qty => {
+      console.log(qty?.quantityInStock)
+      this.quantityInStock = qty  ; // Nếu null, gán giá trị mặc định là 0
+      this.cdr.detectChanges();
+    });
+  
+    
+  
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, size.id);
   }
+  
   selectColor(color: ColorDTO): void {
     this.selectedColorId = color.id;
     this.colorId = color.id;
-
-    console.log("object : " + this.productId + " " + color.id)
+  
     this.getSalePrice(this.productId ?? 0, color.id, this.sizeId ?? 0).subscribe(price => {
       this.salePrice = price;
+  
+      this.cdr.detectChanges();
+
     });
-
-    console.log("object : " + this.productId + " " + color.id)
-
-
-    this.changeImageOne(this.productId ?? 0, color.id).subscribe(imageChange => {
-      if (imageChange) {
-        this.dataImagesProduct[0].mediaUrl = imageChange[0].mediaUrl
-      }
+    this.getStatusQuantityInStock(this.productId ?? 0,color.id , this.sizeId ?? 0).subscribe(qty => {
+      this.quantityInStock = qty;
+      this.cdr.detectChanges(); // Cập nhật giao diện ngay khi có dữ liệu mới
     });
+  
+  
+    this.updateUrl(this.productId ?? 0,color.id, this.sizeId ?? 0);
 
-
-
-    // Cập nhật URL
-    this.updateUrl(this.productId ?? 0, color.id ?? 0, this.sizeId ?? 0);
   }
   //---------
 
+  
 
+  isSizeOutOfStock(size: any): boolean {
+    const variant = this.dataQuantityInStock.find(
+      v => v.colorName === this.selectedColorName && v.sizeName === size.valueName
+    );
+    return variant ? variant.quantityInStock === 0 : false;
+  }
 
   getReviewTotal(productId: number): Observable<number> {
     return this.reviewService.getReviewTotal(productId)
@@ -276,11 +310,22 @@ export class DetailProductComponent implements OnInit {
         catchError(() => of(0))
       )
   }
+  getStatusQuantityInStock(productId: number, colorId: number, sizeId: number): Observable<InventoryDTO | null> {
+    return this.productService.getStatusQuantityInStock(productId, colorId, sizeId).pipe(
+      map((response: ApiResponse<InventoryDTO>) => response.data || null),
+      catchError(() => of(null))
+    )
+  }
 
   // lấy tên khi chọn 
   get selectedSizeName(): string {
-    return this.dataSizes.find(size => size.id === this.selectedSizeId)?.valueName || 'Không xác định';
+    const selectedSize = this.dataSizes.find(size => size.id === this.selectedSizeId);
+    if (!selectedSize || this.isSizeOutOfStock(selectedSize)) {
+      return 'Hết hàng';
+    }
+    return selectedSize.valueName;
   }
+
   get selectedColorName(): string {
     return this.dataColors.find(color => color.id === this.selectedColorId)?.valueName || 'Không xác định';
   }
@@ -292,6 +337,7 @@ export class DetailProductComponent implements OnInit {
     this.location.replaceState(newUrl);
   }
 
+  //lấy cate cha 
   getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {
     return this.productService.getCategoryParent(lang, productId)
       .pipe(

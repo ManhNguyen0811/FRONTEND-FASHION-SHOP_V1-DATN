@@ -6,4 +6,5 @@ export interface ProductVariantDetailDTO{
   size: string;
   basePrice: number;
   salePrice: number;
+  inWishlist: boolean
 }
