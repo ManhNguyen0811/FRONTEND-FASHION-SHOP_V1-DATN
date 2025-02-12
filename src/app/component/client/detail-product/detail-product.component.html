@@ -81,41 +81,42 @@
         <h5 class="fw-bold">{{ "Đánh giá" | translate }}</h5>
         <div class="d-flex align-items-center mb-3">
           <div class="stars">
-            <ng-container *ngFor="let star of getFullStars(rating)">
+            <ng-container *ngFor="let star of getFullStars(reviewAverage)">
               ★
             </ng-container>
-            <ng-container *ngFor="let star of getEmptyStars(rating)">
+            <ng-container *ngFor="let star of getEmptyStars(reviewAverage)">
               ☆
             </ng-container>
           </div>
-          <span class="fw-bold ms-2">{{ rating.toFixed(1) }}</span>
-          <a href="#" class="ms-2 text-primary">({{ reviewCount }}+)</a>
+    
+          <span class="fw-bold ms-2">{{reviewAverage}}</span>
+          <a href="#" class="ms-2 text-primary">({{ reviewTotal }}+)</a>
         </div>
         <hr>
 
         <!-- Dùng lặp lại cho danh sách đánh giá -->
-        <div *ngFor="let review of reviews" class="review-item mb-4">
+        <div *ngFor="let review of dataReviewDetailProduct" class="review-item mb-4">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="fw-bold">{{ review.title }}</h6>
-            <span class="text-muted">{{ review.date }}</span>
+            <span class="text-muted">{{ review.createdAt }}</span>
           </div>
           <div class="stars text-black mb-2">
-            <ng-container *ngFor="let star of getFullStars(review.rating)">
+            <ng-container *ngFor="let star of getFullStars(review.reviewRate)">
               ★
             </ng-container>
-            <ng-container *ngFor="let star of getEmptyStars(review.rating)">
+            <ng-container *ngFor="let star of getEmptyStars(review.reviewRate)">
               ☆
             </ng-container>
           </div>
           <p class="mb-1">
-            <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.size }}<br>
+            <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.shoeSize }}<br>
             <span class="">{{ "Quần áo có vừa không:" | translate }}</span> {{ review.fit }}
           </p>
           <p class="mb-3">
             {{ review.comment }}
           </p>
           <p class="text-muted small">
-            {{ review.user }} · {{ review.gender }} · {{ review.age }} · Chiều cao: {{ review.height }} · Cân nặng: {{
+            {{ review.nickname }} · {{ review.gender }} · {{ review.ageGroup }} · Chiều cao: {{ review.height }} · Cân nặng: {{
             review.weight }} · Cỡ giày: {{ review.shoeSize }} · {{ review.location }}
           </p>
         </div>
@@ -299,7 +300,14 @@
           </div>
           <div class="review-container d-flex align-items-center">
             <div class="review-stars">
-              <span>★ ★ ★ ★ ★</span>
+              <div class="stars text-black ">
+                <ng-container *ngFor="let star of getFullStars(reviewAverage)">
+                  ★
+                </ng-container>
+                <ng-container *ngFor="let star of getEmptyStars(reviewAverage)">
+                  ☆
+                </ng-container>
+              </div>
             </div>
             <span style="font-weight: 700; margin-left: 4px;"> {{reviewAverage}} </span><span
               class="review-count">({{reviewTotal}}+)</span>

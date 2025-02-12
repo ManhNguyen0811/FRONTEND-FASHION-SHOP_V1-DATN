@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
 import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
+import { PageResponse } from '../../../dto/Response/page-response';
+import { ReviewDetailProductDTO } from '../../../dto/ReviewDetailProductDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +24,16 @@ export class ReviewServiceService {
     return this.http.get<ApiResponse<ReviewAverageDTO>>(`${this.apiUrl}/average/${productId}`)
   }
 
+  
+  getReviewDetailProduct( productId:  number,
+                          page: number ,
+                          size : number,
+                          sortBy : string ,
+                          sortDir : string 
+    ): Observable<ApiResponse<PageResponse<ReviewDetailProductDTO[]>>>{
+      return this.http.get<ApiResponse<PageResponse<ReviewDetailProductDTO[]>>>(`${this.apiUrl}/${productId}?page=${page}&size=${size}&sortBy=${sortBy}&sortDir=${sortDir}`)
+    }
+
 }
+
+

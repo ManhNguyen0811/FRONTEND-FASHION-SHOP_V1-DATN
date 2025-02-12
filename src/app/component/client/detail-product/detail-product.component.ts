@@ -22,6 +22,8 @@ import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
 import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 import { Currency } from '../../../models/Currency';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
+import { ReviewDetailProductDTO } from '../../../dto/ReviewDetailProductDTO';
+import { PageResponse } from '../../../dto/Response/page-response';
 
 @Component({
   selector: 'app-detail-product',
@@ -42,7 +44,8 @@ export class DetailProductComponent implements OnInit {
 
 
   dataImagesProduct: ImagesDetailProductDTO[] = [];
-  dataVideoProduct : ImagesDetailProductDTO[] = []
+  dataVideoProduct: ImagesDetailProductDTO[] = []
+  dataReviewDetailProduct: ReviewDetailProductDTO[] = []
   dataSizes: SizeDTO[] = [];
   dataColors: ColorDTO[] = [];
   dataCategoryParent: CategoryParentDTO[] = [];
@@ -52,6 +55,11 @@ export class DetailProductComponent implements OnInit {
   reviewTotal: number = 0
   salePrice: number = 0;
   quantityInStock?: InventoryDTO | null = null;
+
+  page: number = 0
+  size: number =3
+  sortBy: string = 'id'
+  sortDir: string = 'desc'
 
   constructor(
     private router: Router,
@@ -97,7 +105,8 @@ export class DetailProductComponent implements OnInit {
         reviewTotal: this.getReviewTotal(productId).pipe(catchError(() => of(0))),
         reviewAverage: this.getReviewAverage(productId).pipe(catchError(() => of(0))),
         quantityInStock: this.getStatusQuantityInStock(productId, this.colorId ?? 0, this.sizeId ?? 0).pipe(catchError(() => of(null))),
-        dataVideoProduct : this.getVideosProduct(productId).pipe(catchError(() => of([])))
+        dataVideoProduct: this.getVideosProduct(productId).pipe(catchError(() => of([]))),
+        dataReviewDetailProduct : this.getReviewDetailProduct(productId,this.page,this.size,this.sortBy,this.sortDir).pipe(catchError(() => of([])))
       })
     );
 
@@ -112,7 +121,8 @@ export class DetailProductComponent implements OnInit {
     this.dataQuantityInStock = response.dataQuantityInStock
     this.quantityInStock = response.quantityInStock
     this.dataVideoProduct = response.dataVideoProduct
-    console.log("dataQuantityInStock : " + this.quantityInStock)
+    this.dataReviewDetailProduct = response.dataReviewDetailProduct
+    console.log("dataQuantityInStock : " + this.dataReviewDetailProduct[0].comment)
   }
 
 
@@ -232,6 +242,22 @@ export class DetailProductComponent implements OnInit {
     );
   }
 
+  // lấy all review 
+  getReviewDetailProduct(
+    productId: number,
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDir: string 
+  ): Observable<ReviewDetailProductDTO[]> {
+    return this.reviewService.getReviewDetailProduct(productId, page, size, sortBy, sortDir).pipe(
+      map((response: ApiResponse<PageResponse<ReviewDetailProductDTO[]>>) => 
+        response.data?.content ? response.data.content.flat() : []
+      ),
+      catchError(() => of([]))
+    );
+  }
+  
 
 
   // lấy giá sale 
@@ -246,45 +272,52 @@ export class DetailProductComponent implements OnInit {
   selectSize(size: SizeDTO): void {
     this.selectedSizeId = size.id;
     this.sizeId = size.id;
-  
+
     this.getSalePrice(this.productId ?? 0, this.colorId ?? 0, size.id).subscribe(price => {
       this.salePrice = price;
       this.cdr.detectChanges();
 
     });
-    this.getStatusQuantityInStock(this.productId ?? 0,this.colorId ?? 0 , size.id).subscribe(qty => {
+    this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, size.id).subscribe(qty => {
       console.log(qty?.quantityInStock)
-      this.quantityInStock = qty  ; // Nếu null, gán giá trị mặc định là 0
+      this.quantityInStock = qty; // Nếu null, gán giá trị mặc định là 0
       this.cdr.detectChanges();
     });
-  
-    
-  
+
+
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, size.id);
   }
-  
+
   selectColor(color: ColorDTO): void {
     this.selectedColorId = color.id;
     this.colorId = color.id;
-  
+
     this.getSalePrice(this.productId ?? 0, color.id, this.sizeId ?? 0).subscribe(price => {
       this.salePrice = price;
-  
       this.cdr.detectChanges();
-
     });
-    this.getStatusQuantityInStock(this.productId ?? 0,color.id , this.sizeId ?? 0).subscribe(qty => {
+
+    this.getQuantityInStock(this.productId ?? 0, color.id).subscribe(colorList => {
+      this.dataQuantityInStock = colorList
+    })
+    this.getStatusQuantityInStock(this.productId ?? 0, color.id, this.sizeId ?? 0).subscribe(qty => {
       this.quantityInStock = qty;
       this.cdr.detectChanges(); // Cập nhật giao diện ngay khi có dữ liệu mới
     });
-  
-  
-    this.updateUrl(this.productId ?? 0,color.id, this.sizeId ?? 0);
+
+    this.changeImageOne(this.productId ?? 0, color.id).subscribe(images => {
+      if (images) {
+        this.dataImagesProduct[0].mediaUrl = images[0].mediaUrl; // Cập nhật danh sách ảnh
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.updateUrl(this.productId ?? 0, color.id, this.sizeId ?? 0);
 
   }
   //---------
 
-  
+
 
   isSizeOutOfStock(size: any): boolean {
     const variant = this.dataQuantityInStock.find(
@@ -359,40 +392,7 @@ export class DetailProductComponent implements OnInit {
 
   rating: number = 5;
   reviewCount: number = 999;
-
-  reviews = [
-    {
-      title: 'Comfortable',
-      rating: 5,
-      size: 'S',
-      fit: 'Đúng với kích thước',
-      comment:
-        "Uniqlo’s AIRism UV Protection Mesh Full-Zip Hoodie offers excellent sun protection with a lightweight, breathable fabric that’s perfect for daily wear.",
-      user: 'MLJane',
-      gender: 'Nữ',
-      age: '25 đến 34 tuổi',
-      height: '156 - 160cm',
-      weight: '51 - 55kg',
-      shoeSize: 'EU38',
-      location: 'Selangor',
-      date: '22/12/2024',
-    },
-    {
-      title: 'Like it',
-      rating: 3,
-      size: 'XL',
-      fit: 'Đúng với kích thước',
-      comment: 'I like it. Very comfortable to wear and nice colour too',
-      user: 'Chew',
-      gender: 'Nữ',
-      age: '55 đến 64 tuổi',
-      height: '166 - 170cm',
-      weight: '66 - 70kg',
-      shoeSize: 'EU39',
-      location: 'Singapore',
-      date: '22/12/2024',
-    },
-  ];
+ 
 
   getFullStars(rating: number): Array<number> {
     return Array(Math.floor(rating)).fill(0);
