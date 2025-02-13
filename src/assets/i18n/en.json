@@ -7,6 +7,8 @@
   "Vietnamese": "Vietnamese",
   "English": "English",
   "Japanese": "Japanese",
+  "Tất Cả":"All ",
+
 
   "_commentFooter": "---------------------Phần Footer--------------------",
   "Về Brand": "About Brand",
@@ -70,6 +72,8 @@
   "Sản phẩm được làm từ chất liệu tái chế": "Product made from recycled materials",
   "THÊM VÀO GIỎ HÀNG": "ADD TO CART",
   "Tìm sản phẩm còn hàng trong cửa hàng": "Find in-stock products in store",
+  "Trong kho" : "in stock",
+
 
 
   "_commentReviews": "----------------------Phần Reviews----------------------------",
@@ -129,6 +133,7 @@
   "MÃ GIẢM": "DISCOUNT CODE",
   "MUA NGAY": "BUY NOW",
   "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING",
+  
 
   "_commentDetailImage" :"----------------------Phần Detail Imgage----------------------------",
   "HÌNH ẢNH CHI TIẾT" :"DETAIL IMAGE",

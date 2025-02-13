@@ -79,7 +79,7 @@
                   (click)="toProduct(category.id)"
                 >
                   <img [src]="getCategoryImage(category.imageUrl)"  alt="{{ category.name }}" class="img-fluid" style="max-height: 60px;">
-                  <p class="fw-normal">Tất Cả {{ category.name }}</p>
+                  <p class="fw-normal">{{"Tất Cả" | translate}} {{ category.name }}</p>
                 </div>
               </div>
             </div>
