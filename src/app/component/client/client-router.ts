@@ -104,7 +104,7 @@ export const clientRouter: Routes =[
               component: CheckSizeComponent
             },
             {
-              path: 'imageDetail',
+              path: 'imageDetail/:mediaId',
               component: ImageDetailComponent
             },
         ]

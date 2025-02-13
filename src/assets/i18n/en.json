@@ -128,5 +128,11 @@
   "TỔNG HÓA ĐƠN": "TOTAL BILL",
   "MÃ GIẢM": "DISCOUNT CODE",
   "MUA NGAY": "BUY NOW",
-  "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING"
+  "TIẾP TỤC MUA SẮM": "CONTINUE SHOPPING",
+
+  "_commentDetailImage" :"----------------------Phần Detail Imgage----------------------------",
+  "HÌNH ẢNH CHI TIẾT" :"DETAIL IMAGE",
+  "Mẫu cao": "High Model",
+   "Màu ": "Color",
+  "Kích thước" : "Size"
 }

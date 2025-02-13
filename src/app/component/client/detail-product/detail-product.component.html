@@ -3,9 +3,11 @@
     <!-- Product Images (Left Section) -->
     <div class="col-md-7">
       <div class="row g-3">
-        <div class="col-6" *ngFor="let img of dataImagesProduct">
+        <div class="col-6 position-relative" *ngFor="let img of dataImagesProduct">
           <img [src]="getImageProduct(img.mediaUrl)">
-          <a [routerLink]="['../imageDetail']" class="image-icon">
+          <a   [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]"
+          
+          class="image-icon" *ngIf="img.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
@@ -90,7 +92,7 @@
           </div>
     
           <span class="fw-bold ms-2">{{reviewAverage}}</span>
-          <a href="#" class="ms-2 text-primary">({{ reviewTotal }}+)</a>
+          <a href="#" class="ms-2 text-primary">({{ reviewTotal }})</a>
         </div>
         <hr>
 
@@ -182,9 +184,9 @@
           </div>
           <!--            product-size-->
           <div class="size-picker">
-            <dl>
-              <div class="size-item" *ngFor="let size of dataSizes" [attr.data-test]="size.valueName">
-                <dt>
+            <dl style="width: 70%;">
+              <div class="size-item" *ngFor="let size of dataSizes" [attr.data-test]="size.valueName"  >
+                <dt style="margin-bottom: 10px;">
                   <input type="radio" [value]="size.id" name="product-size-picker"
                     [id]="'product-size-picker' + size.valueName" class="color-input" (click)="selectSize(size)"
                     [checked]="size.id === selectedSizeId && !isSizeOutOfStock(size)"  >
@@ -195,28 +197,9 @@
                   </label>
                 </dt>
               </div>
-              <!-- <div class="size-item" data-test="M">
-                <dt>
-                  <input type="radio" value="00" name="product-color-picker" id="product-size-picker2"
-                    class="color-input">
-                  <label class="fr-chip-label ignore" for="product-size-picker2"
-                    style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
-                    <span class="fr-chip-text" role="img" aria-label="M">M</span>
-                  </label>
-                </dt>
-              </div> -->
             </dl>
 
 
-            <!-- hết hàng  -->
-            <!-- <div class="size-item" data-test="M">
-                <dt>
-                  <input type="radio" value="00" name="product-color-picker" id="product-size-picker2" class="color-input">
-                  <label class="fr-chip-label ignore" for="product-size-picker2" style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
-                    <span class="fr-chip-text" role="img" aria-label="M">M</span>
-                  </label>
-                </dt>
-              </div> -->
 
             <div class="d-flex justify-content-between" style="width: auto;">
               <p class="hintText hintTextPicker hint-text--color-secondary textAlignLeft text-transform-normal">
@@ -286,7 +269,7 @@
                   <br>
                   <div class="product-item-coupon" style="font-size: 0.88rem; color: red;">
                     <span>{{ "Giảm giá hết thời hạn" | translate }} {{ dataDetailsProduct?.promotion?.endDate |
-                      date:'dd/MM/yyyy, hh:mm a' }}</span>
+                      date:'dd/MM/yyyy' }}</span>
                   </div>
                 </ng-container>
               </span>
@@ -310,7 +293,7 @@
               </div>
             </div>
             <span style="font-weight: 700; margin-left: 4px;"> {{reviewAverage}} </span><span
-              class="review-count">({{reviewTotal}}+)</span>
+              class="review-count">({{reviewTotal}})</span>
           </div>
         </div>
         <div class="product-description">
