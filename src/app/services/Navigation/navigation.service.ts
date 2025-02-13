@@ -62,4 +62,5 @@ export class NavigationService {
     const currentValue = this.isSearchActiveSource.value;
     this.isSearchActiveSource.next(!currentValue);
   }
+
 }

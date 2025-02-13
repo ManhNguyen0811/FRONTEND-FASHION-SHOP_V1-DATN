@@ -6,17 +6,17 @@
         <div class="col-6 position-relative" *ngFor="let img of dataImagesProduct">
           <img [src]="getImageProduct(img.mediaUrl)">
           <a   [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]"
-          
+
           class="image-icon" *ngIf="img.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
-    
-          <video class="col-6" *ngFor="let video of dataVideoProduct" controls autoplay >
+
+          <video class="col-6" *ngFor="let video of dataVideoProduct" autoplay>
             <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
             Trình duyệt của bạn không hỗ trợ phát video.
           </video>
-         
+
         <!-- <div class="col-6 position-relative">
             <img src="https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456261/sub/vngoods_456261_sub7_3x4.jpg?width=369" alt="Model Pose 2" class="img-fluid rounded">
             <a [routerLink]="['../imageDetail']" class="image-icon">
@@ -90,7 +90,7 @@
               ☆
             </ng-container>
           </div>
-    
+
           <span class="fw-bold ms-2">{{reviewAverage}}</span>
           <a href="#" class="ms-2 text-primary">({{ reviewTotal }})</a>
         </div>
@@ -308,7 +308,7 @@
             <button class="quantity-btn">+</button>
           </div>
           <div class="stock-status mt-2">
-            
+
             <span> {{quantityInStock?.quantityInStock}} {{"Trong kho" | translate}} </span>
           </div>
 
@@ -337,3 +337,4 @@
   </div>
 </div>
 <app-nav-bottom></app-nav-bottom>
+

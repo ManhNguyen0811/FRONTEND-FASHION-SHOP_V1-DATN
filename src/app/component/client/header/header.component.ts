@@ -24,8 +24,8 @@ export class HeaderComponent implements OnInit{
 
 
   isHome: boolean = false;
-  currentLang: string = 'vi'; // Ngôn ngữ mặc định
-  currentCurrency: string = 'vn'; // Tiền tệ mặc định
+  currentLang: string = ''; // Ngôn ngữ mặc định
+  currentCurrency: string = ''; // Tiền tệ mặc định
   isSearchActive: boolean = false;
   constructor(private router: Router, private navigationService: NavigationService, private categoryService: CategoryService) {
     // Lắng nghe sự kiện NavigationEnd để kiểm tra URL hiện tại
@@ -73,6 +73,8 @@ export class HeaderComponent implements OnInit{
 
     // Điều hướng đến URL mới
     this.router.navigateByUrl(updatedUrl);
+
+    window.location.href = updatedUrl;
   }
 
   getLanguage(): void {

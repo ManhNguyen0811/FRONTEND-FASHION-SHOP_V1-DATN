@@ -26,6 +26,8 @@ export class NavBottomComponent implements OnInit{
   categoriesChid: CategoryDTO[] = [];
   selectedCategory!: Observable<CategoryDTO>;
   apiError: any;
+  isSearchActive: boolean = false;
+
   constructor(private router: Router,private navigationService: NavigationService, private categoryService: CategoryService, private sanitizer: DomSanitizer) {
     // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
     this.navigationService.currentLang$.subscribe((lang) => {
@@ -43,7 +45,7 @@ export class NavBottomComponent implements OnInit{
   }
 
 
-  isSearchActive: boolean = false;
+
 
   toggleSearch(): void {
     this.navigationService.toggleSearchActive();

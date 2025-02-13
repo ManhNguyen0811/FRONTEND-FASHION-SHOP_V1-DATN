@@ -57,7 +57,10 @@ export class ProductComponent implements OnInit {
     private reviewService: ReviewServiceService,
     private navigationService: NavigationService,
     private currencySevice: CurrencyService
-  ) { }
+  ) {
+    // Subscribe để nhận giá trị từ service
+    this.navigationService.setSearchActive(false);
+  }
 
   async ngOnInit(): Promise<void> {
     // Lấy ngôn ngữ hiện tại trước khi gọi API
@@ -105,7 +108,7 @@ export class ProductComponent implements OnInit {
                 reviewTotal: this.getReviewTotal(product.id).pipe(catchError(() => of(0))),
                 reviewAverage: this.getReviewAverage(product.id).pipe(catchError(()=> of(0)))
               }).pipe(
-                map(({ detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}) => 
+                map(({ detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}) =>
                   ({ ...product, detail, colors, sizes, categoryParent, reviewTotal ,reviewAverage}))
               )
             );
@@ -136,7 +139,7 @@ export class ProductComponent implements OnInit {
       const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
       const currency = data?.[index] || { code: '', name: '', symbol: '', exchangeRate: 0 };
       this.currentCurrencyDetail = currency
- 
+
       console.log('Thông tin tiền tệ:', currency);
     });
 
@@ -174,11 +177,11 @@ export class ProductComponent implements OnInit {
   getCurrencyPrice(price: number, rate: number, symbol: string): string {
     const convertedPrice = price * rate;
     const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
-  
+
     // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
     return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
   }
-  
+
 
   getSizeProduct(productId: number): Observable<SizeDTO[]> {
     return this.productService.getSizeProduct(productId)
