@@ -25,6 +25,7 @@ import {LanguageCurrencyResolver} from '../../resolvers/language-currency.resolv
 import {ImageDetailComponent} from './image-detail/image-detail.component';
 import {routes} from '../../app.routes';
 import {NgModule} from '@angular/core';
+import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 
 export const clientRouter: Routes =[
     {
@@ -100,9 +101,13 @@ export const clientRouter: Routes =[
                 component: InsertReviewComponent
             },
             {
-              path: 'size',
-              component: CheckSizeComponent
+              path: 'store_inventory',
+              component: StoreInventoryComponent
             },
+            {
+                path: 'size',
+                component: CheckSizeComponent
+              },
             {
               path: 'imageDetail/:mediaId',
               component: ImageDetailComponent
