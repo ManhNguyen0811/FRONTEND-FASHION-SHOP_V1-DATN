@@ -19,8 +19,9 @@ import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductServiceService } from '../../../services/client/ProductService/product-service.service';
 import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
-import { CateProductDTO } from '../../../dto/CateProductDTO';
+ 
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
+import { CateProductDTO } from '../../../dto/CateProductDTO';
 
 export interface ImagesOfDetailProduct {
   productId: number,
