@@ -57,7 +57,7 @@ export class DetailProductComponent implements OnInit {
   quantityInStock?: InventoryDTO | null = null;
 
   page: number = 0
-  size: number =3
+  size: number = 3
   sortBy: string = 'id'
   sortDir: string = 'desc'
 
@@ -81,7 +81,7 @@ export class DetailProductComponent implements OnInit {
     this.getIdsFromProductRouter();
     this.fetchCurrency();
 
-    this.loadDetailProduct(this.productId ?? 0).then(() => {
+    this.fetchDetailProduct(this.productId ?? 0).then(() => {
       this.selectedSizeId = this.sizeId ?? 0; // Đánh dấu size được chọn
       this.selectedColorId = this.colorId ?? 0; // Đánh dấu size được chọn
     });
@@ -90,7 +90,7 @@ export class DetailProductComponent implements OnInit {
 
 
 
-  async loadDetailProduct(productId: number): Promise<void> {
+  async fetchDetailProduct(productId: number): Promise<void> {
     if (!productId) return;
 
     const response = await firstValueFrom(
@@ -106,7 +106,7 @@ export class DetailProductComponent implements OnInit {
         reviewAverage: this.getReviewAverage(productId).pipe(catchError(() => of(0))),
         quantityInStock: this.getStatusQuantityInStock(productId, this.colorId ?? 0, this.sizeId ?? 0).pipe(catchError(() => of(null))),
         dataVideoProduct: this.getVideosProduct(productId).pipe(catchError(() => of([]))),
-        dataReviewDetailProduct : this.getReviewDetailProduct(productId,this.page,this.size,this.sortBy,this.sortDir).pipe(catchError(() => of([])))
+        dataReviewDetailProduct: this.getReviewDetailProduct(productId, this.page, this.size, this.sortBy, this.sortDir).pipe(catchError(() => of([])))
       })
     );
 
@@ -122,7 +122,7 @@ export class DetailProductComponent implements OnInit {
     this.quantityInStock = response.quantityInStock
     this.dataVideoProduct = response.dataVideoProduct
     this.dataReviewDetailProduct = response.dataReviewDetailProduct
-    console.log("dataQuantityInStock : " + this.dataReviewDetailProduct[0].comment)
+    // console.log("dataQuantityInStock : " + this.dataReviewDetailProduct[0].comment)
   }
 
 
@@ -198,13 +198,24 @@ export class DetailProductComponent implements OnInit {
       catchError(() => of([]))
     );
   }
-  getCurrencyPrice(price: number, rate: number, symbol: string): string {
-    const convertedPrice = price * rate;
-    const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+  getCurrencyPrice(price: number, rate: number, code: string): string {
+    try {
+      const validCurrencies = ['USD', 'VND', 'EUR', 'JPY', 'GBP'];  
+      const currencyCode = validCurrencies.includes(code) ? code : 'VND';  
 
-    // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
-    return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
+      const convertedPrice = price * rate;
+      return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: currencyCode,
+        currencyDisplay: 'code'  
+      }).format(convertedPrice);
+    } catch (error) {
+      console.error('Lỗi định dạng tiền tệ:', error);
+      return `${price * rate} ${code}`; 
+    }
   }
+
+
 
 
 
@@ -248,16 +259,16 @@ export class DetailProductComponent implements OnInit {
     page: number,
     size: number,
     sortBy: string,
-    sortDir: string 
+    sortDir: string
   ): Observable<ReviewDetailProductDTO[]> {
     return this.reviewService.getReviewDetailProduct(productId, page, size, sortBy, sortDir).pipe(
-      map((response: ApiResponse<PageResponse<ReviewDetailProductDTO[]>>) => 
+      map((response: ApiResponse<PageResponse<ReviewDetailProductDTO[]>>) =>
         response.data?.content ? response.data.content.flat() : []
       ),
       catchError(() => of([]))
     );
   }
-  
+
 
 
   // lấy giá sale 
@@ -392,7 +403,7 @@ export class DetailProductComponent implements OnInit {
 
   rating: number = 5;
   reviewCount: number = 999;
- 
+
 
   getFullStars(rating: number): Array<number> {
     return Array(Math.floor(rating)).fill(0);
