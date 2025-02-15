@@ -69,10 +69,10 @@ export class ProductServiceService {
     if (userId) {
       params = params.set('UserId', userId.toString());
     }
-  
+
     return this.http.get<ApiResponse<ProductVariantDetailDTO>>(`${this.apiUrl}/lowest-price-variant/${lang}/${productId}`, { params });
   }
-  
+
   getSizeProduct(productId: number): Observable<ApiResponse<SizeDTO[]>> {
     return this.http.get<ApiResponse<SizeDTO[]>>(`${this.apiUrl}/size/${productId}`)
   }
@@ -89,7 +89,7 @@ export class ProductServiceService {
   getColorImage(fileName: string | undefined): string {
     return `${environment.apiBaseUrl}/attribute_values/color/${fileName}`;
   }
-  // lấy category parent nha 
+  // lấy category parent nha
   getCategoryParent(lang: string, productId: number): Observable<ApiResponse<CategoryParentDTO[]>>{
     return this.http.get<ApiResponse<CategoryParentDTO[]>>(`${this.apiUrl}/${lang}/${productId}/categories/root`)
   }
@@ -114,5 +114,5 @@ export class ProductServiceService {
   getVideosProduct(productId: number): Observable<ApiResponse<ImagesDetailProductDTO[]>>{
     return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/videos/${productId}`)
   }
-  
+
 }

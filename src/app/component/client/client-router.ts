@@ -25,6 +25,7 @@ import {LanguageCurrencyResolver} from '../../resolvers/language-currency.resolv
 import {ImageDetailComponent} from './image-detail/image-detail.component';
 import {routes} from '../../app.routes';
 import {NgModule} from '@angular/core';
+import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 
 export const clientRouter: Routes =[
@@ -48,7 +49,8 @@ export const clientRouter: Routes =[
             },
             {
                 path: 'cart',
-                component: CartComponent
+                component: CartComponent,
+                canActivate: [AuthGuardFn]
             },
           {
             path: 'checkout',
@@ -83,7 +85,8 @@ export const clientRouter: Routes =[
             },
             {
                 path: 'wishlist',
-                component: WishlistComponent
+                component: WishlistComponent,
+                canActivate: [AuthGuardFn]
             },
             {
                 path: 'profile',
@@ -93,12 +96,13 @@ export const clientRouter: Routes =[
                     { path: 'edit_profile', component: EditProfileComponent },
                     { path: 'order_history/order_detail', component: OrderDetailComponent  },
                     { path: 'edit_address', component: EditAddressComponent },
-
-                ]
+                ],
+              canActivate: [AuthGuardFn]
             },
             {
                 path: 'review/new',
-                component: InsertReviewComponent
+                component: InsertReviewComponent,
+                canActivate: [AuthGuardFn]
             },
             {
               path: 'store_inventory',
@@ -114,7 +118,7 @@ export const clientRouter: Routes =[
             },
         ]
     },
-    { path: '', redirectTo: 'vn/vi', pathMatch: 'full' } // Mặc định là 'vi'
+    { path: '', redirectTo: 'vnd/vi', pathMatch: 'full' } // Mặc định là 'vi'
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
