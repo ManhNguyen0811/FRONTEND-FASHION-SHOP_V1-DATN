@@ -126,7 +126,8 @@
       </div>
       <!--Xem thêm review và nhập review-->
       <div class="text-end mt-2 mb-2">
-        <a [routerLink]="['../reviews']" style="cursor: pointer"
+        <a [routerLink]="['/client', currentCurrency, currentLang,'reviews', productId ]" 
+        style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <span class="text-primary">{{ "Xem thêm" | translate }}</span>
         </a>
@@ -155,9 +156,7 @@
               <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </button>
             <!-- Nút Yêu thích -->
-            <button class="btn btn-icon"
-              (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0)"
-            >
+            <button class="btn btn-icon" (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0)">
               <i class="fa-regular fa-heart"></i>
             </button>
           </div>

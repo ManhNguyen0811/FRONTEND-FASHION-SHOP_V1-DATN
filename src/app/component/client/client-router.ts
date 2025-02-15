@@ -80,7 +80,7 @@ export const clientRouter: Routes =[
                 component: ForgotPasswordComponent
             },
             {
-                path: 'reviews',
+                path: 'reviews/:productId',
                 component: ReviewsComponent
             },
             {

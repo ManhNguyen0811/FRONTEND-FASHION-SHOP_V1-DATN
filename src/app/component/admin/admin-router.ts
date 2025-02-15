@@ -8,6 +8,8 @@ import { ListOrderComponent } from "./order/list-order/list-order.component";
 import { EditOrderComponent } from "./order/edit-order/edit-order.component";
 import { ListUserComponent } from "./user/list-user/list-user.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
+import { EditAttributeComponent } from "./attribute/edit-attribute/edit-attribute.component";
+import { EditProductComponent } from "./product/edit-product/edit-product.component";
  
 export const adminRouter: Routes =[
     {
@@ -50,6 +52,14 @@ export const adminRouter: Routes =[
             {
                 path:'edit_order',
                 component: EditOrderComponent
+            },
+            {
+                path:'edit_attribute',
+                component: EditAttributeComponent
+            },
+            {
+                path:'edit_product',
+                component: EditProductComponent
             }
          ]
     }
