@@ -19,6 +19,8 @@ import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 import { ReviewServiceService } from '../../../services/client/ReviewService/review-service.service';
 import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
 import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
+import {TokenService} from '../../../services/token/token.service';
+import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
 
 @Component({
   selector: 'app-product',
@@ -30,7 +32,7 @@ import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 export class ProductComponent implements OnInit {
   currentLang: string = ''; // Ngôn ngữ mặc định
   currentCurrency: string ='' ; // Tiền tệ mặc định
-
+  userId: number = 0;
   currentCurrencyDetail?: Currency;
   products: (
     ProductListDTO & {
@@ -56,7 +58,10 @@ export class ProductComponent implements OnInit {
     private productService: ProductServiceService,
     private reviewService: ReviewServiceService,
     private navigationService: NavigationService,
-    private currencySevice: CurrencyService
+    private currencySevice: CurrencyService,
+    private tokenService: TokenService,
+    private wishlistService: WishlistService,
+    private router: Router
   ) {
     // Subscribe để nhận giá trị từ service
     this.navigationService.setSearchActive(false);
@@ -67,7 +72,7 @@ export class ProductComponent implements OnInit {
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
-
+    this.userId = this.tokenService.getUserId();
 
     this.route.queryParams.subscribe(params => {
       const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : 1;
@@ -147,7 +152,7 @@ export class ProductComponent implements OnInit {
   }
   //lấy dữ liệu chi tiết của sản phẩm
   getProductDetail(productId: number): Observable<ProductVariantDetailDTO | null> {
-    return this.productService.getProductDertail(this.currentLang, productId).pipe(
+    return this.productService.getProductDertail(this.currentLang, productId, this.userId).pipe(
       map((response: ApiResponse<ProductVariantDetailDTO>) => response.data || null),
       catchError(() => of(null)) // Trả về null nếu có lỗi
     );
@@ -233,6 +238,18 @@ export class ProductComponent implements OnInit {
         map((response: ApiResponse<ReviewAverageDTO>) => response.data.avgRating || 0),
         catchError(() => of(0))
       )
+  }
+
+  toggleWishlist(userId: number, variantId:number){
+    if(userId === 0){
+      const confirmRedirect = window.confirm(
+        'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
+      );
+      if (confirmRedirect) {
+        this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
+      }
+    }
+    this.wishlistService.toggleWishlistInProduct(userId,variantId);
   }
 
 }

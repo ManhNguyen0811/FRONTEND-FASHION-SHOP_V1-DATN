@@ -24,6 +24,8 @@ import { Currency } from '../../../models/Currency';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
 import { ReviewDetailProductDTO } from '../../../dto/ReviewDetailProductDTO';
 import { PageResponse } from '../../../dto/Response/page-response';
+import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
+import {TokenService} from '../../../services/token/token.service';
 
 @Component({
   selector: 'app-detail-product',
@@ -42,6 +44,7 @@ export class DetailProductComponent implements OnInit {
   currentCurrency: string = '';
   currentCurrencyDetail?: Currency;
 
+  userId: number = 0;
 
   dataImagesProduct: ImagesDetailProductDTO[] = [];
   dataVideoProduct: ImagesDetailProductDTO[] = []
@@ -71,8 +74,8 @@ export class DetailProductComponent implements OnInit {
     private reviewService: ReviewServiceService,
     private currencySevice: CurrencyService,
     private cdr: ChangeDetectorRef,
-
-
+    private wishlistService: WishlistService,
+    private tokenService: TokenService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -86,6 +89,8 @@ export class DetailProductComponent implements OnInit {
       this.selectedColorId = this.colorId ?? 0; // Đánh dấu size được chọn
     });
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
+
+    this.userId = this.tokenService.getUserId();
   }
 
 
@@ -200,18 +205,18 @@ export class DetailProductComponent implements OnInit {
   }
   getCurrencyPrice(price: number, rate: number, code: string): string {
     try {
-      const validCurrencies = ['USD', 'VND', 'EUR', 'JPY', 'GBP'];  
-      const currencyCode = validCurrencies.includes(code) ? code : 'VND';  
+      const validCurrencies = ['USD', 'VND', 'EUR', 'JPY', 'GBP'];
+      const currencyCode = validCurrencies.includes(code) ? code : 'VND';
 
       const convertedPrice = price * rate;
       return new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: currencyCode,
-        currencyDisplay: 'code'  
+        currencyDisplay: 'code'
       }).format(convertedPrice);
     } catch (error) {
       console.error('Lỗi định dạng tiền tệ:', error);
-      return `${price * rate} ${code}`; 
+      return `${price * rate} ${code}`;
     }
   }
 
@@ -253,7 +258,7 @@ export class DetailProductComponent implements OnInit {
     );
   }
 
-  // lấy all review 
+  // lấy all review
   getReviewDetailProduct(
     productId: number,
     page: number,
@@ -271,7 +276,7 @@ export class DetailProductComponent implements OnInit {
 
 
 
-  // lấy giá sale 
+  // lấy giá sale
   getSalePrice(productId: number, colorId: number, sizeId: number): Observable<number> {
     return this.productService.getSalePrice(productId, colorId, sizeId).pipe(
       map((response: ApiResponse<VariantsDetailProductDTO>) => response.data?.salePrice ?? 0),
@@ -361,7 +366,7 @@ export class DetailProductComponent implements OnInit {
     )
   }
 
-  // lấy tên khi chọn 
+  // lấy tên khi chọn
   get selectedSizeName(): string {
     const selectedSize = this.dataSizes.find(size => size.id === this.selectedSizeId);
     if (!selectedSize || this.isSizeOutOfStock(selectedSize)) {
@@ -375,13 +380,13 @@ export class DetailProductComponent implements OnInit {
   }
   // ----------------
 
-  // đổi url khi đổi màu và size 
+  // đổi url khi đổi màu và size
   updateUrl(productId: number, colorId: number, sizeId: number): void {
     const newUrl = `/client/${this.currentCurrency}/${this.currentLang}/detail_product/${productId}/${colorId}/${sizeId}`;
     this.location.replaceState(newUrl);
   }
 
-  //lấy cate cha 
+  //lấy cate cha
   getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {
     return this.productService.getCategoryParent(lang, productId)
       .pipe(
@@ -411,5 +416,29 @@ export class DetailProductComponent implements OnInit {
 
   getEmptyStars(rating: number): Array<number> {
     return Array(5 - Math.floor(rating)).fill(0);
+  }
+
+
+  toggleWishlist(userId: number, productId: number, colorId: number): void {
+
+    if(userId === 0){
+      const confirmRedirect = window.confirm(
+        'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
+      );
+      if (confirmRedirect) {
+        this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
+      }
+    }
+
+    this.wishlistService.toggleWishlistInProductDetail(userId,productId,colorId)
+      .subscribe({
+        next: (response) => {
+          // console.log('Message:', response.message);
+          // console.log('Response Data:', response.data);
+        },
+        error: (error) => {
+          // console.error('API Error:', error);
+        }
+      });
   }
 }
