@@ -11,11 +11,12 @@ import {LoginDTO} from '../../../dto/user/login.dto';
 import {LoginResponse} from '../../../dto/Response/user/login.response';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import { ModalNotifyLoginComponent } from '../modal-notify-login/modal-notify-login.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, TranslateModule, FormsModule, NgIf],
+  imports: [RouterLink, TranslateModule, FormsModule, NgIf,ModalNotifyLoginComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

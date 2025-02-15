@@ -1,5 +1,23 @@
-<app-header-admin [title_header]="'Order'" [routerLinkString]="'/admin/edit_order'"  />
+<app-header-admin [title_header]="'Order'" [routerLinkString]="'/admin/edit_order'" />
 
-<button class="test">A</button>
-<button>B</button>
-<button>C</button>
+
+<div class="custom-select">
+    <div class="selected-item" (click)="isOpen = !isOpen">
+        <span *ngIf="selectedItem">
+            <img [src]="selectedItem.image" alt="Selected" />
+            {{ selectedItem.name }}
+        </span>
+        <span *ngIf="!selectedItem">Chọn sản phẩm</span>
+    </div>
+
+    <div class="dropdown" *ngIf="isOpen">
+        <input type="text" [(ngModel)]="searchText" placeholder="Tìm kiếm sản phẩm..." />
+        <ul>
+            <li *ngFor="let product of filteredProducts" (click)="selectItem(product)">
+                <img [src]="product.image" alt="Product" />
+                {{ product.name }}
+            </li>
+        </ul>
+    </div>
+</div>
+<app-modal-notify-login [isModalOpen]="true"/>
