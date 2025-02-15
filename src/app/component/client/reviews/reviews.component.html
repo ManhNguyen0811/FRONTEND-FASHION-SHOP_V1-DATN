@@ -2,19 +2,19 @@
     <h1 class="mt-5 pt-3 fw-normal">{{ "Đánh giá" | translate }}</h1>
     <hr>
     <div>
-      <h1 class="fw-normal">AIRism Áo Hoodie Chống UV Vải Mắt Lưới Kéo Khóa</h1>
+      <h1 class="fw-normal">{{dataDetailsProduct?.name}}</h1>
     </div>
     <div class="d-flex align-items-center mb-3 ">
       <div class="stars">
-        <ng-container *ngFor="let star of getFullStars(rating)">
+        <ng-container *ngFor="let star of getFullStars(reviewAverage)">
           ★
         </ng-container>
-        <ng-container *ngFor="let star of getEmptyStars(rating)">
+        <ng-container *ngFor="let star of getEmptyStars(reviewAverage)">
           ☆
         </ng-container>
       </div>
-      <span class="fw-bold ms-2">{{ rating.toFixed(1) }}</span>
-      <a href="#" class="ms-2 text-black link-underline-opacity-0 link-underline">({{ reviewCount }}+)</a>
+      <span class="fw-bold ms-2">{{ reviewAverage }}</span>
+      <a href="#" class="ms-2 text-black link-underline-opacity-0 link-underline">({{ reviewTotal }})</a>
     </div>
 
     <!--Đánh giá của khách hàng-->
@@ -50,44 +50,52 @@
         </div>
       </div>
 
-      <p class="mt-3">{{ totalReviews }} {{ "Đánh giá" | translate }}</p>
+      <p class="mt-3">{{ dataPageReviews?.totalElements }} {{ "Đánh giá" | translate }}</p>
     </div>
 
     <hr>
 
     <!-- Dùng lặp lại cho danh sách đánh giá -->
-    <div *ngFor="let review of visibleReviews" class="review-item mb-4">
+    <div *ngFor="let review of dataDetailReviews" class="review-item mb-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h6 class="fw-bold">{{ review.title }}</h6>
-        <span class="text-muted">{{ review.date }}</span>
+        <h6 class="fw-bold">{{ review.title }}</h6> {{ review.createdAt | date:'dd/MM/yyyy HH:mm' }}
+
+        <span class="text-muted">{{ review.createdAt }} - #{{review.id}}</span> 
       </div>
-      <div class="stars text-black mb-2">
-        <ng-container *ngFor="let star of getFullStars(review.rating)">
+      <!-- <div class="stars text-black mb-2">
+        <ng-container *ngFor="let star of getFullStars(reviewAverage)">
           ★
         </ng-container>
-        <ng-container *ngFor="let star of getEmptyStars(review.rating)">
+        <ng-container *ngFor="let star of getEmptyStars(reviewTotal)">
           ☆
         </ng-container>
-      </div>
+      </div> -->
       <p class="mb-1">
-        <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.size }}<br>
+        <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.purchasedSize }}<br>
         <span class="">{{ "Quần áo có vừa không:" | translate }}</span> {{ review.fit }}
       </p>
       <p class="mb-3">
         {{ review.comment }}
       </p>
       <p class="text-muted small">
-        {{ review.user }} · {{ review.gender }} · {{ review.age }} · {{ "Chiều cao:" | translate }} {{ review.height }} · {{ "Cân nặng:" | translate }} {{ review.weight }} · {{"Cỡ giày:" | translate}} {{ review.shoeSize }} · {{ review.location }}
+        {{ review.nickname }} · {{ review.gender }} · {{ review.ageGroup }} · {{ "Chiều cao:" | translate }} {{ review.height }} · {{ "Cân nặng:" | translate }} {{ review.weight }} · {{"Cỡ giày:" | translate}} {{ review.shoeSize }} · {{ review.location }}
       </p>
       <hr>
     </div>
     <!--Xem Thêm -->
     <div class="container text-center my-4">
-      <a href="javascript:void(0)" class="load-more-link fw-bold d-flex align-items-center justify-content-center link-underline link-underline-opacity-0"
-         (click)="loadMoreReviews()">
-        {{ "TẢI THÊM" | translate }} <i class="bi bi-chevron-down ms-2"></i>
+      <a href="javascript:void(0)" 
+         class="load-more-link fw-bold d-flex align-items-center justify-content-center link-underline link-underline-opacity-0"
+         (click)="loadMoreReviews()" 
+         *ngIf="!dataPageReviews?.last && !isLoading">
+          {{ "TẢI THÊM" }} <i class="bi bi-chevron-down ms-2"></i>
       </a>
-    </div>
+  
+      <div *ngIf="isLoading" class="text-center mt-2">
+          <span>Đang tải...</span>
+      </div>
+  </div>
+  
 
     <!--Sticky-buttons-->
     <div class="sticky-buttons bg-white" [ngClass]="{ hidden: !isStickyVisible }">

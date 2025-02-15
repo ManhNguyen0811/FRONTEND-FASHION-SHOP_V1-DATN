@@ -16,13 +16,19 @@
                 <img src="../../../../assets/images/category.png" width="18" alt=""><span
                     class="menu-mini">Category</span>
             </div>
+            <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/edit_attribute"
+            routerLinkActive="active-routerLink">
+            <img src="../../../../assets/images/value.png" width="18" alt=""><span
+                class="menu-mini">Attribute</span>
+        </div>
             <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/list_order"
                 routerLinkActive="active-routerLink">
                 <img src="../../../../assets/images/checkout.png" width="18" alt=""> <span
                     class="menu-mini">Order</span>
             </div>
 
-            <div class="menu-item" [class.activeRespone]="isActive" >
+            <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/edit_product" 
+            routerLinkActive="active-routerLink">
                 <img src="../../../../assets/images/shirt.png" width="18" alt=""><span class="menu-mini">Product</span>
             </div>
             <div class="menu-item " [class.activeRespone]="isActive" routerLink="/admin/list_user" routerLinkActive="active-routerLink">
