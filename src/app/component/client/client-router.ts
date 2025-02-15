@@ -26,6 +26,7 @@ import {ImageDetailComponent} from './image-detail/image-detail.component';
 import {routes} from '../../app.routes';
 import {NgModule} from '@angular/core';
 import {AuthGuardFn} from '../../guards/auth.guard';
+import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 
 export const clientRouter: Routes =[
     {
@@ -104,9 +105,13 @@ export const clientRouter: Routes =[
                 canActivate: [AuthGuardFn]
             },
             {
-              path: 'size',
-              component: CheckSizeComponent
+              path: 'store_inventory',
+              component: StoreInventoryComponent
             },
+            {
+                path: 'size',
+                component: CheckSizeComponent
+              },
             {
               path: 'imageDetail/:mediaId',
               component: ImageDetailComponent

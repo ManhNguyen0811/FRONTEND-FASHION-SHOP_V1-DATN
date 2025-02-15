@@ -5,17 +5,16 @@
       <div class="row g-3">
         <div class="col-6 position-relative" *ngFor="let img of dataImagesProduct">
           <img [src]="getImageProduct(img.mediaUrl)">
-          <a   [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]"
-
-          class="image-icon" *ngIf="img.hasVariants">
+          <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]" class="image-icon"
+            *ngIf="img.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
 
-          <video class="col-6" *ngFor="let video of dataVideoProduct" autoplay>
-            <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
-            Trình duyệt của bạn không hỗ trợ phát video.
-          </video>
+        <video class="col-6" *ngFor="let video of dataVideoProduct" autoplay>
+          <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
+          Trình duyệt của bạn không hỗ trợ phát video.
+        </video>
 
         <!-- <div class="col-6 position-relative">
             <img src="https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456261/sub/vngoods_456261_sub7_3x4.jpg?width=369" alt="Model Pose 2" class="img-fluid rounded">
@@ -118,7 +117,8 @@
             {{ review.comment }}
           </p>
           <p class="text-muted small">
-            {{ review.nickname }} · {{ review.gender }} · {{ review.ageGroup }} · Chiều cao: {{ review.height }} · Cân nặng: {{
+            {{ review.nickname }} · {{ review.gender }} · {{ review.ageGroup }} · Chiều cao: {{ review.height }} · Cân
+            nặng: {{
             review.weight }} · Cỡ giày: {{ review.shoeSize }} · {{ review.location }}
           </p>
         </div>
@@ -187,13 +187,14 @@
           <!--            product-size-->
           <div class="size-picker">
             <dl style="width: 70%;">
-              <div class="size-item" *ngFor="let size of dataSizes" [attr.data-test]="size.valueName"  >
+              <div class="size-item" *ngFor="let size of dataSizes" [attr.data-test]="size.valueName">
                 <dt style="margin-bottom: 10px;">
                   <input type="radio" [value]="size.id" name="product-size-picker"
                     [id]="'product-size-picker' + size.valueName" class="color-input" (click)="selectSize(size)"
-                    [checked]="size.id === selectedSizeId && !isSizeOutOfStock(size)"  >
+                    [checked]="size.id === selectedSizeId && !isSizeOutOfStock(size)">
 
-                  <label class="fr-chip-label" [for]="'product-size-picker' + size.valueName" [class.ignore]="isSizeOutOfStock(size)"
+                  <label class="fr-chip-label" [for]="'product-size-picker' + size.valueName"
+                    [class.ignore]="isSizeOutOfStock(size)"
                     style="background-size: 50px; background-position: center center; width: 36px; height: 36px; display: flex; min-height: 0px; min-width: 0px;">
                     <span class="fr-chip-text" role="img" [attr.aria-label]="size.valueName">{{ size.valueName }}</span>
                   </label>
@@ -339,4 +340,3 @@
   </div>
 </div>
 <app-nav-bottom></app-nav-bottom>
-
