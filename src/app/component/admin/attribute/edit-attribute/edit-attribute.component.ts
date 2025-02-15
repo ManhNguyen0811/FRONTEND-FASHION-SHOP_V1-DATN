@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalNotifyLoginComponent } from '../../../client/modal-notify-login/modal-notify-login.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-list-order',
+  selector: 'app-edit-attribute',
   standalone: true,
   imports: [HeaderAdminComponent, CommonModule, FormsModule],
-  templateUrl: './list-order.component.html',
-  styleUrl: './list-order.component.scss'
+  templateUrl: './edit-attribute.component.html',
+  styleUrl: './edit-attribute.component.scss'
 })
-export class ListOrderComponent {
+export class EditAttributeComponent {
   isOpen: boolean = false; // Thêm biến này vào
   searchText: string = ''; // Lưu trữ giá trị tìm kiếm
   selectedItem: any = null; // Item được chọn
@@ -41,6 +40,8 @@ export class ListOrderComponent {
 
   selectItem(item: any) {
     this.selectedItem = item;
+    this.isOpen = false
+    this.searchText =''
     console.log(item.id)
   }
 
