@@ -1,17 +1,21 @@
 <p style="margin-top: 55px;">store-inventory works!</p>
-<div class="container " style="background-color: red;">
+<div class="container" >
     <div class="container-inventory">
         <div class="header-conteriner">
             <a href="">QUAY LẠI LẠI CHI TIÉT SẢN PHẨM </a> <br>
             <strong>Áo Sơ Mi Không Cần Ủi | Cổ Bẻ Rộng</strong>
         </div>
         <div class="row ms-1">
-            <div class="col-md-8 layout-item-content">
+            <div class="col-md-8   layout-item-content d-flex flex-column">
                 <div class="title-content">
-                    TÌM SẢN PHẨM CÒN HÀNH TRONG CỬA HÀNG
+                   <span> TÌM SẢN PHẨM CÒN HÀNH TRONG CỬA HÀNG</span>
 
                 </div>
-                <p>Vui lòng chọn màu sắc và kích cỡ.</p>
+                <div class="layout-mobile content-image">
+                    <img src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/item/goods_00_456591_3x4.jpg" height="400" width="300" alt="">
+                    <p >Vui lòng chọn màu sắc và kích cỡ.</p>
+                
+                </div>
 
                 <div class="content-box">
                     <div class="row">
@@ -30,7 +34,7 @@
                                             style="background-image: url(https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/chip/goods_60_456591_chip.jpg)">
                                         </label>
                                     </dt>
-                                    
+
                                     <dt class="color-item" data-test="color-red">
                                         <input type="radio" value="2" name="product-color-picker"
                                             id="product-color-picker-red" class="color-input">
@@ -38,7 +42,7 @@
                                             style="background-image: url(https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/chip/goods_60_456591_chip.jpg)">
                                         </label>
                                     </dt>
-                                    
+
                                     <dt class="color-item" data-test="color-blue">
                                         <input type="radio" value="3" name="product-color-picker"
                                             id="product-color-picker-blue" class="color-input">
@@ -46,7 +50,7 @@
                                             style="background-image: url(https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/chip/goods_60_456591_chip.jpg)">
                                         </label>
                                     </dt>
-                                    
+
                                     <dt class="color-item" data-test="color-black">
                                         <input type="radio" value="4" name="product-color-picker"
                                             id="product-color-picker-black" class="color-input">
@@ -54,75 +58,41 @@
                                             style="background-image: url(https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/chip/goods_60_456591_chip.jpg)">
                                         </label>
                                     </dt>
-                                    
+
 
                                 </dl>
                             </div>
 
 
-                            <!-- <div class="btn-box-color"  style="background-color: rgb(151, 151, 151);">
-                                <dl class="size-picker"  >
-                                    <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-s" class="color-input">
-                                            <label class="fr-chip-label" for="size-s"
-                                                style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-                                                <span class="fr-chip-text">M</span>
-                                            </label>
-                                        </dt>
-                                    </div>
-                                </dl>
-                                <dl class="size-picker"  >
-                                    <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-m" class="color-input">
-                                            <label class="fr-chip-label" for="size-m"
-                                                style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-                                                <span class="fr-chip-text">S</span>
-                                            </label>
-                                        </dt>
-                                    </div>
-                                </dl>
-                                <dl class="size-picker">
-                                    <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-l" class="color-input">
-                                            <label class="fr-chip-label" for="size-l"
-                                                style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-                                                <span class="fr-chipbtn-colorz-text">L</span>
-                                            </label>
-                                        </dt>
-                                    </div>
-                                </dl>                              
-                            </div> -->
+
                         </div>
                     </div>
-                    <div class="row mt-5">
+                    <div class="row mt-4">
                         <div class="col-md-3 content-colors">
-                            <span class="title-color">MÀU SẮC :</span> <br>
+                            <span class="title-color">KÍCH THƯỚC :</span> <br>
                             <span>00 WHITE</span>
                         </div>
                         <div class="col-md-9 ">
-                           
 
-                            <div class="btn-box-color"  style="background-color: rgb(151, 151, 151);">
-                                <dl class="size-picker"  >
+
+                            <div class="btn-box-color"  >
+                                <dl class="size-picker">
                                     <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-s" class="color-input">
-                                            <label class="fr-chip-label" for="size-s"
-                                                 >
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-s"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-s">
                                                 <span class="fr-chip-text">M</span>
                                             </label>
                                         </dt>
                                     </div>
                                 </dl>
-                                <dl class="size-picker"  >
+                                <dl class="size-picker">
                                     <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-m" class="color-input">
-                                            <label class="fr-chip-label" for="size-m"
-                                               >
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-m"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-m">
                                                 <span class="fr-chip-text">S</span>
                                             </label>
                                         </dt>
@@ -130,22 +100,206 @@
                                 </dl>
                                 <dl class="size-picker">
                                     <div class="size-item" data-test="size.valueName">
-                                        <dt style="margin-bottom: 10px;">
-                                            <input type="radio" name="product-size-picker" id="size-l" class="color-input">
-                                            <label class="fr-chip-label" for="size-l"
-                                                >
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-l"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-l">
                                                 <span class="fr-chip-text">XL</span>
                                             </label>
                                         </dt>
                                     </div>
-                                </dl>                              
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-s"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-s">
+                                                <span class="fr-chip-text">M</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-m"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-m">
+                                                <span class="fr-chip-text">S</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-l"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-l">
+                                                <span class="fr-chip-text">XL</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-s"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-s">
+                                                <span class="fr-chip-text">M</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-m"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-m">
+                                                <span class="fr-chip-text">S</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-l"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-l">
+                                                <span class="fr-chip-text">XL</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-s"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-s">
+                                                <span class="fr-chip-text">M</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-m"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-m">
+                                                <span class="fr-chip-text">S</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
+                                <dl class="size-picker">
+                                    <div class="size-item" data-test="size.valueName">
+                                        <dt>
+                                            <input type="radio" name="product-size-picker" id="size-l"
+                                                class="color-input">
+                                            <label class="fr-chip-label" for="size-l">
+                                                <span class="fr-chip-text">XL</span>
+                                            </label>
+                                        </dt>
+                                    </div>
+                                </dl>
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-md-3 content-colors">
+                            <span class="title-color">TỪ KHÓA :</span> <br>
+                            <span></span>
+                        </div>
+                        <div class="col-md-9 ">
+
+
+                            <div class="btn-box-color" style="background-color: rgb(151, 151, 151);">
+                                <input type="text" placeholder="Nhập từ khóa hoặc tên tỉnh">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-3 content-colors">
+
+                        </div>
+                        <div class="col-md-9 ">
+
+
+                            <div class="btn-box-color">
+                                <button class="btn-search">TÌM KIẾM</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  mt-4 ps-2 pe-2">
+                        <div class="col-md-12 content-colors">
+                            <ul class="describe">
+                                <li>Bạn có thể sử dụng chức năng này bằng cách tải lại trang này sau khi bật dịch vụ
+                                    định vị.</li>
+                                <li>Nếu dịch vụ định vị không khả dụng, hãy tìm kiếm cửa hàng bằng cách nhập từ khóa
+                                    hoặc mã bưu chính.</li>
+                                <li>Không thể đặt hàng trực tiếp từ các cửa hàng. Tính năng này chỉ để kiểm tra tính sẵn
+                                    có của sản phẩm tại cửa hàng. </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row  ps-2 pe-2">
+                        <hr>
+                        <div class="col-md-8 content-search"  >
+                            <span class="title-search">UNIQLO AEON MALL Bình Tân</span>
+                            <span class="title-time">Giờ mở cửa: 09:00 AM - 10:00 PM</span>
+                            <span class="title-describe">NỮ NAM KIDS TRẺ SƠ SINH PARKING AVAILABLE CÁC CỬA HÀNG LỚN
+                            </span>
+                        </div>
+
+                        <div class="col-md-4 content-distance">
+                          <span >Không khả dụng</span>
+                        </div>
+
+                    </div>
+                    <div class="row  ps-2 pe-2">
+                        <hr>
+                        <div class="col-md-8 content-search"  >
+                            <span class="title-search">UNIQLO AEON MALL Bình Tân</span>
+                            <span class="title-time">Giờ mở cửa: 09:00 AM - 10:00 PM</span>
+                            <span class="title-describe">NỮ NAM KIDS TRẺ SƠ SINH PARKING AVAILABLE CÁC CỬA HÀNG LỚN
+                            </span>
+                        </div>
+
+                        <div class="col-md-4 content-distance">
+                          <span >Không khả dụng</span>
+                        </div>
+
+                    </div>
+                    <div class="row  ps-2 pe-2">
+                        <hr>
+                        <div class="col-md-8 content-search"  >
+                            <span class="title-search">UNIQLO AEON MALL Bình Tân</span>
+                            <span class="title-time">Giờ mở cửa: 09:00 AM - 10:00 PM</span>
+                            <span class="title-describe">NỮ NAM KIDS TRẺ SƠ SINH PARKING AVAILABLE NỮ NAM KIDS TRẺ SƠ SINH PARKING AVAILABLE CÁC CỬA HÀNG LỚN
+                            </span>
+                        </div>
+
+                        <div class="col-md-4 content-distance">
+                          <span >Không khả dụng</span>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                sfvfr
+          
+            <div class="col-md-4 content-image">
+                <div  class="image-page">
+                    <img src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/456591/item/goods_00_456591_3x4.jpg"  alt="">
+
+                </div>
             </div>
         </div>
 
