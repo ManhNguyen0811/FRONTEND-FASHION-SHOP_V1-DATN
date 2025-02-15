@@ -155,7 +155,9 @@
               <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </button>
             <!-- Nút Yêu thích -->
-            <button class="btn btn-icon">
+            <button class="btn btn-icon"
+              (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0)"
+            >
               <i class="fa-regular fa-heart"></i>
             </button>
           </div>
