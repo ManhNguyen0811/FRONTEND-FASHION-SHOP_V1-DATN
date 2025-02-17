@@ -23,7 +23,6 @@ export class EditAttributeComponent {
   ];
   get filteredProducts() {
     const search = this.removeVietnameseTones(this.searchText.trim().toLowerCase());
-
     return this.products.filter((product) =>
       this.removeVietnameseTones(product.name.toLowerCase()).includes(search)
     );

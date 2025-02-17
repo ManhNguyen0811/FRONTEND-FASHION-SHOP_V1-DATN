@@ -26,7 +26,7 @@ export class ReviewsComponent implements OnInit {
   page: number = 0
   size: number = 4
   sortBy: string = 'id'
-  sortDir: string = 'asc'
+  sortDir: string = 'desc'
   currentPage: number = 0; // Trang hiện tại
   pageSize: number = 10; // Số phần tử trên mỗi trang
   isLoading: boolean = false; // Trạng thái tải dữ liệu

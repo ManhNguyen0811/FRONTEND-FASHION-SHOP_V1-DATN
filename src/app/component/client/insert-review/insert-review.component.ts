@@ -1,10 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, OnInit, Provider } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {NavigationService} from '../../../services/Navigation/navigation.service';
-import {NavigationEnd, Router, RouterLink} from '@angular/router';
-import {filter} from 'rxjs';
-import {TranslateModule} from '@ngx-translate/core';
+import { NavigationService } from '../../../services/Navigation/navigation.service';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import { catchError, filter, first, firstValueFrom, forkJoin, map, Observable, of, take } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
+import { AddressServiceService } from '../../../services/client/AddressService/address-service.service';
+import { Province } from '../../../models/Provinces';
+import { SizeDTO } from '../../../models/sizeDTO';
+import { ProductServiceService } from '../../../services/client/ProductService/product-service.service';
+import { ApiResponse } from '../../../dto/Response/ApiResponse';
+import { ReviewServiceService } from '../../../services/client/ReviewService/review-service.service';
+import { Review } from '../../../models/Review';
+import { response } from 'express';
+import { ToastrService } from 'ngx-toastr';
+import { DetailMediaDTO } from '../../../dto/DetailMediaDTO';
+import { ImageDetailService } from '../../../services/client/ImageDetailService/image-detail.service';
+import { DetailProductDTO } from '../../../dto/DetailProductDTO';
+import { DetailProductService } from '../../../services/client/DetailProductService/detail-product-service.service';
 
 @Component({
   selector: 'app-insert-review',
@@ -14,63 +27,72 @@ import {TranslateModule} from '@ngx-translate/core';
     CommonModule,
     FormsModule,
     TranslateModule,
-    RouterLink
+    RouterLink,
+
   ],
   templateUrl: './insert-review.component.html',
   styleUrl: './insert-review.component.scss'
 })
-export class InsertReviewComponent implements OnInit{
+export class InsertReviewComponent implements OnInit {
   currentLang: string = 'vi';
   currentCurrency: string = 'vn';
+  productId?: number;
 
-
-  toggleLanguageAndCurrency() {
-    if (this.currentLang === 'vi') {
-      this.changeLanguageAndCurrency('en', 'us'); // Đổi sang tiếng Anh
-    } else {
-      this.changeLanguageAndCurrency('vi', 'vn'); // Đổi sang tiếng Việt
-    }
-    console.log("ok lun")
-  }
-
-  changeLanguageAndCurrency(lang: string, currency: string) {
-    // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
-    this.navigationService.updateLang(lang);
-    this.navigationService.updateCurrency(currency);
-
-    // Tạo URL mới với ngôn ngữ và tiền tệ đã thay đổi
-    const updatedUrl = this.router.url.replace(
-      /\/client\/[^\/]+\/[^\/]+/,
-      `/client/${currency}/${lang}`
-    );
-
-    // Điều hướng đến URL mới
-    this.router.navigateByUrl(updatedUrl);
-  }
-
+  sizeId?: number;
+  colorId?: number;
 
   reviewForm: FormGroup;
 
   // Variables for UI
-  selectedRating: number = 0;
+  selectedRating: number = 3;
   ratingText: string = '';
   fitValue: number = 3; // Default "Đúng với kích thước"
+  terms: boolean = false
+  dataProvince: Province[] = [];
+
+  isOpen: boolean = false;
+  searchText: string = '';
+  selectedItem: any = null;
+  dataSizes: SizeDTO[] = [];
+  dataDetailsProduct: DetailProductDTO | null = null;
+
+
+  reviewNew: Review = {
+    productId: this.productId ?? 0,
+    title: '',
+    comment: '',
+    purchasedSize: '',
+    fit: '',
+    nickname: '',
+    gender: '',
+    ageGroup: '',
+    height: '',
+    weight: '',
+    shoeSize: '',
+    location: '',
+    reviewRate: 0
+  };
+
+
+
+
 
   // Static data
   //Kích cỡ đã mua
+
   sizes = [
-    {size : 'XS' },
-    {size : 'S' },
-    {size : 'M' },
-    {size : 'L' },
-    {size : 'XL' },
-    {size : 'XXL' }
+    { size: 'XS' },
+    { size: 'S' },
+    { size: 'M' },
+    { size: 'L' },
+    { size: 'XL' },
+    { size: 'XXL' }
   ];
   //Giới tính
   genders = [
-    {gender: 'Nam'},
-    {gender: 'Nữ'},
-    {gender: 'Khác'}
+    { gender: 'Nam' },
+    { gender: 'Nữ' },
+    { gender: 'Khác' }
   ];
   //Độ tuổi
   ages = [
@@ -156,74 +178,24 @@ export class InsertReviewComponent implements OnInit{
     { size: 'EU50 trở lên' },
   ];
 
-  provinces = [
-    "Hà Nội",
-    "Hà Giang",
-    "Cao Bằng",
-    "Bắc Kạn",
-    "Tuyên Quang",
-    "Lào Cai",
-    "Điện Biên",
-    "Lai Châu",
-    "Sơn La",
-    "Yên Bái",
-    "Hòa Bình",
-    "Thái Nguyên",
-    "Lạng Sơn",
-    "Quảng Ninh",
-    "Bắc Giang",
-    "Phú Thọ",
-    "Vĩnh Phúc",
-    "Bắc Ninh",
-    "Hải Dương",
-    "Hải Phòng",
-    "Hưng Yên",
-    "Thái Bình",
-    "Hà Nam",
-    "Nam Định",
-    "Ninh Bình",
-    "Thanh Hóa",
-    "Nghệ An",
-    "Hà Tĩnh",
-    "Quảng Bình",
-    "Quảng Trị",
-    "Thừa Thiên Huế",
-    "Đà Nẵng",
-    "Quảng Nam",
-    "Quảng Ngãi",
-    "Bình Định",
-    "Phú Yên",
-    "Khánh Hòa",
-    "Ninh Thuận",
-    "Bình Thuận",
-    "Kon Tum",
-    "Gia Lai",
-    "Đắk Lắk",
-    "Đắk Nông",
-    "Lâm Đồng",
-    "Bình Phước",
-    "Tây Ninh",
-    "Bình Dương",
-    "Đồng Nai",
-    "Bà Rịa - Vũng Tàu",
-    "Hồ Chí Minh",
-    "Long An",
-    "Tiền Giang",
-    "Bến Tre",
-    "Trà Vinh",
-    "Vĩnh Long",
-    "Đồng Tháp",
-    "An Giang",
-    "Kiên Giang",
-    "Cần Thơ",
-    "Hậu Giang",
-    "Sóc Trăng",
-    "Bạc Liêu",
-    "Cà Mau"
-  ];
 
 
-  constructor(private fb: FormBuilder, private navigationService: NavigationService, private router: Router) {
+
+
+
+  constructor(private fb: FormBuilder,
+    private navigationService: NavigationService,
+    private activeRoute: ActivatedRoute,
+    private router: Router,
+    private addressService: AddressServiceService,
+    private productService: ProductServiceService,
+    private reviewService: ReviewServiceService,
+    private toastr: ToastrService,
+    private detailProductService: DetailProductService,
+
+
+
+  ) {
     this.reviewForm = this.fb.group({
       rating: [0, Validators.required],
       fit: [3, Validators.required],
@@ -248,20 +220,107 @@ export class InsertReviewComponent implements OnInit{
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
     });
+
+
   }
 
+  async ngOnInit(): Promise<void> {
+    this.getProductIdFromRouter();
+    await this.fetchInsertReview(this.productId ?? 0);
+  }
+
+  getProductIdFromRouter(): void {
+    this.activeRoute.params.pipe(take(1)).subscribe(params => {
+      this.productId = Number(params['productId'])
+      this.colorId = Number(params['colorId']) || 0;
+      this.sizeId = Number(params['sizeId']) || 0;
+      console.log(this.productId)
+      console.log("colorId: "+ this.colorId)
+      console.log(this.sizeId)
+
+
+      this.reviewNew.productId = this.productId
+      console.log("this.reviewNew.productId 11: " + this.reviewNew.productId)
+
+    })
+
+
+    console.log("this.reviewNew.productId :" + this.reviewNew.productId)
+  }
+
+  async fetchInsertReview(productId: number): Promise<void> {
+    if (!productId) return;
+
+    const callApis = {
+      dataProvince: this.getApiProvincesFromNominatim().pipe(catchError(() => of([]))),
+      dataSizes: this.getSizeProduct(productId).pipe(catchError(() => of([]))),
+      dataDetailsProduct: this.getDetailsProduct(this.currentLang, productId).pipe(catchError(() => of(null))),
+
+
+
+    };
+    const response = await firstValueFrom(forkJoin(callApis));
+    this.dataProvince = response.dataProvince
+    this.dataSizes = response.dataSizes;
+    this.dataDetailsProduct = response.dataDetailsProduct
+
+    console.log("dataSizes : " + this.dataSizes[0].valueName)
+
+  }
+
+  getDetailsProduct(lang: string, productId: number): Observable<DetailProductDTO | null> {
+    return this.detailProductService.getDetailProduct(lang, productId).pipe(
+      map((response: ApiResponse<DetailProductDTO>) => response?.data ?? null),
+      catchError((error) => {
+        console.error("❌ Lỗi khi gọi API getDetailsProduct:", error);
+        return of(null);
+      })
+    );
+
+  }
+
+
+  getSizeProduct(productId: number): Observable<SizeDTO[]> {
+    return this.productService.getSizeProduct(productId).pipe(
+      map((response: ApiResponse<SizeDTO[]>) => response.data || []),
+      catchError(() => of([]))
+    );
+  }
+  getApiProvincesFromNominatim(): Observable<Province[]> {
+    return this.addressService.getApiProvincesFromNominatim();
+  }
 
   // Handlers
   setRating(rating: number): void {
     this.selectedRating = rating;
     this.ratingText = this.getRatingText(rating);
     this.reviewForm.controls['rating'].setValue(rating);
+    if (this.reviewNew) {
+      this.reviewNew.reviewRate = rating;
+    }
+
   }
 
   setFitValue(value: number): void {
+    // Validate that value is between 1 and 5
+    if (value < 1 || value > 5) {
+      console.log('Invalid value for fit:', value);
+      return;  // Exit early if value is not in the valid range
+    }
+
     this.fitValue = value;
     this.reviewForm.controls['fit'].setValue(value);
 
+    const fitLabels = [
+      'CHẬT',
+      'HƠI CHẬT',
+      'ĐÚNG VỚI KÍCH THƯỚC',
+      'HƠI RỘNG',
+      'RỘNG'
+    ];
+
+    this.reviewNew.fit = fitLabels[value - 1];
+    console.log(this.reviewNew.fit);
   }
 
   getRatingText(rating: number): string {
@@ -274,24 +333,153 @@ export class InsertReviewComponent implements OnInit{
       default: return '';
     }
   }
-
   onSubmit(): void {
-    if (this.reviewForm.valid) {
-      console.log(this.reviewForm.value); // Send form data to backend
+    if (this.reviewNew.reviewRate === 0) {
+      this.reviewNew.reviewRate = this.selectedRating
+    }
+    if (!this.reviewNew.fit) {
+      this.reviewNew.fit = 'ĐÚNG VỚI KÍCH THƯỚC'
+    }
+    if (!this.reviewNew.nickname) {
+      this.reviewNew.nickname = 'None'
+    }
+    if (!this.validateReview()) return;
+
+    this.reviewService.createReview(this.reviewNew).subscribe(
+      response => {
+        this.toastr.success('Review created successfully!', 'Successfully', {
+          timeOut: 2000,
+        })
+        this.resetForm()
+
+      },
+      error => {
+        this.toastr.error('There was an error creating the review!', 'ERROR', {
+          timeOut: 2000,
+        })
+      }
+    );
+
+
+  }
+
+
+  get filteredProvinces(): Province[] {
+    const search = this.removeVietnameseTones(this.searchText.trim().toLowerCase());
+    return this.dataProvince.filter(province =>
+      this.removeVietnameseTones(province.name.toLowerCase()).includes(search)
+    );
+  }
+  resetForm(): void {
+    this.reviewNew = {
+      productId: this.productId ?? 0,
+      title: '',
+      comment: '',
+      purchasedSize: '',
+      fit: '',
+      nickname: '',
+      gender: '',
+      ageGroup: '',
+      height: '',
+      weight: '',
+      shoeSize: '',
+      location: '',
+      reviewRate: 0
+    };
+    this.selectedItem = null
+    this.terms = false
+
+  }
+
+
+  toggleLanguageAndCurrency() {
+    if (this.currentLang === 'vi') {
+      this.changeLanguageAndCurrency('en', 'us'); // Đổi sang tiếng Anh
     } else {
-      console.log('Form is invalid:', this.reviewForm.errors);
-      Object.keys(this.reviewForm.controls).forEach(key => {
-        const controlErrors = this.reviewForm.get(key)?.errors;
-        if (controlErrors) {
-          console.log(`Control ${key} errors:`, controlErrors);
-        }
-      });
+      this.changeLanguageAndCurrency('vi', 'vn'); // Đổi sang tiếng Việt
+    }
+    console.log("ok lun")
+  }
+
+  changeLanguageAndCurrency(lang: string, currency: string) {
+    // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
+    this.navigationService.updateLang(lang);
+    this.navigationService.updateCurrency(currency);
+
+    // Tạo URL mới với ngôn ngữ và tiền tệ đã thay đổi
+    const updatedUrl = this.router.url.replace(
+      /\/client\/[^\/]+\/[^\/]+/,
+      `/client/${currency}/${lang}`
+    );
+
+    // Điều hướng đến URL mới
+    this.router.navigateByUrl(updatedUrl);
+  }
+
+
+  removeVietnameseTones(str: string): string {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "D");
+  }
+
+
+  selectItem(item: Province) {
+    this.selectedItem = item;
+    this.isOpen = false
+    this.searchText = ''
+    this.reviewNew.location = item.name
+  }
+  validateReview(): boolean {
+    if (!this.reviewNew.title || this.reviewNew.title.length === 0) {
+      this.toastr.error('Title is required', 'ERROR', { timeOut: 2000 });
+      return false;
     }
 
+    if (!this.reviewNew.comment || this.reviewNew.comment.length === 0) {
+      this.toastr.error('Comment is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.purchasedSize || this.reviewNew.purchasedSize.length === 0) {
+      this.toastr.error('Purchased size is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.gender || this.reviewNew.gender.length === 0) {
+      this.toastr.error('Gender is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.ageGroup || this.reviewNew.ageGroup.length === 0) {
+      this.toastr.error('Age group is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.location || this.reviewNew.location.length === 0) {
+      this.toastr.error('Location is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.height || this.reviewNew.height.length === 0) {
+      this.toastr.error('Height is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.reviewNew.shoeSize || this.reviewNew.shoeSize.length === 0) {
+      this.toastr.error('Shoe size is required', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    if (!this.terms) {
+      this.toastr.error('You must agree to the terms and conditions', 'ERROR', { timeOut: 2000 });
+      return false;
+    }
+
+    return true;
   }
 
-  ngOnInit(): void {
 
-  }
 
 }

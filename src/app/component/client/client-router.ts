@@ -100,7 +100,7 @@ export const clientRouter: Routes =[
               canActivate: [AuthGuardFn]
             },
             {
-                path: 'review/new',
+                path: 'review/new/:productId/:colorId/:sizeId',
                 component: InsertReviewComponent,
                 canActivate: [AuthGuardFn]
             },
