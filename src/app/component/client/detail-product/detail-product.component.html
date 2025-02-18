@@ -99,7 +99,7 @@
         <div *ngFor="let review of dataReviewDetailProduct" class="review-item mb-4">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="fw-bold">{{ review.title }}</h6>
-            <span class="text-muted">{{ review.createdAt }}</span>
+            <span class="text-muted">{{ review.createdAt }}</span> #{{review.id}}
           </div>
           <div class="stars text-black mb-2">
             <ng-container *ngFor="let star of getFullStars(review.reviewRate)">
@@ -133,7 +133,7 @@
         </a>
       </div>
       <div class="text-end mt-2 mb-2">
-        <a [routerLink]="['../review/new']" style="cursor: pointer"
+        <a [routerLink]="['/client', currentCurrency, currentLang,'review','new',productId, colorId, sizeId ]" style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <i class="fa-solid fa-pen"></i>
           <span class="text-primary">{{ "Viết bài đánh giá" | translate }}</span>

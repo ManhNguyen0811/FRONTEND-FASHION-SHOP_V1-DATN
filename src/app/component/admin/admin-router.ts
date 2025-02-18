@@ -10,6 +10,7 @@ import { ListUserComponent } from "./user/list-user/list-user.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { EditAttributeComponent } from "./attribute/edit-attribute/edit-attribute.component";
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
+import { LoginAdminComponent } from "./login-admin/login-admin.component";
  
 export const adminRouter: Routes =[
     {
@@ -20,6 +21,10 @@ export const adminRouter: Routes =[
             {
                 path:'list_user',
                 component: ListUserComponent
+            },
+            {
+                path:'login_admin',
+                component: LoginAdminComponent
             },
             {
                 path:'edit_user',
