@@ -86,5 +86,22 @@
   "HÌNH ẢNH CHI TIẾT": "詳細画像",
   "Mẫu cao": "高身長モデル",
   "Màu": "カラー",
-  "Kích thước": "サイズ"
+  "Kích thước": "サイズ",
+
+  "_commentStore-Inventory" :"----------------------Phần Store Inventory----------------------------",
+  "reload_location": "位置情報サービスを有効にした後、ページを再読み込みすることでこの機能を利用できます。",
+  "search_store": "位置情報サービスが利用できない場合は、キーワードまたは郵便番号を入力して店舗を検索できます。",
+  "no_order": "店舗から直接注文することはできません。この機能は、店舗での製品の在庫確認のためのものです。",
+  "back_product": "商品詳細に戻る",
+  "find_store": "店舗で在庫のある商品を探す",
+  "select_color_size": "カラーとサイズを選択してください。",
+  "color": "カラー",
+  "size": "サイズ",
+  "keyword": "キーワード",
+  "enter_city": "都市または県名を入力してください",
+  "out_of_stock": "在庫切れ",
+  "in_stock": "{{ store.quantity }} 点在庫あり",
+  "see_more": "もっと見る",
+  "opening_hours": "営業時間:"
+
 }

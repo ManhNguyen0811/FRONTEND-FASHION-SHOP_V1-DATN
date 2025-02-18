@@ -21,11 +21,12 @@ import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
 import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 import {TokenService} from '../../../services/token/token.service';
 import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
+import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe,DatePipe],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -85,9 +86,6 @@ export class ProductComponent implements OnInit {
       this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
     });
   }
-
-
-
 
   fetchProducts(
     categoryId: number,

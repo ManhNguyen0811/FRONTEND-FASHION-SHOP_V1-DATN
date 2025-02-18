@@ -44,9 +44,6 @@ export class NavBottomComponent implements OnInit{
     });
   }
 
-
-
-
   toggleSearch(): void {
     this.navigationService.toggleSearchActive();
   }

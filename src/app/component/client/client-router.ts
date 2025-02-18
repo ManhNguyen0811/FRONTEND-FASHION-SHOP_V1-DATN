@@ -27,6 +27,7 @@ import {routes} from '../../app.routes';
 import {NgModule} from '@angular/core';
 import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
+import {StoreDetailComponent} from './store-detail/store-detail.component';
 
 export const clientRouter: Routes =[
     {
@@ -105,9 +106,14 @@ export const clientRouter: Routes =[
                 canActivate: [AuthGuardFn]
             },
             {
-              path: 'store_inventory',
+              path: 'store_inventory/:productId/:colorId/:sizeId',
               component: StoreInventoryComponent
             },
+
+          {
+            path: 'store_detail/:storeId',
+            component: StoreDetailComponent
+          },
             {
                 path: 'size',
                 component: CheckSizeComponent
