@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, map, Observable, of, tap} from 'rxjs';
 import { Product } from '../../../models/Product/product';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
@@ -13,10 +13,17 @@ import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { VariantsDetailProductDTO } from '../../../dto/VariantsDetailProductDTO';
 import { InventoryDTO } from '../../../dto/InventoryDTO';
+import {WishlistCheckResponse} from '../../../dto/WishlistCheckResponse';
+
+
+
 
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class ProductServiceService {
 
   constructor(private http: HttpClient) { }
@@ -114,5 +121,29 @@ export class ProductServiceService {
   getVideosProduct(productId: number): Observable<ApiResponse<ImagesDetailProductDTO[]>>{
     return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/videos/${productId}`)
   }
+
+  isInWishlist(userId: number, productId: number, colorId: number): Observable<ApiResponse<WishlistCheckResponse>> {
+    const params = new HttpParams()
+      .set('userId', userId.toString())
+      .set('productId', productId.toString())
+      .set('colorId', colorId.toString());
+
+    return this.http.get<ApiResponse<WishlistCheckResponse>>(`${this.apiUrl}/wishlist/check`, { params }).pipe( // ✅ Log toàn bộ API response để debug
+      catchError(error => {
+        console.error('Lỗi khi kiểm tra wishlist:', error);
+        return of({
+          timestamp: new Date().toISOString(),
+          status: 500,
+          message: 'Lỗi kết nối đến server',
+          data: { isInWishList: false }, // ✅ Nếu lỗi, trả về giá trị mặc định hợp lệ
+          errors: null
+        });
+      })
+    );
+  }
+
+
+
+
 
 }

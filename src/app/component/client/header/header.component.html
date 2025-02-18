@@ -69,7 +69,14 @@
           [ngClass]="{
           'text-black': !isHome || isSearchActive
           }"
-          class="bi bi-heart"></i>
+          class="bi bi-heart position-relative">
+            <span
+              *ngIf="(totalWishlist$ | async) !== 0"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark"
+            >
+              {{ totalWishlist$ | async }}
+            </span>
+        </i>
       </a>
       <a [routerLink]="['/client', currentCurrency, currentLang, 'cart']"
          [queryParams]="null"

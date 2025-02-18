@@ -240,16 +240,39 @@ export class ProductComponent implements OnInit {
       )
   }
 
-  toggleWishlist(userId: number, variantId:number){
-    if(userId === 0){
+
+  toggleWishlist(productId: number, colorId: number): void {
+    if (this.userId === 0) {
       const confirmRedirect = window.confirm(
         'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
       );
       if (confirmRedirect) {
         this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
       }
+      return;
     }
-    this.wishlistService.toggleWishlistInProduct(userId,variantId);
+
+    // ✅ Tìm sản phẩm trong danh sách để cập nhật trạng thái `inWishlist`
+    const productIndex = this.products.findIndex(p => p.id === productId);
+    if (productIndex !== -1 && this.products[productIndex].detail) {
+      // ✅ Đảo trạng thái `inWishlist` ngay lập tức để cập nhật UI
+      this.products[productIndex].detail!.inWishlist = !this.products[productIndex].detail!.inWishlist;
+    }
+
+    // ✅ Gọi API để cập nhật trạng thái wishlist trên backend
+    this.wishlistService.toggleWishlistInProductDetail(this.userId, productId, colorId).subscribe({
+      next: () => {
+        this.wishlistService.getWishlistTotal(this.userId); // Cập nhật tổng số wishlist
+      },
+      error: (error) => {
+        console.error('API Error:', error);
+        // ❌ Nếu API lỗi, đảo ngược lại trạng thái
+        if (productIndex !== -1 && this.products[productIndex].detail) {
+          this.products[productIndex].detail!.inWishlist = !this.products[productIndex].detail!.inWishlist;
+        }
+      }
+    });
   }
+
 
 }

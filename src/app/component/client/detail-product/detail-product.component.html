@@ -126,7 +126,7 @@
       </div>
       <!--Xem thêm review và nhập review-->
       <div class="text-end mt-2 mb-2">
-        <a [routerLink]="['/client', currentCurrency, currentLang,'reviews', productId ]" 
+        <a [routerLink]="['/client', currentCurrency, currentLang,'reviews', productId ]"
         style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <span class="text-primary">{{ "Xem thêm" | translate }}</span>
@@ -156,8 +156,9 @@
               <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </button>
             <!-- Nút Yêu thích -->
-            <button class="btn btn-icon" (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0)">
-              <i class="fa-regular fa-heart"></i>
+            <button class="btn btn-icon" (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0);checkWishlist(userId,productId ?? 0,colorId ?? 0)">
+              <i *ngIf="isWishlist" class="fa-solid fa-heart" style="color: #ff0000;"></i>
+              <i *ngIf="!isWishlist" class="fa-regular fa-heart"></i>
             </button>
           </div>
         </div>
@@ -169,7 +170,7 @@
               <div class="color-item" *ngFor="let color of dataColors" [attr.data-test]="color.valueName">
                 <dt>
                   <input type="radio" [value]="color.id" name="product-color-picker"
-                    [id]="'product-color-picker' + color.id" class="color-input" (click)="selectColor(color)"
+                    [id]="'product-color-picker' + color.id" class="color-input" (click)="selectColor(color);checkWishlist(userId,productId ?? 0,colorId ?? 0)"
                     [checked]="color.id === selectedColorId">
 
                   <label class="color-label" [for]="'product-color-picker' + color.id"

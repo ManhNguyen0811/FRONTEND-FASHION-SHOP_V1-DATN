@@ -64,6 +64,8 @@ export class DetailProductComponent implements OnInit {
   sortBy: string = 'id'
   sortDir: string = 'desc'
 
+  isWishlist: boolean = false;
+
   constructor(
     private router: Router,
     private navigationService: NavigationService,
@@ -91,6 +93,8 @@ export class DetailProductComponent implements OnInit {
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
 
     this.userId = this.tokenService.getUserId();
+
+    this.checkWishlist(this.userId, this.productId ?? 0, this.colorId ?? 0);
   }
 
 
@@ -430,15 +434,43 @@ export class DetailProductComponent implements OnInit {
       }
     }
 
-    this.wishlistService.toggleWishlistInProductDetail(userId,productId,colorId)
-      .subscribe({
-        next: (response) => {
-          // console.log('Message:', response.message);
-          // console.log('Response Data:', response.data);
-        },
-        error: (error) => {
-          // console.error('API Error:', error);
-        }
-      });
+    this.wishlistService.toggleWishlistInProductDetail(userId, productId, colorId).subscribe({
+      next: (response) => {
+        console.log('Message:', response.message);
+        console.log('Response Data:', response.data);
+
+        // ✅ Chỉ gọi checkWishlist sau khi toggleWishlistInProductDetail thành công
+        this.wishlistService.getWishlistTotal(userId);
+        this.checkWishlist(userId, productId, colorId);
+      },
+      error: (error) => {
+        console.error('API Error:', error);
+      }
+    });
   }
+
+
+  checkWishlist(userId: number, productId: number, colorId: number) {
+    if (!userId || !productId || !colorId) {
+      console.warn('Dữ liệu không hợp lệ:', { userId, productId, colorId });
+      return;
+    }
+
+    this.productService.isInWishlist(userId, productId, colorId).subscribe({
+      next: (response) => {
+
+        // ✅ Lấy giá trị đúng key từ API (`isInWishList` thay vì `isInWishlist`)
+        this.isWishlist = response.data?.isInWishList ?? false;
+
+      },
+      error: (error) => {
+        console.error('Lỗi khi kiểm tra wishlist:', error);
+        this.isWishlist = false; // ✅ Nếu API lỗi, tránh bị undefined
+      }
+    });
+  }
+
+
+
+
 }
