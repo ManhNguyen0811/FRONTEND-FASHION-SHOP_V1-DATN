@@ -37,5 +37,16 @@
     </div>
   </div>
 </div>
-<app-table [tableData]="data" [tableHeaders]="headers" routerLinkString="/admin/edit_category"
-  [eventClick]="clickNe" [toggleCheckbox]="toggleCheckbox " ></app-table>
+<app-table *ngIf="dataPageCategory" 
+[currentPage]="page"
+           [tableData]="dataPageCategory?.content?.flat() || []"  
+           [dataPage]="dataPageCategory" 
+           
+           [typeImage]="'categories'" 
+           [tableHeaders]="headers" 
+           routerLinkString="/admin/edit_category"
+           [eventClick]="clickNe" 
+           [toggleCheckbox]="toggleCheckbox"
+           (pageChanged)="onPageChange($event)"
+           >
+</app-table>

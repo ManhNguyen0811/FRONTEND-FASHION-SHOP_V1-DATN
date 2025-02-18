@@ -1,9 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../button/button.component';
+import { LanguagesService } from '../../../../services/LanguagesService/languages.service';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of } from 'rxjs';
+ 
+import { response } from 'express';
+import { ApiResponse } from '../../../../dto/Response/ApiResponse';
+import { LanguageDTO } from '../../../../dto/LanguageDTO';
+import { PageResponse } from '../../../../dto/Response/page-response';
+import { CategoryService } from '../../../../services/client/CategoryService/category.service';
+import { CategoryAdminService } from '../../../../services/admin/CategoryService/category.service';
+import { CategoryAdmin } from '../../../../models/Category/CategoryAdmin';
 
 interface Category {
   id: number,
@@ -14,26 +24,57 @@ interface Category {
 @Component({
   selector: 'app-edit-category',
   standalone: true,
-  imports: [HeaderAdminComponent, RouterLink, CommonModule, FormsModule,ButtonComponent],
+  imports: [HeaderAdminComponent, RouterLink, CommonModule, FormsModule, ButtonComponent],
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.scss'
 })
-export class EditCategoryComponent {
+export class EditCategoryComponent implements OnInit {
   id!: number;
+
 
   listCategory: Category[] = []
   selectIdChild: number | undefined
   selectIdSubChild: number | undefined
 
-  constructor(private route: ActivatedRoute) {
+  dataLanguages : LanguageDTO[] = []
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private languagesSrevice: LanguagesService,
+    private categoryAdminService : CategoryAdminService
+  ) {
 
   }
-  ngOnInit(): void {
+
+  async ngOnInit(): Promise<void> {
     this.id = +this.route.snapshot.paramMap.get('id')!;
     console.log('Received ID:', this.id);
+    this.fetchCategory()
 
     this.listCategory = this.categories
 
+  }
+
+  async fetchCategory(): Promise<void> {
+
+    const callApis = {
+      dataLanguages : this.getLanguages().pipe(catchError(() => of([]))),
+    }
+
+    const response = await firstValueFrom(forkJoin(callApis))
+    this.dataLanguages  = response.dataLanguages
+  
+    
+
+  }
+  
+
+  getLanguages(): Observable<LanguageDTO[]>{
+    return this.languagesSrevice.getLanguages().pipe(
+      map((response :  ApiResponse<LanguageDTO[]>) => response.data || []),
+      catchError(() => of([]))
+    )
   }
 
   categories: Category[] = [
@@ -144,7 +185,7 @@ export class EditCategoryComponent {
     if (categoriesIdChild !== undefined) {
       const categoriesIdChildNumber = Number(categoriesIdChild);
       const selectedCategory = this.listCategory.find(category => category.id === categoriesIdChildNumber);
-      
+
       if (selectedCategory) {
         return selectedCategory.subCategories;
       } else {
@@ -162,7 +203,7 @@ export class EditCategoryComponent {
     if (categoriesIdChild !== undefined) {
       const categoriesIdSubChildNumber = Number(categoriesIdChild);
       const selectedCategory = this.getListCategoryChild(this.selectIdChild).find(category => category.id === categoriesIdSubChildNumber);
-      
+
       if (selectedCategory) {
         return selectedCategory.subCategories;
       } else {
@@ -177,7 +218,7 @@ export class EditCategoryComponent {
 
 
 
-  clickEvent(){
+  clickEvent() {
     console.log("aaaaa")
   }
 

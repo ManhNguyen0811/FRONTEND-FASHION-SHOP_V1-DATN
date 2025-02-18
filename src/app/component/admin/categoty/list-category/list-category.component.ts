@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
 import { TableComponent } from '../../table/table.component';
+import { PageResponse } from '../../../../dto/Response/page-response';
+import { CategoryAdmin } from '../../../../models/Category/CategoryAdmin';
+import { CategoryAdminService } from '../../../../services/admin/CategoryService/category.service';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of } from 'rxjs';
+import { ApiResponse } from '../../../../dto/Response/ApiResponse';
+import { CommonModule } from '@angular/common';
 
 export interface TableDataModel {
   id: number;
@@ -15,71 +21,84 @@ export interface TableDataModel {
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [HeaderAdminComponent, TableComponent],
+  imports: [HeaderAdminComponent, TableComponent,CommonModule],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
 
 
 export class ListCategoryComponent implements OnInit {
-  headers: string[] = ['id', 'name', 'imageUrl', 'isActive', 'parentsID', 'parentsName', 'createdAt', 'updatedAt', 'button'];
+  headers: string[] = ['id', 'name', 'imageUrl', 'isActive', 'parentId', 'parentName', 'createdAt', 'updatedAt', 'button'];
 
   checkedItems: any[] = [];  // Danh sách các mục đã chọn, đã được khởi tạo
 
+  page: number = 0
+  size: number = 7
+  sortBy: string = 'createdAt'
+  sortDir: string = 'asc'
 
-
-  data: TableDataModel[] = [
-
-    {
-      id: 1,
-      name: 'Product A',
-      imageUrl: 'https://im.uniqlo.com/global-cms/spa/res5531725dc496187c0b233c84e865bdd8fr.png',
-      isActive: true,
-      parentsID: 101,
-      parentsName: 'Category A',
-      createdAt: '2024-01-01T12:00:00Z',
-      updatedAt: '2024-01-10T12:00:00Z'
-    },
-    {
-      id: 2,
-      name: 'Product B',
-      imageUrl: 'https://im.uniqlo.com/global-cms/spa/res5531725dc496187c0b233c84e865bdd8fr.png',
-      isActive: false,
-      parentsID: 102,
-      parentsName: 'Category B',
-      createdAt: '2024-01-05T10:30:00Z',
-      updatedAt: '2024-01-15T14:00:00Z'
-    },
-    {
-      id: 200,
-      name: 'Product C',
-      imageUrl: 'https://im.uniqlo.com/global-cms/spa/res5531725dc496187c0b233c84e865bdd8fr.png',
-      isActive: true,
-      parentsID: 103,
-      parentsName: 'Category C',
-      createdAt: '2024-02-01T08:00:00Z',
-      updatedAt: '2024-02-10T09:30:00Z'
-    }
-  ];
+  dataPageCategory: PageResponse<CategoryAdmin[]> | null = null
+  dataCategories: CategoryAdmin[]  = [];
 
 
 
-  ngOnInit(): void {
+
+  constructor(
+    private categoryAdminService: CategoryAdminService
+  ) {
+
   }
 
-  clickNe(id :number ) {
+  async ngOnInit(): Promise<void> {
+    this.fetchCategory()
+
+
+  }
+  onPageChange(newPage: number): void {
+    this.page = newPage;  // Cập nhật giá trị page
+    this.fetchCategory(); // Gọi lại API với trang mới
+  }
+
+  
+  async fetchCategory(): Promise<void> {
+
+    const callApis = {
+      dataCategories: this.getCategories(this.page, this.size, this.sortBy, this.sortDir).pipe(catchError(() => of(null)))
+    }
+
+    const response = await firstValueFrom(forkJoin(callApis))
+    this.dataPageCategory = response.dataCategories
+    this.dataCategories = response.dataCategories?.content?.flat() || [];
+
+    console.log("dataPageCategory : " + this.dataPageCategory)
+
+  }
+
+  getCategories(
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDir: string
+  ): Observable<PageResponse<CategoryAdmin[]>> {
+    return this.categoryAdminService.getCategoriesAdmin(page, size, sortBy, sortDir).pipe(
+      map((response: ApiResponse<PageResponse<CategoryAdmin[]>>) => response.data || null),
+      catchError(() => of(null as any))
+    )
+  }
+
+  clickNe(id: number) {
     console.log('Selected ID:', id);
   }
-  
-  
+
+
 
   toggleCheckbox(item: any) {
     if (!Array.isArray(this.checkedItems)) {
       this.checkedItems = [];  // Khởi tạo checkedItems nếu chưa phải là mảng
     }
-  
+
     item.checked = !item.checked;
-  
+
     if (item.checked) {
       this.checkedItems.push(item);
     } else {
@@ -88,15 +107,15 @@ export class ListCategoryComponent implements OnInit {
         this.checkedItems.splice(index, 1);
       }
     }
-  
+
     console.log(item.checked);
     console.log(item.ParentsID);
     console.log(item.id);
     console.log(this.checkedItems);
   }
-  
- 
-  
+
+
+
 
 }
 

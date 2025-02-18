@@ -37,11 +37,11 @@ export class ReviewServiceService {
   }
 
   createReview(review : Review) : Observable<any>{
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjA5ODc2NTQzMjEiLCJ1c2VySWQiOjIsImVtYWlsIjoiY3VzdG9tZXIxQGV4YW1wbGUuY29tIiwic3ViIjoiY3VzdG9tZXIxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQyMzgxNDM2fQ.86c9szZ1-7cOFldQ7kfk5ILAEGCz5iTtBYdUFEhqvRo';  // Lấy token từ nơi lưu trữ (localStorage, sessionStorage, v.v.)
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.post(`${this.apiUrl}/create`,review,{headers})
+    // const token = 'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZSI6IjA5ODc2NTQzMjEiLCJ1c2VySWQiOjIsImVtYWlsIjoiY3VzdG9tZXIxQGV4YW1wbGUuY29tIiwic3ViIjoiY3VzdG9tZXIxQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQyMzgxNDM2fQ.86c9szZ1-7cOFldQ7kfk5ILAEGCz5iTtBYdUFEhqvRo';  // Lấy token từ nơi lưu trữ (localStorage, sessionStorage, v.v.)
+    // const headers = new HttpHeaders({
+    //   'Authorization': `Bearer ${token}`
+    // });
+    return this.http.post(`${this.apiUrl}/create`,review)
   }
 }
 

@@ -58,14 +58,14 @@
 
         <div class="item-name-category">
             <form class="row g-3 needs-validation" novalidate>
-                <div class="col-md-4">
-                    <label for="validationCustom03" class="form-label">NAME - Vietnamese</label>
-                    <input type="text" class="form-control" id="validationCustom03" placeholder="Vietnamese" required>
+                <div class="col-md-4" *ngFor="let lang of dataLanguages">
+                    <label   class="form-label">NAME - {{lang.name}}</label>
+                    <input type="text" class="form-control"   [placeholder]="lang.name" required>
                     <div class="invalid-feedback">
                         Please provide a valid city.
                     </div>
                 </div>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <label for="validationCustom03" class="form-label">NAME - Japanese </label>
                     <input type="text" class="form-control" id="validationCustom03" placeholder="Japanese" required>
                     <div class="invalid-feedback">
@@ -78,7 +78,7 @@
                     <div class="invalid-feedback">
                         Please provide a valid city.
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
         <div class="item-active-category">

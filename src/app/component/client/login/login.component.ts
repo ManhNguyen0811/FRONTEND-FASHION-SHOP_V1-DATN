@@ -12,6 +12,7 @@ import {LoginResponse} from '../../../dto/Response/user/login.response';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import { ModalNotifyLoginComponent } from '../modal-notify-login/modal-notify-login.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -41,6 +42,8 @@ export class LoginComponent implements OnInit{
     private userService: UserService,
     private tokenService: TokenService,
     private roleService: RoleService,
+        private toastr: ToastrService,
+    
   ) { }
 
   ngOnInit() {
@@ -105,6 +108,8 @@ export class LoginComponent implements OnInit{
       error: (error: any) => {
         console.error('Login error:', error);
         this.errorMessage = error.message || 'Email hoặc mật khẩu không đúng';
+        this.toastr.error('Email hoặc mật khẩu không đúng','ERROR',{timeOut: 2000})
+
       }
     });
   }
