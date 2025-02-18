@@ -20,7 +20,8 @@
         class="nav-item">
         <a
           [ngClass]="{
-          'text-black': !isHome || isSearchActive
+          'text-white': !isSearchActive,
+          'text-black': isSearchActive
           }" class="head-title nav-link text-center"
           (click)="onCategoryClick(category.id)"
         >{{ category.name }}</a>

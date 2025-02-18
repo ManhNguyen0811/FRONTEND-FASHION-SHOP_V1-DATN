@@ -318,7 +318,11 @@
 
           <!-- Find Product in Inventory -->
           <div class="inventory-check mt-3 text-end">
-            <a href="#" style="cursor: pointer" class="link-inventory">{{ "Tìm sản phẩm còn hàng trong cửa hàng" |
+            <a [routerLink]="['/client', currentCurrency, currentLang,'store_inventory', productId,
+                                                                                    dataColors?.[0]?.id,
+                                                                                    dataSizes?.[0]?.id]"
+
+               style="cursor: pointer" class="link-inventory">{{ "Tìm sản phẩm còn hàng trong cửa hàng" |
               translate }}</a>
           </div>
         </div>

@@ -138,7 +138,21 @@
   "HÌNH ẢNH CHI TIẾT" :"HÌNH ẢNH CHI TIẾT",
   "Mẫu cao" :"Mẫu cao",
   "Màu": "Màu",
-  "Kích thước" : "Kích thước"
+  "Kích thước" : "Kích thước",
 
-
+  "_commentStore-Inventory" :"----------------------Phần Store Inventory----------------------------",
+  "reload_location": "Bạn có thể sử dụng chức năng này bằng cách tải lại trang này sau khi bật dịch vụ định vị.",
+  "search_store": "Nếu dịch vụ định vị không khả dụng, hãy tìm kiếm cửa hàng bằng cách nhập từ khóa hoặc mã bưu chính.",
+  "no_order": "Không thể đặt hàng trực tiếp từ các cửa hàng. Tính năng này chỉ để kiểm tra tính sẵn có của sản phẩm tại cửa hàng.",
+  "back_product": "QUAY LẠI CHI TIẾT SẢN PHẨM",
+  "find_store": "TÌM SẢN PHẨM CÒN HÀNG TRONG CỬA HÀNG",
+  "select_color_size": "Vui lòng chọn màu sắc và kích cỡ.",
+  "color": "MÀU SẮC",
+  "size": "KÍCH THƯỚC",
+  "keyword": "TỪ KHÓA",
+  "enter_city": "Nhập tên thành phố hoặc tên tỉnh",
+  "out_of_stock": "Hết hàng",
+  "in_stock": "Còn {{ store.quantity }} sản phẩm",
+  "see_more": "Xem thêm",
+  "opening_hours": "Giờ mở cửa:"
 }

@@ -21,8 +21,6 @@ export class HeaderComponent implements OnInit{
   categoriesParent: CategoryDTO[] = [];
   apiError: any;
 
-
-
   isHome: boolean = false;
   currentLang: string = ''; // Ngôn ngữ mặc định
   currentCurrency: string = ''; // Tiền tệ mặc định
