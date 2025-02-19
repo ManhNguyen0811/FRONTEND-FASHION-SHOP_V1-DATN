@@ -2,7 +2,23 @@
     padding: 10px 10px 0px 10px;
 }
 
-
+.col-1.mt-2 img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .col-1.mt-2:hover img {
+    transform: scale(0.9);
+  }
+  
+.tools-title {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .tools-title:hover  {
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+  
 .tools-title {
      
     gap: 7px;

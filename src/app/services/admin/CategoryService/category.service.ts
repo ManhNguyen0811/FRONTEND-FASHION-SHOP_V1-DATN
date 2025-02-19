@@ -58,6 +58,10 @@ export class CategoryAdminService {
     return this.http.get<ApiResponse<CategoryDTO[]>>(`${this.apiUrl}/en/category/parent/${parentId}`)
   }
   
+
+  deleteCategory(categoryId: number) : Observable<any>{
+    return this.http.delete(`${this.apiUrl}/${categoryId}`)
+  }
   
   
 

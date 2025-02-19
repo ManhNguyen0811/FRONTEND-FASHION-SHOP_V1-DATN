@@ -11,6 +11,9 @@ import { CategoryAdminDTO } from '../../../../dto/CategoryAdminDTO';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryAdmin } from '../../../../models/Category/CategotyAdmin';
 import { FormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { EditOrderComponent } from '../../order/edit-order/edit-order.component';
+import { DialogComponent } from '../../dialog/dialog.component';
 
 export interface TableDataModel {
   id: number;
@@ -25,7 +28,8 @@ export interface TableDataModel {
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [HeaderAdminComponent, TableComponent, CommonModule, FormsModule],
+
+  imports: [HeaderAdminComponent, TableComponent, CommonModule, FormsModule, MatDialogModule, DialogComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
@@ -35,7 +39,6 @@ export class ListCategoryComponent implements OnInit {
   headers: string[] = ['id', 'name', 'imageUrl', 'isActive', 'parentId', 'parentName', 'createdAt', 'updatedAt', 'createdBy',
     'updatedBy', 'button'];
 
-  checkedItems: any[] = [];  // Danh sách các mục đã chọn, đã được khởi tạo
 
   page: number = 0
   size: number = 7
@@ -55,7 +58,8 @@ export class ListCategoryComponent implements OnInit {
 
   constructor(
     private categoryAdminService: CategoryAdminService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private diaLog: MatDialog
   ) {
 
   }
@@ -85,11 +89,21 @@ export class ListCategoryComponent implements OnInit {
     console.log("Selected isActive value:", this.isActive);
   }
 
+  resetFiter(){
+    this.isActive = null;
+    this.sortBy ='id'
+    this.sortDir ='desc'
+    this.nameSearch =''
+    this.parentIdSearch=''
+    this.fetchCategory()
+  }
+
+
   async fetchCategory(): Promise<void> {
 
     const callApis = {
       dataCategories: this.getCategories(this.page, this.size, this.sortBy, this.sortDir, this.nameSearch,
-         this.isActive,this.parentIdSearch).pipe(catchError(() => of(null)))
+        this.isActive, this.parentIdSearch).pipe(catchError(() => of(null)))
     }
 
     const response = await firstValueFrom(forkJoin(callApis))
@@ -124,7 +138,7 @@ export class ListCategoryComponent implements OnInit {
   searchParentIdCategory(value: string): void {
     this.parentIdSearch = value
     this.fetchCategory()
- 
+
   }
   searchNameCategory(value: string): void {
     this.nameSearch = value
@@ -139,9 +153,9 @@ export class ListCategoryComponent implements OnInit {
     sortBy: string,
     sortDir: string,
     name: string, isActive: boolean,
-    parentId :number
+    parentId: number
   ): Observable<PageResponse<CategoryAdmin[]>> {
-    return this.categoryAdminService.getCategoriesAdmin(page, size, sortBy, sortDir, name, isActive,parentId).pipe(
+    return this.categoryAdminService.getCategoriesAdmin(page, size, sortBy, sortDir, name, isActive, parentId).pipe(
       map((response: ApiResponse<PageResponse<CategoryAdmin[]>>) => response.data || null),
       catchError(() => of(null as any))
     )
@@ -153,28 +167,82 @@ export class ListCategoryComponent implements OnInit {
 
 
 
-  toggleCheckbox(item: any) {
-    if (!Array.isArray(this.checkedItems)) {
-      this.checkedItems = [];
-    }
 
+  deleteCategory = (id: number): void => {
+    // Mở modal xác nhận xóa
+    const dialogRef = this.diaLog.open(DialogComponent, {
+      data: { message: 'Are you sure you want to delete Category?' }
+    });
+
+    // Sau khi modal đóng, kiểm tra kết quả
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`result: ${result}`);
+      if (result === true) {
+        // Nếu người dùng xác nhận (result true), gọi API xóa
+        this.categoryAdminService.deleteCategory(id).subscribe({
+          next: response => {
+            this.toastService.success('Success', 'Category Deleted successfully!', { timeOut: 3000 });
+            this.fetchCategory();
+          },
+          error: error => {
+            this.toastService.error('Error', 'There was an error deleting the category.', { timeOut: 3000 });
+            console.log(error);
+          }
+        });
+      }
+    });
+  };
+  checkedItems: number[] = [];
+
+  toggleCheckbox = (item: any): void => {
+    // Đảo trạng thái checkbox của item
     item.checked = !item.checked;
 
     if (item.checked) {
-      this.checkedItems.push(item);
-    } else {
-      const index = this.checkedItems.findIndex(i => i.id === item.id);
-      if (index !== -1) {
-        this.checkedItems.splice(index, 1);
+      if (!this.checkedItems.includes(item.id)) {
+        this.checkedItems.push(item.id);
       }
+    } else {
+      this.checkedItems = this.checkedItems.filter(id => id !== item.id);
     }
-
-    console.log(item.checked);
-    console.log(item.ParentsID);
-    console.log(item.id);
-    console.log(this.checkedItems);
+    console.log('After toggle:', this.checkedItems);
   }
+  deleteCategories = async (): Promise<void> => {
+    if (this.checkedItems.length === 0) {
+      this.toastService.error(  'No items selected to delete.','Error', { timeOut: 2000 });
 
+      return;
+    }
+  
+    // Mở dialog xác nhận và chờ kết quả
+    const result = await firstValueFrom(
+      this.diaLog.open(DialogComponent, {
+        width: '400px',
+        data: { message: 'Are you sure you want to delete Category?' }
+      }).afterClosed()
+    );
+  
+    if (result === true) {
+      // Xóa các mục theo thứ tự, đợi API xóa từng mục hoàn thành
+      for (const id of this.checkedItems) {
+        try {
+          await firstValueFrom(this.categoryAdminService.deleteCategory(id));
+          console.log(`Deleted category with id ${id}`);
+          this.toastService.success('Success', 'Category deleted successfully!', { timeOut: 1000 });
+        } catch (error) {
+          console.error(`Error deleting category with id ${id}`, error);
+          this.toastService.error('Error', 'There was an error deleting the category.', { timeOut: 1000 });
+        }
+      }
+    } else {
+      console.log('User canceled deletion.');
+    }
+  
+    // Sau khi xóa xong (hoặc hủy), reset mảng và làm mới danh sách
+    this.checkedItems = [];
+    this.fetchCategory();
+  };
+  
 
 
 
