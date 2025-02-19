@@ -5,15 +5,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../button/button.component';
 import { LanguagesService } from '../../../../services/LanguagesService/languages.service';
-import { catchError, firstValueFrom, forkJoin, map, Observable, of } from 'rxjs';
- 
-import { response } from 'express';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of, timeout } from 'rxjs';
+
 import { ApiResponse } from '../../../../dto/Response/ApiResponse';
 import { LanguageDTO } from '../../../../dto/LanguageDTO';
 import { PageResponse } from '../../../../dto/Response/page-response';
 import { CategoryService } from '../../../../services/client/CategoryService/category.service';
 import { CategoryAdminService } from '../../../../services/admin/CategoryService/category.service';
-import { CategoryAdmin } from '../../../../models/Category/CategoryAdmin';
+import { CategoryAdminDTO, TranslationDTO } from '../../../../dto/CategoryAdminDTO';
+import { ToastrService } from 'ngx-toastr';
 
 interface Category {
   id: number,
@@ -29,55 +29,7 @@ interface Category {
   styleUrl: './edit-category.component.scss'
 })
 export class EditCategoryComponent implements OnInit {
-  id!: number;
-
-
-  listCategory: Category[] = []
-  selectIdChild: number | undefined
-  selectIdSubChild: number | undefined
-
-  dataLanguages : LanguageDTO[] = []
-
-
-  constructor(
-    private route: ActivatedRoute,
-    private languagesSrevice: LanguagesService,
-    private categoryAdminService : CategoryAdminService
-  ) {
-
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.id = +this.route.snapshot.paramMap.get('id')!;
-    console.log('Received ID:', this.id);
-    this.fetchCategory()
-
-    this.listCategory = this.categories
-
-  }
-
-  async fetchCategory(): Promise<void> {
-
-    const callApis = {
-      dataLanguages : this.getLanguages().pipe(catchError(() => of([]))),
-    }
-
-    const response = await firstValueFrom(forkJoin(callApis))
-    this.dataLanguages  = response.dataLanguages
-  
-    
-
-  }
-  
-
-  getLanguages(): Observable<LanguageDTO[]>{
-    return this.languagesSrevice.getLanguages().pipe(
-      map((response :  ApiResponse<LanguageDTO[]>) => response.data || []),
-      catchError(() => of([]))
-    )
-  }
-
-  categories: Category[] = [
+  listCategory: Category[] = [
     {
       id: 1,
       name: 'Nam', // Tầng 1
@@ -180,52 +132,249 @@ export class EditCategoryComponent implements OnInit {
     }
   ];
 
-  getListCategoryChild(categoriesIdChild: number | undefined): Category[] {
+  id!: number;
 
+  selectIdChild: number | undefined;
+  selectIdSubChild: number | undefined;
+  selectIdSubSubChild: number | undefined;
+  parentId: number = 0
+
+  // Các danh sách con và sub-con
+  categoryChildren: Category[] = [];
+  categorySubChildren: Category[] = [];
+  categorySubSubChildren: Category[] = [];
+
+
+  dataLanguages: LanguageDTO[] = []
+
+
+
+
+  categoryAdminDTO: CategoryAdminDTO[] = []
+  translations: TranslationDTO[] = this.dataLanguages.map(lang => ({
+    languageCode: lang.code,
+    name: ''
+  }));
+
+
+  getTranslationByCode(code: string): TranslationDTO {
+    const translation = this.translations.find(item => item.languageCode === code);
+    if (!translation) {
+      return { languageCode: code, name: '' };
+    }
+    return translation;
+  }
+
+
+
+  logValues() {
+    console.log(this.translations);
+  }
+  constructor(
+    private route: ActivatedRoute,
+    private languagesSrevice: LanguagesService,
+    private categoryAdminService: CategoryAdminService,
+    private toastService: ToastrService
+  ) {
+
+  }
+  categoryNew: CategoryAdminDTO = {
+    parentId: 0,
+    translations: []
+  };
+
+  initializeTranslations() {
+    this.translations = this.dataLanguages.map(lang => ({
+      languageCode: lang.code,
+      name: ''  // Mặc định, name rỗng cho các ngôn ngữ
+    }));
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.id = +this.route.snapshot.paramMap.get('id')!;
+    console.log('Received ID:', this.id);
+    await this.fetchCategory();
+  }
+
+  async fetchCategory(): Promise<void> {
+    const callApis = {
+      dataLanguages: this.getLanguages().pipe(catchError(() => of([]))),
+    }
+
+    const response = await firstValueFrom(forkJoin(callApis))
+    this.dataLanguages = response.dataLanguages;
+
+    // Khởi tạo translations sau khi đã có dữ liệu languages
+    if (this.dataLanguages.length > 0) {
+      this.initializeTranslations();
+    } else {
+      console.log('Không có dữ liệu ngôn ngữ');
+    }
+  }
+
+
+  getLanguages(): Observable<LanguageDTO[]> {
+    return this.languagesSrevice.getLanguages().pipe(
+      map((response: ApiResponse<LanguageDTO[]>) => response.data || []),
+      catchError(() => of([]))
+    )
+  }
+
+
+
+  getListCategoryChild(categoriesIdChild: number | undefined): Category[] {
     if (categoriesIdChild !== undefined) {
+      this.parentId = categoriesIdChild
+      console.log("parentId: " + this.parentId)
       const categoriesIdChildNumber = Number(categoriesIdChild);
       const selectedCategory = this.listCategory.find(category => category.id === categoriesIdChildNumber);
 
       if (selectedCategory) {
-        return selectedCategory.subCategories;
+        this.categoryChildren = selectedCategory.subCategories;
+        return this.categoryChildren;
       } else {
         console.log('Không tìm thấy category với id:', categoriesIdChild);
         return [];
       }
-    } else {
-      // console.log('categoriesIdChild không hợp lệ');
-      return [];
     }
+    return [];
   }
 
+  // Lấy danh sách các category con của category con
   getListCategorySubChild(categoriesIdChild: number | undefined): Category[] {
-
     if (categoriesIdChild !== undefined) {
+      this.parentId = categoriesIdChild
+      console.log("parentId: " + this.parentId)
       const categoriesIdSubChildNumber = Number(categoriesIdChild);
-      const selectedCategory = this.getListCategoryChild(this.selectIdChild).find(category => category.id === categoriesIdSubChildNumber);
+      const selectedCategory = this.categoryChildren.find(category => category.id === categoriesIdSubChildNumber);
 
       if (selectedCategory) {
-        return selectedCategory.subCategories;
+        this.categorySubChildren = selectedCategory.subCategories;
+        return this.categorySubChildren;
       } else {
-        console.log('Không tìm thấy category với id:', categoriesIdChild);
+        console.log('Không tìm thấy category con với id:', categoriesIdChild);
         return [];
       }
-    } else {
-      // console.log('categoriesIdChild không hợp lệ');
-      return [];
+    }
+    return [];
+
+  }
+  getListCategorySubSubChild(categoriesIdChild: number | undefined): void {
+    if (categoriesIdChild !== undefined) {
+      this.parentId = categoriesIdChild
+
+      this.selectIdSubSubChild = categoriesIdChild;
+      console.log("Sub-Sub ParentId: " + this.selectIdSubSubChild);
+
+      const selectedCategory = this.categorySubChildren.find(category => category.id === categoriesIdChild);
+      if (selectedCategory) {
+        this.categorySubSubChildren = selectedCategory.subCategories;
+      } else {
+        this.categorySubSubChildren = [];
+      }
     }
   }
+
+
+
+
 
 
 
   clickEvent() {
-    console.log("aaaaa")
+    console.log("aaaaa");
+    this.createCategoryNew()
   }
 
 
+  imageUrl: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+
+      console.log("File Name:", this.selectedFile.name);
+      console.log("File Type:", this.selectedFile.type);
+      console.log("File Size:", this.selectedFile.size, "bytes");
 
 
+      // Hiển thị ảnh
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageUrl = reader.result; // Lưu URL của ảnh để hiển thị
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  createCategoryNew = () => {
+
+    // Kiểm tra parentId
+    if (!this.parentId) {
+      this.toastService.error('Vui lòng thêm Parent ID!', "Error", { timeOut: 3000 });
+      return;
+    }
+
+    // Kiểm tra danh sách translations
+    if (!this.translations || this.translations.length === 0) {
+      this.toastService.error('Vui lòng thêm ít nhất một translation!', "Error", { timeOut: 3000 });
+      return;
+    }
+
+    // Kiểm tra từng translation (phải có languageCode & name)
+    for (const translation of this.translations) {
+      if (!translation.languageCode || !translation.name) {
+        this.toastService.error('Mỗi translation phải có đầy đủ languageCode và name!', "Error", { timeOut: 3000 });
+        return;
+      }
+    }
 
 
+    const sampleCategory: CategoryAdminDTO = {
+      parentId: this.parentId,
+      translations: this.translations
+    };
+
+    // Tạo FormData
+    const formData = new FormData();
+    formData.append('request', new Blob([JSON.stringify(sampleCategory)], { type: 'application/json' }));
+
+    // Kiểm tra file hình ảnh
+    if (!this.selectedFile) {
+      this.toastService.error('Vui lòng chọn một file ảnh!', "Error", { timeOut: 3000 });
+      return;
+    }
+      if (this.selectedFile) {
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!allowedTypes.includes(this.selectedFile.type)) {
+          this.toastService.error('Chỉ chấp nhận file ảnh (PNG, JPG, JPEG, WEBP)', "Error", { timeOut: 3000 });
+          return;
+        }
+
+        if (this.selectedFile.size > maxSize) {
+          this.toastService.error('Dung lượng ảnh không được vượt quá 5MB!', "Error", { timeOut: 3000 });
+          return;
+        }
+
+        formData.append('imageFile', this.selectedFile, this.selectedFile.name);
+      } else {
+        console.warn("Không có file ảnh nào được chọn!");
+      }
+   
+    // Gửi request API
+    this.categoryAdminService.createCategory(formData).subscribe({
+      next: response => {
+        this.toastService.success('Success', 'Category created successfully!', { timeOut: 3000 });
+      },
+      error: error => {
+        this.toastService.error('Error', 'There was an error creating the category.', { timeOut: 3000 });
+        console.log(error);
+      }
+    });
+  }
 
 }

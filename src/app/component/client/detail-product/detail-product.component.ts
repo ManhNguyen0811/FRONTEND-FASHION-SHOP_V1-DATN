@@ -46,6 +46,8 @@ export class DetailProductComponent implements OnInit {
 
   userId: number = 0;
 
+  colorImage: any;
+  noColorImages: any[] = [];
   dataImagesProduct: ImagesDetailProductDTO[] = [];
   dataVideoProduct: ImagesDetailProductDTO[] = []
   dataReviewDetailProduct: ReviewDetailProductDTO[] = []
@@ -94,6 +96,8 @@ export class DetailProductComponent implements OnInit {
 
     this.userId = this.tokenService.getUserId();
 
+
+
     this.checkWishlist(this.userId, this.productId ?? 0, this.colorId ?? 0);
   }
 
@@ -132,6 +136,12 @@ export class DetailProductComponent implements OnInit {
     this.dataVideoProduct = response.dataVideoProduct
     this.dataReviewDetailProduct = response.dataReviewDetailProduct
     // console.log("dataQuantityInStock : " + this.dataReviewDetailProduct[0].comment)
+
+    if (this.dataImagesProduct?.length) {
+      this.colorImage = this.dataImagesProduct.find(img => img.colorId);
+      this.noColorImages = this.dataImagesProduct.filter(img => !img.colorId);
+    }
+
   }
 
 

@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
 import { TableComponent } from '../../table/table.component';
 import { PageResponse } from '../../../../dto/Response/page-response';
-import { CategoryAdmin } from '../../../../models/Category/CategoryAdmin';
+ 
 import { CategoryAdminService } from '../../../../services/admin/CategoryService/category.service';
 import { catchError, firstValueFrom, forkJoin, map, Observable, of } from 'rxjs';
 import { ApiResponse } from '../../../../dto/Response/ApiResponse';
 import { CommonModule } from '@angular/common';
+import { CategoryAdminDTO } from '../../../../dto/CategoryAdminDTO';
+import { ToastrService } from 'ngx-toastr';
+import { CategoryAdmin } from '../../../../models/Category/CategotyAdmin';
 
 export interface TableDataModel {
   id: number;
@@ -35,7 +38,7 @@ export class ListCategoryComponent implements OnInit {
   page: number = 0
   size: number = 7
   sortBy: string = 'createdAt'
-  sortDir: string = 'asc'
+  sortDir: string = 'desc'
 
   dataPageCategory: PageResponse<CategoryAdmin[]> | null = null
   dataCategories: CategoryAdmin[]  = [];
@@ -44,7 +47,8 @@ export class ListCategoryComponent implements OnInit {
 
 
   constructor(
-    private categoryAdminService: CategoryAdminService
+    private categoryAdminService: CategoryAdminService,
+    private toastService : ToastrService
   ) {
 
   }
@@ -94,7 +98,7 @@ export class ListCategoryComponent implements OnInit {
 
   toggleCheckbox(item: any) {
     if (!Array.isArray(this.checkedItems)) {
-      this.checkedItems = [];  // Khởi tạo checkedItems nếu chưa phải là mảng
+      this.checkedItems = [];  
     }
 
     item.checked = !item.checked;
@@ -116,6 +120,38 @@ export class ListCategoryComponent implements OnInit {
 
 
 
+
+  createCategoryNew() {
+
+    const sampleCategory: CategoryAdminDTO = {
+      parentId: 1,
+      translations: [
+        { languageCode: 'vi', name: 'Áo' },
+        { languageCode: 'en', name: 'T-SHIRTS, SWEAT & FLEECE MANH 1' },
+        { languageCode: 'jp', name: 'アウターウェア' }
+      ]
+    };
+
+    // Tạo Blob và File cho hình ảnh
+    const sampleFileContent = new Blob(['Sample image content'], { type: 'image/png' });
+    const selectedFile = new File([sampleFileContent], "sample.png", { type: 'image/png' });
+
+    // Tạo FormData để gửi cả JSON và file
+    const formData = new FormData();
+    formData.append('request', new Blob([JSON.stringify(sampleCategory)], { type: 'application/json' }));
+    formData.append('imageFile', selectedFile, selectedFile.name);
+
+    // Gọi API
+    this.categoryAdminService.createCategory(formData).subscribe({
+      next: response => {
+        this.toastService.success('Success', 'Category created successfully!', { timeOut: 3000 });
+      },
+      error: error => {
+        this.toastService.error('Error', 'There was an error creating the category.', { timeOut: 3000 });
+        console.log(error);
+      }
+    });
+  }
 
 }
 

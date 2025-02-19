@@ -4,7 +4,9 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
-import { CategoryAdmin } from '../../../models/Category/CategoryAdmin';
+import { CategoryAdmin } from '../../../models/Category/CategotyAdmin';
+ 
+ 
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +19,11 @@ export class CategoryAdminService {
   getCategoriesAdmin(page : number, size: number,sortBy : string, sortDir: string ): Observable<ApiResponse<PageResponse<CategoryAdmin[]>>>{
     return this.http.get<ApiResponse<PageResponse<CategoryAdmin[]>>>(`${this.apiUrl}/en/admin?page=${page}&size=${size}&sortBy=${sortBy}&sortDir=${sortDir}`)
   }
+  createCategory(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, formData);
+  }
+  
+  
+  
+
 }

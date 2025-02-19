@@ -3,10 +3,18 @@
     <!-- Product Images (Left Section) -->
     <div class="col-md-7">
       <div class="row g-3">
-        <div class="col-6 position-relative" *ngFor="let img of dataImagesProduct">
+        <div class="col-6 position-relative" *ngIf="colorImage">
+          <img [src]="getImageProduct(colorImage.mediaUrl)">
+          <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',colorImage.id]" class="image-icon"
+             *ngIf="colorImage.hasVariants">
+            <i class="fa-solid fa-mountain-sun"></i>
+          </a>
+        </div>
+
+        <div class="col-6 position-relative" *ngFor="let img of noColorImages">
           <img [src]="getImageProduct(img.mediaUrl)">
           <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]" class="image-icon"
-            *ngIf="img.hasVariants">
+             *ngIf="img.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
