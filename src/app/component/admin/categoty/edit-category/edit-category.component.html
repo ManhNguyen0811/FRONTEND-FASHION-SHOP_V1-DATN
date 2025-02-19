@@ -9,39 +9,35 @@
             <input type="text" id="disabledTextInput" class="form-control" placeholder="ID Category">
         </div>
         <div class="item-category-select row">
+            <!-- Chọn Category Parent -->
             <div class="col-md-4">
                 <label class="form-label">Category Parent</label>
-                <select class="form-select " [(ngModel)]="selectIdChild" (change)="getListCategoryChild(selectIdChild)"
-                    aria-label="Default select example">
+                <select class="form-select" [(ngModel)]="selectIdChild" (change)="getListCategoryChild(selectIdChild)">
                     <option disabled selected>Select category</option>
-                    <option *ngFor="let item of listCategory" [value]="item.id"> {{item.name}}</option>
+                    <option *ngFor="let item of listCategory" [value]="item.id">{{ item.name }}</option>
                 </select>
             </div>
-            <ng-container *ngIf="getListCategoryChild(selectIdChild).length > 0">
-                <div class="col-md-4">
-                    <label class="form-label">Category Child</label>
-
-                    <select class="form-select " aria-label="Default select example" [(ngModel)]="selectIdSubChild"
-                        (change)="getListCategorySubChild(selectIdSubChild)">
-                        <option selected>Select category</option>
-                        <option *ngFor="let item of getListCategoryChild(selectIdChild)" [value]="item.id">
-                            {{item.name}}</option>
-
-                    </select>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="getListCategorySubChild(selectIdSubChild).length > 0">
-                <div class="col-md-4">
-                    <label class="form-label">Category Sub Child</label>
-
-                    <select class="form-select " aria-label="Default select example">
-                        <option selected>Select category</option>
-                        <option *ngFor="let item of getListCategorySubChild(selectIdSubChild)"> {{item.name}}</option>
-
-                    </select>
-                </div>
-            </ng-container>
-            <!-- <div class="col-md-4">
+        
+            <!-- Chọn Category Child -->
+            <div class="col-md-4" *ngIf="categoryChildren.length > 0">
+                <label class="form-label">Category Child</label>
+                <select class="form-select" [(ngModel)]="selectIdSubChild" (change)="getListCategorySubChild(selectIdSubChild)">
+                    <option selected>Select category</option>
+                    <option *ngFor="let item of categoryChildren" [value]="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        
+            <!-- Chọn Category Sub Child -->
+            <div class="col-md-4" *ngIf="categorySubChildren.length > 0">
+                <label class="form-label">Category Sub Child</label>
+                <select class="form-select" [(ngModel)]="selectIdSubSubChild" (change)="getListCategorySubSubChild(selectIdSubSubChild)">
+                    <option selected>Select category</option>
+                    <option *ngFor="let item of categorySubChildren" [value]="item.id">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        
+   <!-- <div class="col-md-4">
                     <label class="form-label">Tanng</label>
     
                     <select class="form-select " aria-label="Default select example">
@@ -51,20 +47,27 @@
                         <option value="3">Three</option>
                     </select>
                 </div> -->
-
-
-
-        </div>
-
         <div class="item-name-category">
             <form class="row g-3 needs-validation" novalidate>
                 <div class="col-md-4" *ngFor="let lang of dataLanguages">
-                    <label   class="form-label">NAME - {{lang.name}}</label>
-                    <input type="text" class="form-control"   [placeholder]="lang.name" required>
+                    <label class="form-label">NAME - {{ lang.name }}</label>
+                    <div *ngIf="dataLanguages.length > 0">
+                        <input type="text" class="form-control"
+                               [(ngModel)]="getTranslationByCode(lang.code).name"
+                               [name]="lang.code"
+                               [placeholder]="lang.name"
+                               required>
+                      </div>
+                      
                     <div class="invalid-feedback">
-                        Please provide a valid city.
+                      Please provide a valid value.
                     </div>
-                </div>
+                  </div>
+                  
+                  <!-- Nút để kiểm tra giá trị của translations -->
+                  
+
+
                 <!-- <div class="col-md-4">
                     <label for="validationCustom03" class="form-label">NAME - Japanese </label>
                     <input type="text" class="form-control" id="validationCustom03" placeholder="Japanese" required>
@@ -83,13 +86,15 @@
         </div>
         <div class="item-active-category">
             <div class="form-check form-switch">
-                <label for="disabledTextInput" class="form-label">Active Category</label>
+                <label for="disabledTextInput" class="form-label">Active Category {{parentId}}</label>
                 <input class="form-check-input" type="checkbox" checked>
             </div>
 
         </div>
         <!-- BUTTON -->
-        <app-button [eventClickBtnAdd]="clickEvent" [eventClickBtnSave]="clickEvent" />
+        <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Add'"></app-button>
+        <!-- <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Save'"  ></app-button> -->
+
     </div>
 
 
@@ -97,7 +102,7 @@
     <div class="edit-category-image pt-5">
         <div class="image-item d-flex flex-column justify-content-center align-items-center">
             <img class="rounded-1" src="../../../../../assets/images/pr10.avif" alt="image-item" width="280">
-            <input type="file" style="width: 100%; padding: 10px 0 0 30px;">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" style="width: 100%; padding: 10px 0 0 30px;">
 
         </div>
 
