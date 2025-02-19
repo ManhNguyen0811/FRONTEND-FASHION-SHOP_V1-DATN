@@ -22,11 +22,12 @@ import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 import {TokenService} from '../../../services/token/token.service';
 import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
 import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent, FormsModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -34,6 +35,11 @@ export class ProductComponent implements OnInit {
   currentLang: string = ''; // Ngôn ngữ mặc định
   currentCurrency: string ='' ; // Tiền tệ mặc định
   userId: number = 0;
+
+
+  sortDirection: 'asc' | 'desc' = 'asc'; // Sắp xếp mặc định tăng dần
+  sortField: string = 'name'; // Sắp xếp mặc định theo tên
+
   currentCurrencyDetail?: Currency;
   products: (
     ProductListDTO & {
@@ -271,6 +277,7 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+
 
 
 }
