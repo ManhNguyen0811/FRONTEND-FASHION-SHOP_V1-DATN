@@ -107,7 +107,8 @@
         <div *ngFor="let review of dataReviewDetailProduct" class="review-item mb-4">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="fw-bold">{{ review.title }}</h6>
-            <span class="text-muted">{{ review.createdAt }}</span> #{{review.id}}
+            <span class="text-muted">{{ review.createdAt | date:'dd/MM/yyyy' }}</span>
+
           </div>
           <div class="stars text-black mb-2">
             <ng-container *ngFor="let star of getFullStars(review.reviewRate)">

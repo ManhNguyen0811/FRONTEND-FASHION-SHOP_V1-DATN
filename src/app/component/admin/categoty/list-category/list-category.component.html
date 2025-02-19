@@ -8,45 +8,50 @@
     </div>
     <div class="tool-elements">
       <div class="element-select">
-        <select class="form-select">
-          <option selected>Giá Tăng Dần Dần Dần Dần</option>
-          <option>Giá Giảm Dần</option>
+        <select class="form-select" [(ngModel)]="isActive" (change)="onIsActiveChange()">
+          <option [value]="null" selected>--</option>
+          <option [value]="true">Active</option>
+          <option [value]="false">Non Avtive</option>
         </select>
       </div>
       <div class="element-select">
-        <select class="form-select">
-          <option selected>Giá Tăng Dần</option>
-          <option>Giá Giảm Dần</option>
+        <select class="form-select" [(ngModel)]="sortBy" (change)="onCreateAtChange()">
+          <option [value]="'id'" selected>Sort by Id</option>
+          <!-- <option [value]="'name'">Sort by Name</option> -->
+          <option [value]="'createdAt'">Sort by Created At</option>
         </select>
       </div>
       <div class="element-select">
-        <select class="form-select">
-          <option selected>Giá Tăng Dần</option>
-          <option>Giá Giảm Dần</option>
+        <select class="form-select" [(ngModel)]="sortDir" (change)="onSortDirChange()">
+          <option [value]="'asc'" selected>Augment</option>
+          <option [value]="'desc'" selected>Reduct</option>
+
         </select>
       </div>
     </div>
 
   </div>
-  <div class="tool-search">
-    <div class="count-product">
-      <span><span class="mobile-text-product">Kết Quả Tìm Kiếm:</span> 10 Sản Phẩm</span>
+  <div class="tool-searchs row">
+    <div class="col-1"></div>
+    <div class="col-3" style="margin-left: 4px;">
+      <div class="search-product">
+        <input type="text" [(ngModel)]="nameSearch" name="nameSearch" (ngModelChange)="onNameChange($event)"
+          placeholder=" Search Category Name">
+      </div>  
     </div>
-    <div class="search-product">
-      <input type="text">
+    <div class="col-3">
+      <div class="search-product">
+        <input type="text" [(ngModel)]="parentIdSearch" name="parentIdSearch" (ngModelChange)="searchParentIdCategory($event)"
+          placeholder=" Search Parent Id">
+      </div>
     </div>
+
+
   </div>
 </div>
-<app-table *ngIf="dataPageCategory" 
-[currentPage]="page"
-           [tableData]="dataPageCategory?.content?.flat() || []"  
-           [dataPage]="dataPageCategory" 
-           
-           [typeImage]="'categories'" 
-           [tableHeaders]="headers" 
-           routerLinkString="/admin/edit_category"
-           [eventClick]="createCategoryNew" 
-           [toggleCheckbox]="toggleCheckbox"
-           (pageChanged)="onPageChange($event)"
-           >
+
+<app-table *ngIf="dataPageCategory" [currentPage]="page" [tableData]="dataPageCategory?.content?.flat() || []"
+  [dataPage]="dataPageCategory" [typeImage]="'categories'" [tableHeaders]="headers"
+  routerLinkString="/admin/edit_category" [eventClick]="createCategoryNew" [toggleCheckbox]="toggleCheckbox"
+  (pageChanged)="onPageChange($event)">
 </app-table>
