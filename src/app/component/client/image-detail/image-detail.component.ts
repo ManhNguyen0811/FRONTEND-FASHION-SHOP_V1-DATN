@@ -5,7 +5,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { ImageDetailService } from '../../../services/client/ImageDetailService/image-detail.service';
 import { catchError, defaultIfEmpty, firstValueFrom, forkJoin, map, Observable, of, take } from 'rxjs';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { MediaInfoDTO } from '../../../dto/MediaInfoDTO';
 import { response } from 'express';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
@@ -19,7 +19,7 @@ import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductServiceService } from '../../../services/client/ProductService/product-service.service';
 import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
- 
+
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { CateProductDTO } from '../../../dto/CateProductDTO';
 
@@ -36,7 +36,8 @@ export interface ImagesOfDetailProduct {
     NavBottomComponent,
     FooterComponent,
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    RouterLink
   ],
   templateUrl: './image-detail.component.html',
   styleUrl: './image-detail.component.scss'
@@ -251,7 +252,7 @@ export class ImageDetailComponent implements OnInit {
     const product = this.dataProduct?.find(product => product.id === productId);
     return product ? product.name : 'Không tìm thấy sản phẩm';
   }
-  
+
   getMediaUrl(productId: number): string {
     const product = this.dataImagesOfDetailProduct?.find(product => product.productId === productId);
     return product ? product.imageDetailProduct[0].mediaUrl : 'Không tìm thấy sản phẩm';

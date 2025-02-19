@@ -12,7 +12,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class TableComponent {
   @Input() tableHeaders: string[] = [];
   @Input() tableData: any[] = [];
-  @Input() eventClick: (item: any) => void = () => { };
+  @Input() eventClickDelete: (item: any) => void = () => { };
   @Input() routerLinkString: string = '';
   @Input() activeRouterLinkString: string = '';
   @Input() changePage: boolean = true;
