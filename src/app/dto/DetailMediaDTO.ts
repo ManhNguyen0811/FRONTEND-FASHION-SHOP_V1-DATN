@@ -6,6 +6,7 @@ export interface DetailMediaDTO extends BaseEntity{
     salePrice: number;
     colorId: number;
     colorName: string;
+    sizeId:number;
     size: string;
     productName: string;
     productId: number;
