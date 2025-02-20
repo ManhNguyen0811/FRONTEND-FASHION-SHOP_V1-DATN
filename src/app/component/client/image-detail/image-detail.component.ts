@@ -5,7 +5,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { ImageDetailService } from '../../../services/client/ImageDetailService/image-detail.service';
 import { catchError, defaultIfEmpty, firstValueFrom, forkJoin, map, Observable, of, take } from 'rxjs';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { MediaInfoDTO } from '../../../dto/MediaInfoDTO';
 import { response } from 'express';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
@@ -22,6 +22,8 @@ import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 import { Location } from '@angular/common';
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { CateProductDTO } from '../../../dto/CateProductDTO';
+import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
+import {TokenService} from '../../../services/token/token.service';
 
 export interface ImagesOfDetailProduct {
   productId: number,
@@ -44,6 +46,7 @@ export class ImageDetailComponent implements OnInit {
   currentLang: string = '';
   currentCurrency: string = '';
   mediaId: number = 0;
+  userId: number = 0;
 
   dataMediaInfo: MediaInfoDTO | null = null;
   dataDetailMedia: DetailMediaDTO[] | null = null
@@ -53,16 +56,19 @@ export class ImageDetailComponent implements OnInit {
   dataCategoryParent: CateProductDTO[] = [];
   dataImagesOfDetailProduct: ImagesOfDetailProduct[] | null = null
 
-
+  isWishlist: boolean = false;
 
 
   constructor(
+    private router: Router,
     private imageDetailService: ImageDetailService,
     private navigationService: NavigationService,
     private activeRoute: ActivatedRoute,
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
     private productService: ProductServiceService,
+    private wishlistService: WishlistService,
+    private tokenService: TokenService,
     private location: Location
 
   ) { }
@@ -75,6 +81,7 @@ export class ImageDetailComponent implements OnInit {
     this.currentCurrency = await firstValueFrom(
       this.navigationService.currentCurrency$.pipe(defaultIfEmpty('USD'))
     );
+    this.userId = this.tokenService.getUserId();
     await this.getMediaIdFromRouter();
     this.fetchImageDetail(this.mediaId)
     this.fetchCurrency()
@@ -299,5 +306,52 @@ export class ImageDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+
+  toggleWishlist(userId: number, productId: number, colorId: number): void {
+
+    if(userId === 0){
+      const confirmRedirect = window.confirm(
+        'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
+      );
+      if (confirmRedirect) {
+        this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
+      }
+    }
+
+    this.wishlistService.toggleWishlistInProductDetail(userId, productId, colorId).subscribe({
+      next: (response) => {
+        console.log('Message:', response.message);
+        console.log('Response Data:', response.data);
+
+        // ✅ Chỉ gọi checkWishlist sau khi toggleWishlistInProductDetail thành công
+        this.wishlistService.getWishlistTotal(userId);
+        this.checkWishlist(userId, productId, colorId);
+      },
+      error: (error) => {
+        console.error('API Error:', error);
+      }
+    });
+  }
+
+  checkWishlist(userId: number, productId: number, colorId: number) {
+    if (!userId || !productId || !colorId) {
+      console.warn('Dữ liệu không hợp lệ:', { userId, productId, colorId });
+      return;
+    }
+
+    this.productService.isInWishlist(userId, productId, colorId).subscribe({
+      next: (response) => {
+
+        // ✅ Lấy giá trị đúng key từ API (`isInWishList` thay vì `isInWishlist`)
+        this.isWishlist = response.data?.isInWishList ?? false;
+
+      },
+      error: (error) => {
+        console.error('Lỗi khi kiểm tra wishlist:', error);
+        this.isWishlist = false; // ✅ Nếu API lỗi, tránh bị undefined
+      }
+    });
   }
 }
