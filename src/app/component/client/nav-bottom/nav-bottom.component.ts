@@ -21,7 +21,7 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 })
 export class NavBottomComponent implements OnInit{
   currentLang: string = 'vi'; // Ngôn ngữ mặc định
-  currentCurrency: string = 'vn'; // Tiền tệ mặc định
+  currentCurrency: string = 'vnd'; // Tiền tệ mặc định
   categories$: Observable<CategoryDTO[]> = of([]);
   categoriesChid: CategoryDTO[] = [];
   selectedCategory!: Observable<CategoryDTO>;
@@ -92,7 +92,7 @@ export class NavBottomComponent implements OnInit{
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
     });
-    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/vi/product`], {
+    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
       queryParams: {
         categoryId: categoryId,
         isActive: true,
