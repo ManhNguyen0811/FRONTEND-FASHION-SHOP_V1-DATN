@@ -60,7 +60,7 @@ export class PaymentSuccessComponent implements OnInit {
     if (userId) params.userId = userId;
     if (sessionId) params.sessionId = sessionId;
 
-    this.http.delete(`http://localhost:8080/api/v1/cart/clear`, { params }).subscribe({
+    this.http.post(`http://localhost:8080/api/v1/orders/vnpay/callback`, { params }).subscribe({
       next: () => console.log('🛒 Giỏ hàng đã được xóa thành công!'),
       error: (err) => console.error('❌ Lỗi khi xóa giỏ hàng:', err)
     });
