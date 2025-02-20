@@ -30,7 +30,7 @@ import {TokenService} from '../../../services/token/token.service';
 @Component({
   selector: 'app-detail-product',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, TranslateModule, NavBottomComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NavBottomComponent],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'
 })
@@ -79,7 +79,8 @@ export class DetailProductComponent implements OnInit {
     private currencySevice: CurrencyService,
     private cdr: ChangeDetectorRef,
     private wishlistService: WishlistService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -88,17 +89,24 @@ export class DetailProductComponent implements OnInit {
     this.getIdsFromProductRouter();
     this.fetchCurrency();
 
+    this.routerActi.params.subscribe(params => {
+      this.productId = Number(params['productId']) || 0;
+      this.colorId = Number(params['colorId']) || 0;
+      this.sizeId = Number(params['sizeId']) || 0;
+
+
     this.fetchDetailProduct(this.productId ?? 0).then(() => {
       this.selectedSizeId = this.sizeId ?? 0; // Đánh dấu size được chọn
       this.selectedColorId = this.colorId ?? 0; // Đánh dấu size được chọn
     });
+
+
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
-
+    // this.changeImageOne(this.productId ?? 0,this.colorId ?? 0);
     this.userId = this.tokenService.getUserId();
-
-
-
     this.checkWishlist(this.userId, this.productId ?? 0, this.colorId ?? 0);
+
+    });
   }
 
 
@@ -141,6 +149,39 @@ export class DetailProductComponent implements OnInit {
       this.colorImage = this.dataImagesProduct.find(img => img.colorId);
       this.noColorImages = this.dataImagesProduct.filter(img => !img.colorId);
     }
+
+    this.changeImageOne(this.productId ?? 0, this.colorId ?? 0).subscribe(images => {
+      if (images) {
+        this.dataImagesProduct[0].mediaUrl = images[0].mediaUrl; // Cập nhật danh sách ảnh
+        this.cdr.detectChanges();
+      }
+    });
+
+
+    if (this.colorId === 0 && this.dataColors.length > 0) {
+      this.colorId = this.dataColors[0].id;
+    }
+
+    if (this.sizeId === 0 && this.dataSizes.length > 0) {
+      this.sizeId = this.dataSizes[0].id;
+    }
+
+    this.getQuantityInStock(this.productId ?? 0, this.colorId ?? 0).subscribe(colorList => {
+      this.dataQuantityInStock = colorList
+    })
+    this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(qty => {
+      this.quantityInStock = qty;
+      this.cdr.detectChanges(); // Cập nhật giao diện ngay khi có dữ liệu mới
+    });
+
+    this.getSalePrice(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(price => {
+      this.salePrice = price;
+      this.cdr.detectChanges();
+    });
+
+
+
+    this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
 
   }
 
@@ -306,7 +347,6 @@ export class DetailProductComponent implements OnInit {
     this.getSalePrice(this.productId ?? 0, this.colorId ?? 0, size.id).subscribe(price => {
       this.salePrice = price;
       this.cdr.detectChanges();
-
     });
     this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, size.id).subscribe(qty => {
       console.log(qty?.quantityInStock)
@@ -396,6 +436,7 @@ export class DetailProductComponent implements OnInit {
 
   // đổi url khi đổi màu và size
   updateUrl(productId: number, colorId: number, sizeId: number): void {
+
     const newUrl = `/client/${this.currentCurrency}/${this.currentLang}/detail_product/${productId}/${colorId}/${sizeId}`;
     this.location.replaceState(newUrl);
   }
@@ -420,8 +461,6 @@ export class DetailProductComponent implements OnInit {
     }
   }
 
-  rating: number = 5;
-  reviewCount: number = 999;
 
 
   getFullStars(rating: number): Array<number> {
@@ -479,6 +518,7 @@ export class DetailProductComponent implements OnInit {
       }
     });
   }
+
 
 
 

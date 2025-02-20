@@ -14,6 +14,7 @@ import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { VariantsDetailProductDTO } from '../../../dto/VariantsDetailProductDTO';
 import { InventoryDTO } from '../../../dto/InventoryDTO';
 import {WishlistCheckResponse} from '../../../dto/WishlistCheckResponse';
+import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 
 
 
@@ -142,8 +143,10 @@ export class ProductServiceService {
     );
   }
 
-
-
-
-
+  suggestProducts(query: string, lang: string): Observable<ProductSuggestDTO[]> {
+    const url = `${this.apiUrl}/suggest/${lang}?productName=${query}`;
+    return this.http.get<{ data: ProductSuggestDTO[] }>(url).pipe(
+      map(response => response.data || [])
+    );
+  }
 }
