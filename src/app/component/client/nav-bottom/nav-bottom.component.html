@@ -21,7 +21,24 @@
   <i class="text-dark bi bi-person"></i>
 </button>
 
+
+
 <div class="overlay" *ngIf="isSearchActive">
+
+  <div class="dropdown-menu show w-100 h-100" id="suggestionsBox" *ngIf="searchResults.length > 0 && searchQuery">
+    <a [routerLink]="['/client', currentCurrency, currentLang,'detail_product', item.id,
+                                                                                    0,
+                                                                                    0]"
+       class="dropdown-item d-flex align-items-center" style="margin-left: 200px"
+       *ngFor="let item of searchResults"
+
+       (click)="closeSearch()">
+      <img [src]="'http://localhost:8080/uploads/images/products/'+item.imageUrl" alt="{{item.name}}"
+           class="img-fluid" style="max-height: 60px;">
+      <p class="mb-0 ms-2">{{ item.name }}</p>
+    </a>
+  </div>
+
   <app-header></app-header>
     <div class="container position-relative window-category">
       <div class="container body-category" style="">
@@ -116,12 +133,17 @@
 <!--          </div>-->
 <!--        </div>-->
         </div>
+      </div>
 
-      </div>
+
+        <div class="container Search-Bar bottom-navigation">
+          <input type="text" class="form-control rounded-pill"
+                 [(ngModel)]="searchQuery"
+                 (input)="onSearchInput($event)"
+                 placeholder="Tìm kiếm theo từ khóa">
+        </div>
+
       <!-- Search Bar -->
-      <div class="container Search-Bar">
-        <input type="text" class="form-control rounded-pill" placeholder="Tìm kiếm theo từ khóa">
-      </div>
     </div>
 
 </div>

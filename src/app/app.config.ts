@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     // provideHttpClient(),
     tokenInterceptorProvider,
-    provideAnimations(), 
+    provideAnimations(),
     provideToastr(), // Toastr providers
     // provideRouter(routes),
     TranslateModule.forRoot({
