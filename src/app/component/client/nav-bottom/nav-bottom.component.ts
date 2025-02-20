@@ -102,16 +102,6 @@ export class NavBottomComponent implements OnInit{
         sortDir: 'asc'
       }
     });
-    console.log(this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
-      queryParams: {
-        categoryId: categoryId,
-        isActive: true,
-        page: 0,
-        size: 10,
-        sortBy: 'id',
-        sortDir: 'asc'
-      }
-    }));
   }
 
 
