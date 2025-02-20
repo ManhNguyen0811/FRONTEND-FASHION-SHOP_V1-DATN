@@ -429,6 +429,7 @@ export class EditCategoryComponent implements OnInit {
     this.categoryAdminService.createCategory(formData).subscribe({
       next: response => {
         this.toastService.success('Success', 'Category created successfully!', { timeOut: 3000 });
+        this.resetForm()
       },
       error: error => {
         this.toastService.error('Error', 'There was an error creating the category.', { timeOut: 3000 });
@@ -436,4 +437,18 @@ export class EditCategoryComponent implements OnInit {
       }
     });
   }
+
+  resetForm(): void {
+    this.categoryNew = {
+      parentId: 0,
+      translations: []
+    };
+    // Nếu có các giá trị khác cần reset, bạn có thể reset thêm ở đây, ví dụ:
+    this.selectedFile = null;
+    this.imageUrl = null;
+    this.fetchCategory()
+    // Reset các biến khác (nếu cần)
+  }
+  
+  
 }

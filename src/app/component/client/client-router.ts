@@ -28,6 +28,8 @@ import {NgModule} from '@angular/core';
 import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 import {StoreDetailComponent} from './store-detail/store-detail.component';
+import {PaymentSuccessComponent} from './payment-success/payment-success.component';
+
 
 export const clientRouter: Routes =[
     {
@@ -122,8 +124,14 @@ export const clientRouter: Routes =[
               path: 'imageDetail/:mediaId',
               component: ImageDetailComponent
             },
+
+          { path: 'payment_success',
+            component: PaymentSuccessComponent },
         ]
     },
+
+
+
     { path: '', redirectTo: 'vnd/vi', pathMatch: 'full' } // Mặc định là 'vi'
 ]
 @NgModule({
