@@ -162,6 +162,7 @@
       <input type="text" class="form-control rounded-pill"
              [(ngModel)]="searchQuery"
              (input)="onSearchInput($event)"
+             (keyup.enter)="onSearchEnter()"
              placeholder="Tìm kiếm theo từ khóa">
     </div>
 

@@ -198,7 +198,28 @@ export class NavBottomComponent implements OnInit{
     }
   }
 
+  onSearchEnter(): void {
+    if (this.searchQuery.trim()) {
+      this.navigationService.currentLang$.subscribe((lang) => {
+        this.currentLang = lang;
+      });
 
+      this.navigationService.currentCurrency$.subscribe((currency) => {
+        this.currentCurrency = currency;
+      });
+
+      this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
+        queryParams: {
+          name: this.searchQuery.trim(),
+          isActive: true,
+          page: 0,
+          size: 10,
+          sortBy: 'id',
+          sortDir: 'asc'
+        }
+      });
+    }
+  }
 
 
 }

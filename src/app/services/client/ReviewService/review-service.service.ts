@@ -8,6 +8,7 @@ import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
 import { PageResponse } from '../../../dto/Response/page-response';
 import { ReviewDetailProductDTO } from '../../../dto/ReviewDetailProductDTO';
 import { Review } from '../../../models/Review';
+import {TotalReviewByRatingDTO} from '../../../dto/TotalReviewByRatingDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,6 @@ export class ReviewServiceService {
 
   constructor(private http: HttpClient) { }
   private apiUrl = `${environment.apiBaseUrl}/reviews`
-  
 
 
   getReviewTotal(productId: number): Observable<ApiResponse<ReviewTotalDTO>> {
@@ -26,6 +26,14 @@ export class ReviewServiceService {
     return this.http.get<ApiResponse<ReviewAverageDTO>>(`${this.apiUrl}/average/${productId}`)
   }
 
+  totalReviewByRating(
+    productId: number,
+    reviewRating: string
+  ): Observable<ApiResponse<TotalReviewByRatingDTO>> {
+    return this.http.get<ApiResponse<TotalReviewByRatingDTO>>(
+      `${this.apiUrl}/${productId}?reviewRating=${reviewRating}`
+    );
+  }
 
   getReviewDetailProduct(productId: number,
     page: number,

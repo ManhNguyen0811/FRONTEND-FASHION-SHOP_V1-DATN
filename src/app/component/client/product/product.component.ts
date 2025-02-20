@@ -85,24 +85,28 @@ export class ProductComponent implements OnInit {
     this.userId = this.tokenService.getUserId();
 
     this.route.queryParams.subscribe(params => {
-      const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : 1;
+      const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : undefined;
       const isActive = params['isActive'] === 'true';
       const page = params['page'] ? parseInt(params['page'], 10) : 0;
       const size = params['size'] ? parseInt(params['size'], 10) : 10;
       const sortBy = params['sortBy'] || 'id';
       const sortDir: 'asc' | 'desc' = params['sortDir'] === 'desc' ? 'desc' : 'asc';
 
-      if (this.categoryId !== categoryId) {
+      if (categoryId !== undefined && this.categoryId !== categoryId) {
         this.categoryId = categoryId;
         this.categoryName$ = this.categoryService.getNameCategory(this.currentLang, categoryId);
       }
 
-      this.fetchProducts(categoryId, isActive, page, 2, sortBy, sortDir);
+      this.route.queryParams.subscribe(params => {
+        this.searchQuery = params['name'] || ''; // Nếu không có, gán chuỗi rỗng
+      });
+
+      this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
     });
   }
 
   fetchProducts(
-    categoryId: number,
+    categoryId: number | undefined,
     isActive: boolean,
     page: number,
     size: number,
