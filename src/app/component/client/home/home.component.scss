@@ -77,8 +77,23 @@ body {
 }
 
 .carousel-logo {
-  margin-bottom: 1.5rem;
+  display: flex; /* Đảm bảo logo nằm đúng vị trí */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  max-width: 80px; /* Đặt kích thước tối đa cho logo */
+  max-height: 80px; /* Đặt chiều cao tối đa */
+  width: auto; /* Để logo không bị méo */
+  height: auto;
+  margin-bottom: 1.0rem;
+  overflow: hidden; /* Đảm bảo không bị tràn */
 }
+
+.carousel-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Đảm bảo logo không bị méo */
+}
+
 
 .carousel-title,
 .carousel-product-title {

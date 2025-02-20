@@ -12,11 +12,10 @@
 
       <div class="col-md-8">
         <span>{{ "Mẫu cao" | translate }}: {{dataMediaInfo?.modelHeight}} cm</span>
-        <hr>
         <ul>
           <li *ngFor="let item of dataDetailMedia"
-
           >
+            <hr>
             <div class="container d-flex "
                  [routerLink]="['/client', currentCurrency, currentLang,'detail_product', item?.productId,
                                                                                     item.colorId,
@@ -27,8 +26,11 @@
                     [src]="'http://localhost:8080/uploads/images/products/' + getMediaUrl(item.productId)"
                     alt="Product Image">
                 </div>
-                <div class="card-body product-details">
-                  <h6 class="text-uppercase fw-normal">{{getStringCateProduct(currentLang, item.productId)}}</h6>
+                <div class="card-body product-details" >
+                  <h6 class="text-uppercase fw-normal">
+                    {{getStringCateProduct(currentLang, item.productId)}}
+
+                  </h6>
                   <p  class="text-uppercase fw-bolder">{{getNameProduct(item.productId)}}</p>
                   <p ><strong>{{ "Màu" | translate }}:</strong> {{item.colorName}}</p>
                   <p><strong>{{ "Kích thước" | translate }}: </strong> {{getStringCateProduct(currentLang, item.productId)}} {{item.size}}</p>
@@ -56,19 +58,26 @@
                     </span><br>
                   </div>
                 </div>
-                <button class="btn btn-outline-danger bi bi-heart border border-0 text-bg-white
-                 " style="margin-bottom: 150px"></button>
+                <button class="btn btn-icon" (click)="$event.stopPropagation();toggleWishlist(userId,item.productId,item.productId);checkWishlist(userId,item.productId,item.productId)">
+                  <i *ngIf="isWishlist" class="fa-solid fa-heart" style="color: #ff0000;"></i>
+                  <i *ngIf="!isWishlist" class="fa-regular fa-heart"></i>
+                </button>
               </div>
             </div>
-            <hr>
+
           </li>
 
         </ul>
+        <hr>
+        <div class="d-flex ms-3 mb-3">
+          <button (click)="goBack()" class="btn bg-white text-black border border-2 px-4 py-2 text-uppercase">
+            {{ 'back_product' | translate }}
+          </button>
+        </div>
+
       </div>
     </div>
+
   </div>
-<!--  <a [routerLink]="['/client', currentCurrency, currentLang,'detail_product', dataDetailsProduct?.id,-->
-<!--                                                                                    ?.[0]?.id,-->
-<!--                                                                                    dataSizes?.[0]?.id]"-->
-<!--     </a>-->
+
 </div>
