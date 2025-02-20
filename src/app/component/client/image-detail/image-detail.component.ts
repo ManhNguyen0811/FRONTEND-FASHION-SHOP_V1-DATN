@@ -19,7 +19,7 @@ import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProductServiceService } from '../../../services/client/ProductService/product-service.service';
 import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
-
+import { Location } from '@angular/common';
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { CateProductDTO } from '../../../dto/CateProductDTO';
 
@@ -32,9 +32,6 @@ export interface ImagesOfDetailProduct {
   selector: 'app-image-detail',
   standalone: true,
   imports: [
-    HeaderComponent,
-    NavBottomComponent,
-    FooterComponent,
     CommonModule,
     TranslateModule,
     RouterLink
@@ -42,9 +39,6 @@ export interface ImagesOfDetailProduct {
   templateUrl: './image-detail.component.html',
   styleUrl: './image-detail.component.scss'
 })
-
-
-
 
 export class ImageDetailComponent implements OnInit {
   currentLang: string = '';
@@ -69,9 +63,7 @@ export class ImageDetailComponent implements OnInit {
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
     private productService: ProductServiceService,
-
-
-
+    private location: Location
 
   ) { }
 
@@ -305,5 +297,7 @@ export class ImageDetailComponent implements OnInit {
     );
   }
 
-
+  goBack(): void {
+    this.location.back();
+  }
 }

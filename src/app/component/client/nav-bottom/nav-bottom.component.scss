@@ -5,8 +5,6 @@
   padding: 0;
 }
 
-
-
 .overlay {
   position: fixed;
   top: 0;
@@ -455,8 +453,31 @@
     .Search-Bar{
       bottom: 10rem;
       left: 5rem;
+      z-index: 20 !important;
     }
+
+    .search-container {
+      position: relative; /* Đảm bảo hộp gợi ý bám theo input */
+    }
+
+    #suggestionsBox {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%); /* Căn giữa theo chiều ngang */
+      z-index: 12;
+      max-height: 500px;
+      overflow-y: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      background: white;
+      width: 80%; /* Đảm bảo độ rộng phù hợp */
+    }
+
+
   }
+
+
 
 
 

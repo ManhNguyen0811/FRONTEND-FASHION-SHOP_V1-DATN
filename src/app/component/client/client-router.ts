@@ -46,7 +46,7 @@ export const clientRouter: Routes =[
             },
             {
                 path: 'detail_product/:productId/:colorId/:sizeId',
-                component: DetailProductComponent
+                component: DetailProductComponent,
             },
             {
                 path: 'cart',

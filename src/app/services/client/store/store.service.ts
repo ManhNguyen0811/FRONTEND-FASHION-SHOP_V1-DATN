@@ -25,7 +25,7 @@ export class StoreService {
     let params = `?page=${pageNo}&size=${pageSize}`;
 
     if (city) {
-      params += `&city=${encodeURIComponent(city)}`;  // Thêm tham số city vào query
+      params += `&city=${encodeURIComponent(city)}`;
     }
 
     if (userLat && userLon) {
