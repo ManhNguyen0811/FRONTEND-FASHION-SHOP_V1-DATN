@@ -6,8 +6,11 @@ import {NavigationService} from '../../../services/Navigation/navigation.service
 import {TranslatePipe} from '@ngx-translate/core';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
-import {Observable, of} from 'rxjs';
+import {debounceTime, distinctUntilChanged, Observable, of, Subscription, switchMap} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {ProductServiceService} from '../../../services/client/ProductService/product-service.service';
+import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-nav-bottom',
@@ -15,20 +18,25 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
   imports: [NgClass,
     CommonModule,
     HeaderComponent,
-    RouterLink, TranslatePipe],
+    RouterLink, TranslatePipe, FormsModule],
   templateUrl: './nav-bottom.component.html',
   styleUrl: './nav-bottom.component.scss'
 })
 export class NavBottomComponent implements OnInit{
   currentLang: string = 'vi'; // Ngôn ngữ mặc định
-  currentCurrency: string = 'vn'; // Tiền tệ mặc định
+  currentCurrency: string = 'vnd'; // Tiền tệ mặc định
   categories$: Observable<CategoryDTO[]> = of([]);
   categoriesChid: CategoryDTO[] = [];
   selectedCategory!: Observable<CategoryDTO>;
   apiError: any;
   isSearchActive: boolean = false;
 
-  constructor(private router: Router,private navigationService: NavigationService, private categoryService: CategoryService, private sanitizer: DomSanitizer) {
+  constructor(private router: Router,
+              private navigationService: NavigationService,
+              private categoryService: CategoryService,
+              private sanitizer: DomSanitizer,
+              private productService: ProductServiceService
+              ) {
     // Lắng nghe giá trị ngôn ngữ và tiền tệ từ NavigationService
     this.navigationService.currentLang$.subscribe((lang) => {
       this.currentLang = lang;
@@ -92,7 +100,7 @@ export class NavBottomComponent implements OnInit{
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
     });
-    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/vi/product`], {
+    this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
       queryParams: {
         categoryId: categoryId,
         isActive: true,
@@ -102,21 +110,46 @@ export class NavBottomComponent implements OnInit{
         sortDir: 'asc'
       }
     });
-    console.log(this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
-      queryParams: {
-        categoryId: categoryId,
-        isActive: true,
-        page: 0,
-        size: 10,
-        sortBy: 'id',
-        sortDir: 'asc'
-      }
-    }));
   }
 
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.categories$; // Subscribe vào Observable từ service
+  }
+
+  searchQuery: string = '';
+  searchResults: ProductSuggestDTO[] = [];
+  private searchSubscription!: Subscription;
+
+  closeSearch(): void {
+    this.isSearchActive = false;
+    this.navigationService.toggleSearchActive();
+    this.searchQuery = '';
+    this.searchResults = [];
+  }
+
+  onSearchInput(event: any) {
+    const query = event.target.value.trim();
+    this.searchQuery = query;
+
+    // Nếu ô tìm kiếm có nội dung, gọi API
+    if (query.length > 0) {
+      if (this.searchSubscription) {
+        this.searchSubscription.unsubscribe();
+      }
+
+      this.searchSubscription = this.productService.suggestProducts(query, this.currentLang).subscribe({
+        next: (response) => {
+          this.searchResults = response.length > 0 ? response : [];
+        },
+        error: (err) => {
+          console.error('Lỗi khi tìm kiếm sản phẩm:', err);
+          this.searchResults = [];
+        }
+      });
+    } else {
+      this.searchResults = [];
+    }
   }
 
 }

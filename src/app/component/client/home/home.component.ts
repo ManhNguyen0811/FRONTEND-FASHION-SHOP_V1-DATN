@@ -1,5 +1,14 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {Component, HostListener, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 import {Router} from '@angular/router';
 import {NavigationService} from '../../../services/Navigation/navigation.service';
@@ -12,22 +21,41 @@ import {ApiResponse} from '../../../dto/Response/ApiResponse';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NavBottomComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit ,AfterViewInit{
   currentLang: string = ''; // Ngôn ngữ mặc định
   currentCurrency: string = ''; // Tiền tệ mặc định
   url: string = '';
   banners: Observable<BannerDTO[] | null> = of([]);
 
+
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
               private router: Router,
               private navigationService: NavigationService,
               private bannerService: BannerService,) {
 
   }
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.playVideo(), 500);
+
+      // Đảm bảo phát video khi người dùng click vào trang
+      document.addEventListener("click", this.playVideo);
+    }
+  }
+
+  playVideo = (): void => {
+    if (this.videoPlayer && this.videoPlayer.nativeElement) {
+      const video = this.videoPlayer.nativeElement;
+      video.muted = true;
+      video.play().catch(err => console.log("Autoplay blocked:", err));
+    }
+  };
 
   async ngOnInit(): Promise<void> {
     if (isPlatformBrowser(this.platformId)) {
@@ -38,6 +66,7 @@ export class HomeComponent implements OnInit {
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.banners =  this.getBanners(this.currentLang);
     console.log(this.banners);
+
   }
 
   // Lắng nghe sự kiện scroll trên toàn bộ cửa sổ
@@ -70,5 +99,6 @@ export class HomeComponent implements OnInit {
       catchError(() => of(null))
     )
   }
+
 
 }

@@ -6,14 +6,13 @@ import { ProductServiceService } from '../../../services/client/ProductService/p
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
 import { ProductListDTO } from '../../../dto/ProductListDTO';
-import { catchError, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import {catchError, firstValueFrom, forkJoin, map, Observable, of, Subscription, switchMap} from 'rxjs';
 import { ProductVariantDetailDTO } from '../../../models/ProductVariant/product-variant-detailDTO';
 import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { ColorDTO } from '../../../models/colorDTO';
 import { environment } from '../../../../environments/environment';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
 import { Currency } from '../../../models/Currency';
-import { response } from 'express';
 import { SizeDTO } from '../../../models/sizeDTO';
 import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 import { ReviewServiceService } from '../../../services/client/ReviewService/review-service.service';
@@ -23,6 +22,8 @@ import {TokenService} from '../../../services/token/token.service';
 import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
 import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 import {FormsModule} from '@angular/forms';
+import {CategoryService} from '../../../services/client/CategoryService/category.service';
+import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 
 @Component({
   selector: 'app-product',
@@ -36,9 +37,10 @@ export class ProductComponent implements OnInit {
   currentCurrency: string ='' ; // Tiền tệ mặc định
   userId: number = 0;
 
-
-  sortDirection: 'asc' | 'desc' = 'asc'; // Sắp xếp mặc định tăng dần
-  sortField: string = 'name'; // Sắp xếp mặc định theo tên
+  categoryId : number = 0;
+  sortBy: string = 'id';
+  sortDir: 'asc' | 'desc' = 'asc';
+  categoryName$: Observable<string> = of(''); // Giá trị mặc định
 
   currentCurrencyDetail?: Currency;
   products: (
@@ -52,11 +54,11 @@ export class ProductComponent implements OnInit {
 
   })[] = [];
 
-  pageNo: number = 0;
-  pageSize: number = 10;
-  totalPages: number = 0;
-  totalElements: number = 0;
-  first: boolean = false;
+  currentPage: number = 1; // Trang hiện tại
+  pageSize: number = 2; // Số sản phẩm trên mỗi trang
+  totalPages: number = 0; // Tổng số trang
+  totalElements: number = 0; // Tổng số sản phẩm
+  first: boolean = true;
   last: boolean = false;
   errorMessage: string = '';
 
@@ -68,7 +70,8 @@ export class ProductComponent implements OnInit {
     private currencySevice: CurrencyService,
     private tokenService: TokenService,
     private wishlistService: WishlistService,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService
   ) {
     // Subscribe để nhận giá trị từ service
     this.navigationService.setSearchActive(false);
@@ -89,7 +92,12 @@ export class ProductComponent implements OnInit {
       const sortBy = params['sortBy'] || 'id';
       const sortDir: 'asc' | 'desc' = params['sortDir'] === 'desc' ? 'desc' : 'asc';
 
-      this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
+      if (this.categoryId !== categoryId) {
+        this.categoryId = categoryId;
+        this.categoryName$ = this.categoryService.getNameCategory(this.currentLang, categoryId);
+      }
+
+      this.fetchProducts(categoryId, isActive, page, 2, sortBy, sortDir);
     });
   }
 
@@ -106,7 +114,7 @@ export class ProductComponent implements OnInit {
         (response: ApiResponse<PageResponse<ProductListDTO[]>>) => {
           if (response.data && Array.isArray(response.data.content)) {
             const productList = response.data.content.flat();
-
+            this.searchResults = [...this.products];
             // Gọi API lấy chi tiết sản phẩm & màu song song
             const productRequests = productList.map(product =>
               forkJoin({
@@ -127,7 +135,8 @@ export class ProductComponent implements OnInit {
               this.products = updatedProducts;
             });
 
-            this.pageNo = response.data.pageNo;
+            // Cập nhật thông tin phân trang
+            this.currentPage = response.data.pageNo;
             this.pageSize = response.data.pageSize;
             this.totalPages = response.data.totalPages;
             this.totalElements = response.data.totalElements;
@@ -276,6 +285,109 @@ export class ProductComponent implements OnInit {
         }
       }
     });
+  }
+
+  getFilteredProducts() {
+    return this.products.filter(product => {
+      const price = product.detail?.salePrice ?? 0;
+      const name = product.detail?.name?.toLowerCase() || '';
+
+      // ✅ Lọc theo khoảng giá (nếu có)
+      const matchesPrice = !this.selectedPriceRange ||
+        (price >= this.selectedPriceRange.min && price <= this.selectedPriceRange.max);
+
+      // ✅ Lọc theo từ khóa tìm kiếm (nếu có)
+      const matchesSearch = !this.searchQuery || name.includes(this.searchQuery.toLowerCase());
+
+      // ✅ Chỉ giữ sản phẩm thỏa mãn cả hai điều kiện
+      return matchesPrice && matchesSearch;
+    });
+  }
+
+  selectedPriceRange: { min: number, max: number } | null = null;
+
+  onSortChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+    this.sortProducts(value);
+  }
+
+  sortProducts(criteria: string) {
+    // if (criteria === 'priceAsc') {
+    //   this.sortBy = 'salePrice';
+    //   this.sortDir = 'asc';
+    // } else if (criteria === 'priceDesc') {
+    //   this.sortBy = 'salePrice';
+    //   this.sortDir = 'desc';
+    if (criteria === 'priceAsc') {
+      this.products.sort((a, b) => (a.detail?.salePrice ?? 0) - (b.detail?.salePrice ?? 0));
+    } else if (criteria === 'priceDesc') {
+      this.products.sort((a, b) => (b.detail?.salePrice ?? 0) - (a.detail?.salePrice ?? 0));
+
+    } else if (criteria === 'createdAtAsc') {
+      this.sortBy = 'createdAt';
+      this.sortDir = 'asc';
+    } else if(criteria === ''){
+      this.fetchProducts(this.categoryId, true, this.currentPage, this.pageSize,this.sortBy,this.sortDir);
+    }
+
+  }
+
+
+  onPriceRangeChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+
+    if (value === "600000-700000") {
+      this.selectedPriceRange = { min: 600000, max: 700000 };
+    } else if (value === "700000-800000") {
+      this.selectedPriceRange = { min: 700000, max: 800000 };
+    } else {
+      this.selectedPriceRange = null; // Reset nếu không chọn gì
+    }
+  }
+
+  //Phân trang
+
+  getPageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i);
+  }
+
+  changePage(newPage: number) {
+    if (newPage >= 0 && newPage < this.totalPages) {
+      console.log('🔄 Chuyển sang trang:', newPage);
+
+      this.router.navigate([], {
+        queryParams: {
+          categoryId: this.categoryId,
+          isActive: true,
+          page: newPage,
+          size: this.pageSize,
+          sortBy: this.sortBy,
+          sortDir: this.sortDir
+        },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
+
+  // Tìm kiếm
+
+  searchQuery: string = '';
+  searchResults: (
+    ProductListDTO & {
+    detail?: ProductVariantDetailDTO | null,
+    colors?: ColorDTO[],
+    sizes?: SizeDTO[],
+    categoryParent?: CategoryParentDTO[],
+    reviewTotal?: number,
+    reviewAverage?: number
+
+  })[] = []; // Đổi kiểu dữ liệu phù hợp với danh sách sản phẩm hiện tại
+
+  onSearchInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchQuery = inputElement.value.trim().toLowerCase();
   }
 
 

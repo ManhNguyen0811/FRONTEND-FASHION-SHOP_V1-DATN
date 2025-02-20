@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, map, Observable} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of} from 'rxjs';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
 import {ApiResponse} from '../../../dto/Response/ApiResponse';
 
@@ -43,5 +43,12 @@ export class CategoryService {
 
   getCategoryImage(fileName: string): string{
     return `${this.apiUrl}/categories/image/${fileName}`
+  }
+
+  getNameCategory(languageCode: string, categoryId: number): Observable<string> {
+    return this.getCategory(languageCode, categoryId).pipe(
+      map(category => category?.name || 'Danh mục không tồn tại'), // Nếu không tìm thấy, trả về mặc định
+      catchError(() => of('Lỗi lấy danh mục')) // Bắt lỗi API
+    );
   }
 }
