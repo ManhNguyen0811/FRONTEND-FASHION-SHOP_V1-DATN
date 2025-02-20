@@ -17,6 +17,7 @@ export class TableComponent {
   @Input() activeRouterLinkString: string = '';
   @Input() changePage: boolean = true;
   @Input() toggleCheckbox: (item: any) => void = () => { };
+  @Input() changeActive: (item: boolean) => void = () => { };
   @Input() typeImage: string = '';
 
   @Input() dataPage: any = {}; // Dữ liệu bảng

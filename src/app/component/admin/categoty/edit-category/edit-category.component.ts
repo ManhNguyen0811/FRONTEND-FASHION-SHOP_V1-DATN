@@ -26,7 +26,9 @@ interface Category {
 @Component({
   selector: 'app-edit-category',
   standalone: true,
-  imports: [HeaderAdminComponent, RouterLink, CommonModule, FormsModule, ButtonComponent],
+  imports: [HeaderAdminComponent, 
+    RouterLink, CommonModule, FormsModule,
+     ButtonComponent],
   templateUrl: './edit-category.component.html',
   styleUrls: ['./edit-category.component.scss'] // Đã sửa styleUrl -> styleUrls
 })
@@ -41,6 +43,7 @@ export class EditCategoryComponent implements OnInit {
   // Biến định danh & danh sách con
   // --------------------------
   id!: number;
+
   parentId?: any 
   categoryChildren: Category[] = [];
   categorySubChildren: Category[] = [];
@@ -438,7 +441,7 @@ export class EditCategoryComponent implements OnInit {
     });
   }
 
-  resetForm(): void {
+  async resetForm(): Promise<void> {
     this.categoryNew = {
       parentId: 0,
       translations: []
@@ -447,7 +450,16 @@ export class EditCategoryComponent implements OnInit {
     this.selectedFile = null;
     this.imageUrl = null;
     this.fetchCategory()
-    // Reset các biến khác (nếu cần)
+    this.selectedCategoryParent = null;
+    this.selectedCategoryChild = null;
+    this.selectedCategorySubChild = null;
+    this.categoryChildren = [];
+    this.categorySubChildren = [];
+    this.categorySubSubChildren = [];
+    this.listCategory = await firstValueFrom(this.buildCategoryTree());
+
+
+
   }
   
   
