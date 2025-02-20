@@ -1,3 +1,4 @@
+
 <div class="container-table">
 
     <div class="table-content">
@@ -57,7 +58,6 @@
                             {{ header }}
                         </ng-container>
 
-                        <!-- {{ header }} -->
                     </th>
                 </tr>
             </thead>
@@ -91,10 +91,11 @@
                             </div>
                         </ng-container>
 
-                        <!-- <ng-container
+                        <ng-container
                             *ngIf="header === 'createdAt' || header === 'updatedAt'|| header === 'dateOfBirth'">
-                            {{ item[header] | date:'yyyy-MM-dd HH:mm' }}
-                        </ng-container> -->
+                            {{ item[header] | date:'dd-MM-yyyy' }}
+
+                        </ng-container>
 
                         <ng-container
                             *ngIf="header !== 'imageUrl' && header !== 'isActive' && header !== 'createdAt' && header !== 'updatedAt'&& header !== 'dateOfBirth'">
@@ -106,7 +107,7 @@
                                 <button type="button" [routerLink]="[routerLinkString, item.id]"
                                     [routerLinkActive]="activeRouterLinkString" class="button-89"
                                     role="button">Edit</button>
-                                <button type="button" (click)="eventClick(item.id)" class="button-89"
+                                <button type="button" (click)="eventClickDelete(item.id)" class="button-89"
                                     role="button">Delete</button>
                             </div>
 

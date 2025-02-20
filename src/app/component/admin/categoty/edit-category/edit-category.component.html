@@ -12,29 +12,87 @@
             <!-- Chọn Category Parent -->
             <div class="col-md-4">
                 <label class="form-label">Category Parent</label>
-                <select class="form-select" [(ngModel)]="selectIdChild" (change)="getListCategoryChild(selectIdChild)">
-                    <option disabled selected>Select category</option>
-                    <option *ngFor="let item of listCategory" [value]="item.id">{{ item.name }}</option>
-                </select>
-            </div>
+                <div class="custom-select">
+                  <div class="selected-item" (click)="isOpenCategoryParent = !isOpenCategoryParent">
+                    <span *ngIf="selectedCategoryParent">
+                      <img [src]="selectedCategoryParent.image" alt="{{ selectedCategoryParent.name }}" width="30" />
+                      {{ selectedCategoryParent.name }}
+                    </span>
+                    <span *ngIf="!selectedCategoryParent">
+                      <img src="https://img.icons8.com/?size=100&id=qJfY9WJ3Qpuk&format=png&color=000000" width="25 " alt="Default" />
+                      Select Category
+                    </span>
+                  </div>
+                  <div class="dropdown" *ngIf="isOpenCategoryParent">
+                    <input
+                      type="text"
+                      [(ngModel)]="searchTextCategoryParent"
+                      placeholder="Tìm kiếm category..."
+                    />
+                    <ul>
+                      <li *ngFor="let category of filteredCategoriesParent()" (click)="selectCategoryParent(category)">
+                        <img [src]="'http://localhost:8080/uploads/images/categories/' + category.image" alt="{{ category.name }}" width="30" />
+                        {{ category.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              
         
             <!-- Chọn Category Child -->
-            <div class="col-md-4" *ngIf="categoryChildren.length > 0">
+            <div class="col-md-4" *ngIf="categoryChildren && categoryChildren.length > 0">
                 <label class="form-label">Category Child</label>
-                <select class="form-select" [(ngModel)]="selectIdSubChild" (change)="getListCategorySubChild(selectIdSubChild)">
-                    <option selected>Select category</option>
-                    <option *ngFor="let item of categoryChildren" [value]="item.id">{{ item.name }}</option>
-                </select>
-            </div>
-        
-            <!-- Chọn Category Sub Child -->
-            <div class="col-md-4" *ngIf="categorySubChildren.length > 0">
+                <div class="custom-select">
+                  <div class="selected-item" (click)="isOpenCategoryChild = !isOpenCategoryChild">
+                    <span *ngIf="selectedCategoryChild">
+                      <img [src]="'http://localhost:8080/uploads/images/categories/'+selectedCategoryChild.image" alt="{{ selectedCategoryChild.name }}" width="30" />
+                      {{ selectedCategoryChild.name }}
+                    </span>
+                    <span *ngIf="!selectedCategoryChild">
+                      <img src="https://img.icons8.com/?size=100&id=qJfY9WJ3Qpuk&format=png&color=000000" width="25" alt=" " />
+                      Select Category
+                    </span>
+                  </div>
+                  <div class="dropdown" *ngIf="isOpenCategoryChild">
+                    <input type="text" [(ngModel)]="searchTextCategoryChild" placeholder="Tìm kiếm category..." />
+                    <ul>
+                      <li *ngFor="let category of filteredCategoriesChild()" (click)="selectCategoryChild(category)">
+                        <img [src]="'http://localhost:8080/uploads/images/categories/'+ category.image" alt="{{ category.name }}" width="30" />
+                        {{ category.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="col-md-4" *ngIf="categorySubChildren && categorySubChildren.length > 0">
                 <label class="form-label">Category Sub Child</label>
-                <select class="form-select" [(ngModel)]="selectIdSubSubChild" (change)="getListCategorySubSubChild(selectIdSubSubChild)">
-                    <option selected>Select category</option>
-                    <option *ngFor="let item of categorySubChildren" [value]="item.id">{{ item.name }}</option>
-                </select>
-            </div>
+                <div class="custom-select">
+                  <div class="selected-item" (click)="isOpenCategorySubChild = !isOpenCategorySubChild">
+                    <span *ngIf="selectedCategorySubChild">
+                      <img [src]="'http://localhost:8080/uploads/images/categories/'+selectedCategorySubChild.image" alt="{{ selectedCategorySubChild.name }}" width="30" />
+                      {{ selectedCategorySubChild.name }}
+                    </span>
+                    <span *ngIf="!selectedCategorySubChild">
+                      <img src="https://img.icons8.com/?size=100&id=qJfY9WJ3Qpuk&format=png&color=000000" width="25" alt=" " />
+                      Select Category
+                    </span>
+                  </div>
+                  <div class="dropdown" *ngIf="isOpenCategorySubChild">
+                    <input type="text" [(ngModel)]="searchTextCategorySubChild" placeholder="Tìm kiếm category..." />
+                    <ul>
+                      <li *ngFor="let category of filteredCategoriesSubChild()" (click)="selectCategorySubChild(category)">
+                        <img [src]="'http://localhost:8080/uploads/images/categories/'+category.image" alt="{{ category.name }}" width="30" />
+                        {{ category.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
         </div>
         
    <!-- <div class="col-md-4">
@@ -91,6 +149,7 @@
             </div>
 
         </div>
+     
         <!-- BUTTON -->
         <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Add'"></app-button>
         <!-- <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Save'"  ></app-button> -->
@@ -100,8 +159,8 @@
 
 
     <div class="edit-category-image pt-5">
-        <div class="image-item d-flex flex-column justify-content-center align-items-center">
-            <img class="rounded-1" src="../../../../../assets/images/pr10.avif" alt="image-item" width="280">
+        <div class="image-item d-flex flex-column justify-content-center align-items-center" >
+            <img class="rounded-1" [src]="imageUrl" alt=" " width="280" height="400">
             <input type="file" (change)="onFileSelected($event)" accept="image/*" style="width: 100%; padding: 10px 0 0 30px;">
 
         </div>
