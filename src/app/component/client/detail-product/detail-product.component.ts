@@ -461,8 +461,6 @@ export class DetailProductComponent implements OnInit {
     }
   }
 
-  rating: number = 5;
-  reviewCount: number = 999;
 
 
   getFullStars(rating: number): Array<number> {

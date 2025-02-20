@@ -54,9 +54,10 @@
           <div class="count-product">
             <span>{{products.length}} Sản Phẩm</span>
           </div>
-<!--          <div class="search-product">-->
-<!--            <input type="text">-->
-<!--          </div>-->
+          <input type="text" class="form-control rounded-pill"
+                 [(ngModel)]="searchQuery"
+                 (input)="onSearchInput($event)"
+                 placeholder="Tìm kiếm theo từ khóa">
         </div>
 
 

@@ -6,7 +6,7 @@ import { ProductServiceService } from '../../../services/client/ProductService/p
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
 import { ProductListDTO } from '../../../dto/ProductListDTO';
-import { catchError, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import {catchError, firstValueFrom, forkJoin, map, Observable, of, Subscription, switchMap} from 'rxjs';
 import { ProductVariantDetailDTO } from '../../../models/ProductVariant/product-variant-detailDTO';
 import { AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { ColorDTO } from '../../../models/colorDTO';
@@ -23,6 +23,7 @@ import {WishlistService} from '../../../services/client/wishlist/wishlist.servic
 import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 import {FormsModule} from '@angular/forms';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
+import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 
 @Component({
   selector: 'app-product',
@@ -113,7 +114,7 @@ export class ProductComponent implements OnInit {
         (response: ApiResponse<PageResponse<ProductListDTO[]>>) => {
           if (response.data && Array.isArray(response.data.content)) {
             const productList = response.data.content.flat();
-
+            this.searchResults = [...this.products];
             // Gọi API lấy chi tiết sản phẩm & màu song song
             const productRequests = productList.map(product =>
               forkJoin({
@@ -287,12 +288,19 @@ export class ProductComponent implements OnInit {
   }
 
   getFilteredProducts() {
-    if (!this.selectedPriceRange) {
-      return this.products; // Trả về toàn bộ danh sách nếu không có bộ lọc
-    }
     return this.products.filter(product => {
       const price = product.detail?.salePrice ?? 0;
-      return price >= this.selectedPriceRange!.min && price <= this.selectedPriceRange!.max;
+      const name = product.detail?.name?.toLowerCase() || '';
+
+      // ✅ Lọc theo khoảng giá (nếu có)
+      const matchesPrice = !this.selectedPriceRange ||
+        (price >= this.selectedPriceRange.min && price <= this.selectedPriceRange.max);
+
+      // ✅ Lọc theo từ khóa tìm kiếm (nếu có)
+      const matchesSearch = !this.searchQuery || name.includes(this.searchQuery.toLowerCase());
+
+      // ✅ Chỉ giữ sản phẩm thỏa mãn cả hai điều kiện
+      return matchesPrice && matchesSearch;
     });
   }
 
@@ -326,10 +334,6 @@ export class ProductComponent implements OnInit {
   }
 
 
-
-
-
-
   onPriceRangeChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
@@ -342,6 +346,8 @@ export class ProductComponent implements OnInit {
       this.selectedPriceRange = null; // Reset nếu không chọn gì
     }
   }
+
+  //Phân trang
 
   getPageNumbers(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i);
@@ -364,4 +370,26 @@ export class ProductComponent implements OnInit {
       });
     }
   }
+
+  // Tìm kiếm
+
+  searchQuery: string = '';
+  searchResults: (
+    ProductListDTO & {
+    detail?: ProductVariantDetailDTO | null,
+    colors?: ColorDTO[],
+    sizes?: SizeDTO[],
+    categoryParent?: CategoryParentDTO[],
+    reviewTotal?: number,
+    reviewAverage?: number
+
+  })[] = []; // Đổi kiểu dữ liệu phù hợp với danh sách sản phẩm hiện tại
+
+  onSearchInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchQuery = inputElement.value.trim().toLowerCase();
+  }
+
+
+
 }
