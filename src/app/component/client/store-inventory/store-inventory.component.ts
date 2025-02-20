@@ -210,12 +210,12 @@ export class StoreInventoryComponent implements OnInit{
           (position) => {
             this.userLatitude = position.coords.latitude;
             this.userLongitude = position.coords.longitude;
-            this.fetchStores(); // Gọi API ngay sau khi lấy vị trí
+            this.fetchStores();
           },
           (error) => {
             console.error("Lỗi khi lấy vị trí:", error);
             this.loading = false;
-            this.fetchStores(); // Vẫn gọi API nhưng không có vị trí người dùng
+            this.fetchStores();
           }
         );
       } else {
@@ -245,7 +245,7 @@ export class StoreInventoryComponent implements OnInit{
         if (response?.data) {
           this.stores = response.data.content.map((store) => ({
             ...store,
-            distance: store.distance, // Sử dụng distance từ backend
+            distance: store.distance,
           }));
 
           // Kiểm tra nếu có nút "Xem thêm"

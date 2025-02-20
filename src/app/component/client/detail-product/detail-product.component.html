@@ -11,6 +11,11 @@
           </a>
         </div>
 
+        <video class="col-6 p-0" *ngFor="let video of dataVideoProduct" autoplay loop>
+          <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
+          Trình duyệt của bạn không hỗ trợ phát video.
+        </video>
+
         <div class="col-6 position-relative p-0" *ngFor="let img of noColorImages">
           <img [src]="getImageProduct(img.mediaUrl)">
           <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]" class="image-icon"
@@ -19,10 +24,6 @@
           </a>
         </div>
 
-        <video class="col-6 p-0" *ngFor="let video of dataVideoProduct" autoplay>
-          <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
-          Trình duyệt của bạn không hỗ trợ phát video.
-        </video>
 
         <!-- <div class="col-6 position-relative">
             <img src="https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456261/sub/vngoods_456261_sub7_3x4.jpg?width=369" alt="Model Pose 2" class="img-fluid rounded">
@@ -40,7 +41,7 @@
 
       <div class="accordion mt-4 " id="productAccordion">
         <h5 class="fw-bold">{{ "Mô tả" | translate }}</h5>
-        <p class="text-muted">{{ "Mã sản phẩm:" | translate }} 465748</p>
+        <p class="text-muted">{{ "Mã sản phẩm:" | translate }} {{ dataDetailsProduct?.id }}</p>
         <hr>
         <!-- Chi tiết -->
         <div class="accordion-item">
@@ -55,9 +56,6 @@
             <div class="accordion-body">
               <div class="details-content" data-test="overview-accordion-content">
                 {{dataDetailsProduct?.description}}
-                <br />
-                - Thích hợp cho các hoạt động thể thao, giải trí hoặc mặc hằng ngày. <br />
-                - UPF50+.
               </div>
             </div>
           </div>
