@@ -135,7 +135,22 @@ option {
   opacity: 0;
   transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
-
+.item-active-category{
+  display: flex;
+  justify-content: space-between;
+}
+.search-product{
+  display: flex;
+  justify-content: end;
+}
+.search-product input{
+  text-align: center;
+  width: 38%;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: black;
+}
 /* Khi dropdown mở */
 .custom-select:hover .dropdown {
   max-height: 200px;

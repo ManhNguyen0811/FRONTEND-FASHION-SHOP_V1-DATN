@@ -6,15 +6,15 @@ import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
 import { CategoryAdmin } from '../../../models/Category/CategotyAdmin';
 import { CategoryDTO } from '../../../dto/CategoryDTO';
- 
- 
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryAdminService {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
   private apiUrl = `${environment.apiBaseUrl}/categories`
 
   getCategoriesAdmin(
@@ -43,26 +43,28 @@ export class CategoryAdminService {
     if (sortDir) {
       params += `&sortDir=${encodeURIComponent(sortDir)}`;
     }
-  
+
     return this.http.get<ApiResponse<PageResponse<CategoryAdmin[]>>>(`${this.apiUrl}/en/admin${params}`);
   }
-  
+
   createCategory(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}`, formData);
   }
 
-  getParentCategories(): Observable<ApiResponse<CategoryDTO[]>>{
+  getParentCategories(): Observable<ApiResponse<CategoryDTO[]>> {
     return this.http.get<ApiResponse<CategoryDTO[]>>(`${this.apiUrl}/en/parent`)
   }
-  getSubCategoriesByParentId(parentId: number): Observable<ApiResponse<CategoryDTO[]>>{
+  getSubCategoriesByParentId(parentId: number): Observable<ApiResponse<CategoryDTO[]>> {
     return this.http.get<ApiResponse<CategoryDTO[]>>(`${this.apiUrl}/en/category/parent/${parentId}`)
   }
-  
 
-  deleteCategory(categoryId: number) : Observable<any>{
+
+  deleteCategory(categoryId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${categoryId}`)
   }
-  
-  
+
+  changeActive(categoryId: number, isActive: boolean): Observable<any> {
+    return this.http.put(`${this.apiUrl}/status/${categoryId}?isActive=${isActive}`,{})
+  }
 
 }
