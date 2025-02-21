@@ -5,8 +5,8 @@
 
     <div class="edit-category-form">
         <div class="item-id-category">
-            <label for="disabledTextInput" class="form-label">ID Category</label>
-            <input type="text" id="disabledTextInput" class="form-control" placeholder="ID Category" disabled>
+            <label for="disabledTextInput"  class="form-label">ID Category</label>
+            <input type="text" [ngModel]="dataEditCategory?.id" name="id" id="disabledTextInput" class="form-control" placeholder="ID Category" disabled>
         </div>
         <div class="item-category-select row">
             <!-- Chọn Category Parent -->
@@ -42,12 +42,12 @@
               
         
             <!-- Chọn Category Child -->
-            <div class="col-md-4" *ngIf="categoryChildren && categoryChildren.length > 0">
+            <div class="col-md-4" *ngIf="categoryChildren && categoryChildren.length > 0  || isEditOpenCategoryChild">
                 <label class="form-label">Category Child</label>
                 <div class="custom-select">
                   <div class="selected-item" (click)="isOpenCategoryChild = !isOpenCategoryChild">
                     <span *ngIf="selectedCategoryChild">
-                      <img [src]="'http://localhost:8080/uploads/images/categories/'+selectedCategoryChild.image" alt="{{ selectedCategoryChild.name }}" width="30" />
+                      <img [src]="'http://localhost:8080/uploads/images/categories/'+ selectedCategoryChild.image" alt="{{ selectedCategoryChild.name }}" width="30" />
                       {{ selectedCategoryChild.name }}
                     </span>
                     <span *ngIf="!selectedCategoryChild">
@@ -68,7 +68,7 @@
               </div>
               
 
-              <div class="col-md-4" *ngIf="categorySubChildren && categorySubChildren.length > 0">
+              <div class="col-md-4" *ngIf="categorySubChildren && categorySubChildren.length > 0 || isEditOpenCategorySubChild">
                 <label class="form-label">Category Sub Child</label>
                 <div class="custom-select">
                   <div class="selected-item" (click)="isOpenCategorySubChild = !isOpenCategorySubChild">
@@ -110,9 +110,9 @@
                 <div class="col-md-4" *ngFor="let lang of dataLanguages">
                     <label class="form-label">NAME - {{ lang.name }}</label>
                     <div *ngIf="dataLanguages.length > 0">
-                        <input type="text" class="form-control"
-                               [(ngModel)]="getTranslationByCode(lang.code).name"
-                               [name]="lang.code"
+                        <input   type="text" class="form-control"
+                               [(ngModel)]="getTranslationByCode(lang.code).name "
+                               [name]="lang.code "
                                [placeholder]="lang.name"
                                required>
                       </div>
@@ -145,7 +145,7 @@
         <div class="item-active-category">
             <div class="form-check form-switch">
                 <label for="disabledTextInput" class="form-label">Active Category {{parentId}}</label>
-                <input class="form-check-input" type="checkbox" checked>
+                <input class="form-check-input" [(ngModel)]="isActive" name="isActive" type="checkbox" checked>
             </div>
             <div class="search-product"> 
               <input type="text"  style="font-size: 10px;" [(ngModel)]="parentId" name="parentId" disabled 
@@ -155,16 +155,19 @@
         </div>
      
         <!-- BUTTON -->
-        <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Add'"></app-button>
-        <!-- <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Save'"  ></app-button> -->
+         <div class="d-flex gap-1">
 
+       
+        <app-button [eventClickBtnAdd]="createCategoryNew" [nameButton]="'Add'"></app-button>
+        <app-button [eventClickBtnAdd]="updateCategoryNew" [nameButton]="'Save'"  ></app-button>
+  </div>
     </div>
 
 
 
     <div class="edit-category-image pt-5">
-        <div class="image-item d-flex flex-column justify-content-center align-items-center" >
-            <img class="rounded-1" [src]="imageUrl" alt=" " width="280" height="400">
+        <div class="image-item d-flex flex-column justify-content-center align-items-center" style="object-fit: contain;" >
+            <img class="rounded-1" [src]="imageUrl" [alt]="imageUrl" width="280" height="400">
             <input type="file" (change)="onFileSelected($event)" accept="image/*" style="width: 100%; padding: 10px 0 0 30px;">
 
         </div>
