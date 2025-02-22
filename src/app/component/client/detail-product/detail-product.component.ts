@@ -436,10 +436,9 @@ export class DetailProductComponent implements OnInit {
 
   // đổi url khi đổi màu và size
   updateUrl(productId: number, colorId: number, sizeId: number): void {
-
     const newUrl = `/client/${this.currentCurrency}/${this.currentLang}/detail_product/${productId}/${colorId}/${sizeId}`;
     this.location.replaceState(newUrl);
-  }
+  } 
 
   //lấy cate cha
   getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {

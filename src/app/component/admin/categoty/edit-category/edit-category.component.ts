@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../button/button.component';
 import { LanguagesService } from '../../../../services/LanguagesService/languages.service';
@@ -69,8 +69,6 @@ export class EditCategoryComponent implements OnInit {
   isOpen: boolean = false;
   searchText: string = '';
   selectedItem: any = null;
-
-
   // --------------------------
   // Custom select: Category Parent
   // --------------------------
@@ -98,7 +96,7 @@ export class EditCategoryComponent implements OnInit {
   // File upload
   // --------------------------
   imageUrl: string | ArrayBuffer | null =
-    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fpngtree.com%2Fso%2Fselect&psig=AOvVaw3iX_RNzrj9MCTjoX16_K4t&ust=1740018486796000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKCjh5PYzosDFQAAAAAdAAAAABAE';
+    'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg';
   selectedFile: File | null = null;
 
   // --------------------------
@@ -117,7 +115,9 @@ export class EditCategoryComponent implements OnInit {
     private languagesSrevice: LanguagesService,
     private categoryAdminService: CategoryAdminService,
     private toastService: ToastrService,
-    private routerActive: ActivatedRoute
+    private routerActive: ActivatedRoute,
+    private location: Location,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -128,10 +128,9 @@ export class EditCategoryComponent implements OnInit {
     await this.fetchCategory();
     this.listCategory = await firstValueFrom(this.buildCategoryTree());
 
-    if (this.listCategory.length > 0) {
-      this.loadDataSelect()
+    if (this.listCategory.length > 0 && this.categoryId === null) {
+      this.loadDataSelect();
     }
-
 
   }
 
@@ -142,6 +141,24 @@ export class EditCategoryComponent implements OnInit {
       this.categoryId = Number(params['id']) || null;
     })
   }
+
+
+  changeActive(isActive: boolean): void {
+    if (this.categoryId !== null) {
+      const newStatus = isActive; 
+      this.categoryAdminService.changeActive(this.categoryId, newStatus).subscribe({
+        next: (response) => {
+          this.toastService.success('Success', 'Category change isActive successfully!', { timeOut: 3000 });
+          isActive = newStatus;  
+        },
+        error: (error) => {
+          this.toastService.error('Error', 'There was an error deleting the category.', { timeOut: 3000 });
+
+        }
+      });
+    }
+
+  };
 
   // --------------------------
   // HÀM XỬ LÝ NGÔN NGỮ & TRANSLATION
@@ -661,7 +678,6 @@ export class EditCategoryComponent implements OnInit {
   }
 
   updateCategoryNew = (): void => {
-    // Kiểm tra translations có tồn tại không
     if (!this.translations || this.translations.length === 0) {
       this.toastService.error('Vui lòng thêm ít nhất một translation!', "Error", { timeOut: 3000 });
       return;
@@ -691,6 +707,11 @@ export class EditCategoryComponent implements OnInit {
       next: response => {
         this.toastService.success('Success', 'Category updated successfully!', { timeOut: 3000 });
         this.resetForm();
+        // this.categoryId = 0 ;
+        this.updateUrl();
+        this.getIdFromRouter()
+
+
       },
       error: error => {
         this.toastService.error('Error', 'Có lỗi xảy ra khi cập nhật danh mục.', { timeOut: 3000 });
@@ -706,9 +727,12 @@ export class EditCategoryComponent implements OnInit {
       parentId: 0,
       translations: []
     };
-    // Nếu có các giá trị khác cần reset, bạn có thể reset thêm ở đây, ví dụ:
+    this.dataLanguages.map(lang => ({
+      languageCode: lang.code,
+      name: ''
+    }));
     this.selectedFile = null;
-    this.imageUrl = null;
+    this.imageUrl = 'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg';
     this.fetchCategory()
     this.selectedCategoryParent = null;
     this.selectedCategoryChild = null;
@@ -721,6 +745,9 @@ export class EditCategoryComponent implements OnInit {
 
 
   }
-
+  updateUrl( ): void {
+    const newUrl = `/admin/edit_category`;
+    this.location.replaceState(newUrl);
+  }
 
 }

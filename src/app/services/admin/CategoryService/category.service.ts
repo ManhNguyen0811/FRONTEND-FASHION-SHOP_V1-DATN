@@ -56,13 +56,17 @@ export class CategoryAdminService {
     const formData = new FormData();
     formData.append('request', new Blob([JSON.stringify(category)], { type: 'application/json' }));
 
-    // Nếu có file mới thì thêm vào FormData, nếu không thì bỏ qua
     if (selectedFile) {
-      formData.append('imageFile', selectedFile, selectedFile.name);
+        formData.append('imageFile', selectedFile, selectedFile.name);
+    } else {
+        // Nếu không có file, thêm một giá trị rỗng để giữ key 'imageFile'
+        formData.append('imageFile', new Blob([], { type: 'application/octet-stream' }), 'empty-file');
     }
-    console.log('selectedFile' + selectedFile)
+    
+    console.log('selectedFile:', selectedFile);
     return this.http.put(`${this.apiUrl}/${categoryId}`, formData);
-  }
+}
+
 
 
   getParentCategories(): Observable<ApiResponse<CategoryDTO[]>> {
