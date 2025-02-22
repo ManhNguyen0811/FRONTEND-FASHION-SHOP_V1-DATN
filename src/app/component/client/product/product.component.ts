@@ -24,11 +24,13 @@ import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 import {FormsModule} from '@angular/forms';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
 import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
+import { MatDialog } from '@angular/material/dialog';
+import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent, FormsModule],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent, FormsModule,ModelNotifySuccsessComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -71,7 +73,8 @@ export class ProductComponent implements OnInit {
     private tokenService: TokenService,
     private wishlistService: WishlistService,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private dialog : MatDialog
   ) {
     // Subscribe để nhận giá trị từ service
     this.navigationService.setSearchActive(false);
@@ -79,6 +82,8 @@ export class ProductComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // Lấy ngôn ngữ hiện tại trước khi gọi API
+
+
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
@@ -104,7 +109,10 @@ export class ProductComponent implements OnInit {
       this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
     });
   }
+eventClick(){
+  this.dialog.open(ModelNotifySuccsessComponent)
 
+}
   fetchProducts(
     categoryId: number | undefined,
     isActive: boolean,
