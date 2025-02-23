@@ -24,6 +24,8 @@ import {NavBottomComponent} from '../nav-bottom/nav-bottom.component';
 import {FormsModule} from '@angular/forms';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
 import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
+import {AuthService} from '../../../services/Auth/auth.service';
+import {ModalService} from '../../../services/Modal/modal.service';
 
 @Component({
   selector: 'app-product',
@@ -71,7 +73,9 @@ export class ProductComponent implements OnInit {
     private tokenService: TokenService,
     private wishlistService: WishlistService,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService: AuthService,
+    private modalService: ModalService
   ) {
     // Subscribe để nhận giá trị từ service
     this.navigationService.setSearchActive(false);
@@ -83,12 +87,12 @@ export class ProductComponent implements OnInit {
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
     this.userId = this.tokenService.getUserId();
-
+    this.wishlistService.getWishlistTotal(this.userId);
     this.route.queryParams.subscribe(params => {
       const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : undefined;
       const isActive = params['isActive'] === 'true';
       const page = params['page'] ? parseInt(params['page'], 10) : 0;
-      const size = params['size'] ? parseInt(params['size'], 10) : 10;
+      const size = params['size'] ? parseInt(params['size'], this.pageSize) : 10;
       const sortBy = params['sortBy'] || 'id';
       const sortDir: 'asc' | 'desc' = params['sortDir'] === 'desc' ? 'desc' : 'asc';
 
@@ -260,12 +264,11 @@ export class ProductComponent implements OnInit {
 
   toggleWishlist(productId: number, colorId: number): void {
     if (this.userId === 0) {
-      const confirmRedirect = window.confirm(
-        'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
-      );
-      if (confirmRedirect) {
-        this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
-      }
+      // Lưu URL hiện tại để điều hướng lại sau khi đăng nhập
+      this.authService.setReturnUrl(this.router.url);
+
+      // Hiển thị modal đăng nhập
+      this.modalService.openLoginModal();
       return;
     }
 

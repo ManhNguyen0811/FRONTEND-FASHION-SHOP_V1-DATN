@@ -13,6 +13,8 @@ import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import { ModalNotifyLoginComponent } from '../modal-notify-login/modal-notify-login.component';
 import { ToastrService } from 'ngx-toastr';
+import {AuthService} from '../../../services/Auth/auth.service';
+import {ModalService} from '../../../services/Modal/modal.service';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +45,9 @@ export class LoginComponent implements OnInit{
     private tokenService: TokenService,
     private roleService: RoleService,
         private toastr: ToastrService,
-    
+    private authService: AuthService,
+    private modalService: ModalService
+
   ) { }
 
   ngOnInit() {
@@ -70,6 +74,19 @@ export class LoginComponent implements OnInit{
 
   }
 
+  onLoginSuccess() {
+    console.log('✅ Đăng nhập thành công, đóng modal và điều hướng lại');
+
+    // Cập nhật trạng thái đăng nhập
+    this.authService.setLoginStatus(true);
+
+    // Đóng modal login
+    this.modalService.closeLoginModal();
+
+    // Điều hướng đến trang trước đó
+    const returnUrl = this.authService.getReturnUrl();
+    this.router.navigateByUrl(returnUrl);
+  }
   createAccount() {
 
     // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
@@ -86,7 +103,7 @@ export class LoginComponent implements OnInit{
     this.userService.login(loginDTO).subscribe({
       next: (data) => {
         console.log('Login Response:', data);
-
+        this.onLoginSuccess()
         const token = data.data.token;
         const roles = data.data.roles;
 
@@ -99,11 +116,11 @@ export class LoginComponent implements OnInit{
         this.tokenService.setToken(token);
 
         // Điều hướng dựa vào vai trò người dùng
-        if (roles.includes('ROLE_ADMIN')) {
-          this.router.navigate(['/admin']);
-        } else {
-          this.router.navigate(['/']);
-        }
+        // if (roles.includes('ROLE_ADMIN')) {
+        //   this.router.navigate(['/admin']);
+        // } else {
+        //   this.router.navigate(['/']);
+        // }
       },
       error: (error: any) => {
         console.error('Login error:', error);
