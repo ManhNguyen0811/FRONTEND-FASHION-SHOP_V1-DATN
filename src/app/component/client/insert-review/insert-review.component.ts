@@ -1,6 +1,6 @@
 import { Component, OnInit, Provider } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { catchError, filter, first, firstValueFrom, forkJoin, map, Observable, of, take } from 'rxjs';
@@ -18,6 +18,9 @@ import { DetailMediaDTO } from '../../../dto/DetailMediaDTO';
 import { ImageDetailService } from '../../../services/client/ImageDetailService/image-detail.service';
 import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { DetailProductService } from '../../../services/client/DetailProductService/detail-product-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNotifyErrorComponent } from '../modal-notify-error/modal-notify-error.component';
+import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-insert-review',
@@ -28,12 +31,16 @@ import { DetailProductService } from '../../../services/client/DetailProductServ
     FormsModule,
     TranslateModule,
     RouterLink,
-
+    ModalNotifyErrorComponent,
+    ModelNotifySuccsessComponent,
+    NgClass
   ],
   templateUrl: './insert-review.component.html',
   styleUrl: './insert-review.component.scss'
 })
 export class InsertReviewComponent implements OnInit {
+  validationForm: boolean = false
+
   currentLang: string = 'vi';
   currentCurrency: string = 'vn';
   productId?: number;
@@ -55,6 +62,7 @@ export class InsertReviewComponent implements OnInit {
   selectedItem: any = null;
   dataSizes: SizeDTO[] = [];
   dataDetailsProduct: DetailProductDTO | null = null;
+
 
 
   reviewNew: Review = {
@@ -192,6 +200,7 @@ export class InsertReviewComponent implements OnInit {
     private reviewService: ReviewServiceService,
     private toastr: ToastrService,
     private detailProductService: DetailProductService,
+    private dialog: MatDialog
 
 
 
@@ -235,7 +244,7 @@ export class InsertReviewComponent implements OnInit {
       this.colorId = Number(params['colorId']) || 0;
       this.sizeId = Number(params['sizeId']) || 0;
       console.log(this.productId)
-      console.log("colorId: "+ this.colorId)
+      console.log("colorId: " + this.colorId)
       console.log(this.sizeId)
 
 
@@ -333,7 +342,8 @@ export class InsertReviewComponent implements OnInit {
       default: return '';
     }
   }
-  onSubmit(): void {
+  bien: boolean = false
+  onSubmit = (): void => {
     if (this.reviewNew.reviewRate === 0) {
       this.reviewNew.reviewRate = this.selectedRating
     }
@@ -343,20 +353,33 @@ export class InsertReviewComponent implements OnInit {
     if (!this.reviewNew.nickname) {
       this.reviewNew.nickname = 'None'
     }
+
+    if (!this.reviewNew.location) {
+      console.log("ugbuhcbhifaipfru9nganp")
+      this.bien = true
+    }else{
+      this.bien = false
+
+    }
+
+
     if (!this.validateReview()) return;
 
     this.reviewService.createReview(this.reviewNew).subscribe(
       response => {
-        this.toastr.success('Review created successfully!', 'Successfully', {
-          timeOut: 2000,
-        })
+        this.dialog.open(ModelNotifySuccsessComponent)
+        // this.toastr.success('Review created successfully!', 'Successfully', {
+        //   timeOut: 2000,
+        // })
         this.resetForm()
 
       },
       error => {
-        this.toastr.error('There was an error creating the review!', 'ERROR', {
-          timeOut: 2000,
-        })
+        // this.toastr.error('There was an error creating the review!', 'ERROR', {
+        //   timeOut: 2000,
+        // })
+        this.dialog.open(ModalNotifyErrorComponent)
+
       }
     );
 
@@ -431,54 +454,53 @@ export class InsertReviewComponent implements OnInit {
     this.searchText = ''
     this.reviewNew.location = item.name
   }
+  reviewNews: any = {}; // Đối tượng lưu dữ liệu nhập vào
+  errorFields: any = {}; // Đối tượng lưu trạng thái lỗi của từng trường
   validateReview(): boolean {
-    if (!this.reviewNew.title || this.reviewNew.title.length === 0) {
-      this.toastr.error('Title is required', 'ERROR', { timeOut: 2000 });
-      return false;
+    this.validationForm = false; // Mặc định không có lỗi
+    let isValid = true; // Kiểm tra tổng thể
+
+
+
+    // Kiểm tra từng trường và đánh dấu lỗi nếu cần
+    this.errorFields = {
+      title: !this.reviewNew.title || this.reviewNew.title.trim().length === 0,
+      comment: !this.reviewNew.comment || this.reviewNew.comment.trim().length === 0,
+      purchasedSize: !this.reviewNew.purchasedSize || this.reviewNew.purchasedSize.length === 0,
+      gender: !this.reviewNew.gender || this.reviewNew.gender.length === 0,
+      ageGroup: !this.reviewNew.ageGroup || this.reviewNew.ageGroup.length === 0,
+      location: !this.selectedItem,
+      height: !this.reviewNew.height || this.reviewNew.height.length === 0,
+      weight: !this.reviewNew.weight || this.reviewNew.weight.length === 0,
+      shoeSize: !this.reviewNew.shoeSize || this.reviewNew.shoeSize.length === 0,
+    };
+
+    // Kiểm tra nếu có lỗi
+    for (let key in this.errorFields) {
+      if (this.errorFields[key]) {
+        isValid = false;
+      }
     }
 
-    if (!this.reviewNew.comment || this.reviewNew.comment.length === 0) {
-      this.toastr.error('Comment is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.purchasedSize || this.reviewNew.purchasedSize.length === 0) {
-      this.toastr.error('Purchased size is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.gender || this.reviewNew.gender.length === 0) {
-      this.toastr.error('Gender is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.ageGroup || this.reviewNew.ageGroup.length === 0) {
-      this.toastr.error('Age group is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.location || this.reviewNew.location.length === 0) {
-      this.toastr.error('Location is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.height || this.reviewNew.height.length === 0) {
-      this.toastr.error('Height is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
-
-    if (!this.reviewNew.shoeSize || this.reviewNew.shoeSize.length === 0) {
-      this.toastr.error('Shoe size is required', 'ERROR', { timeOut: 2000 });
-      return false;
-    }
 
     if (!this.terms) {
-      this.toastr.error('You must agree to the terms and conditions', 'ERROR', { timeOut: 2000 });
-      return false;
+      this.dialog.open(ModalNotifyErrorComponent);
+      return false
     }
 
-    return true;
+
+    // Nếu có lỗi, mở modal thông báo
+    if (!isValid) {
+      this.dialog.open(ModalNotifyErrorComponent);
+    }
+
+
+
+    return isValid;
   }
+
+
+
 
 
 

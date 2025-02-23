@@ -436,10 +436,9 @@ export class DetailProductComponent implements OnInit {
 
   // đổi url khi đổi màu và size
   updateUrl(productId: number, colorId: number, sizeId: number): void {
-
     const newUrl = `/client/${this.currentCurrency}/${this.currentLang}/detail_product/${productId}/${colorId}/${sizeId}`;
     this.location.replaceState(newUrl);
-  }
+  } 
 
   //lấy cate cha
   getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {
@@ -487,8 +486,6 @@ export class DetailProductComponent implements OnInit {
       next: (response) => {
         console.log('Message:', response.message);
         console.log('Response Data:', response.data);
-
-        // ✅ Chỉ gọi checkWishlist sau khi toggleWishlistInProductDetail thành công
         this.wishlistService.getWishlistTotal(userId);
         this.checkWishlist(userId, productId, colorId);
       },

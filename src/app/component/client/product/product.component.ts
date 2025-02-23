@@ -26,11 +26,13 @@ import {CategoryService} from '../../../services/client/CategoryService/category
 import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 import {AuthService} from '../../../services/Auth/auth.service';
 import {ModalService} from '../../../services/Modal/modal.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent, FormsModule],
+  imports: [RouterLink, TranslateModule, NgForOf, AsyncPipe, NgIf, CurrencyPipe, DatePipe, NavBottomComponent, FormsModule,ModelNotifySuccsessComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -75,7 +77,8 @@ export class ProductComponent implements OnInit {
     private router: Router,
     private categoryService: CategoryService,
     private authService: AuthService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private dialog : MatDialog
   ) {
     // Subscribe để nhận giá trị từ service
     this.navigationService.setSearchActive(false);
@@ -108,7 +111,10 @@ export class ProductComponent implements OnInit {
       this.fetchProducts(categoryId, isActive, page, size, sortBy, sortDir);
     });
   }
+eventClick(){
+  this.dialog.open(ModelNotifySuccsessComponent)
 
+}
   fetchProducts(
     categoryId: number | undefined,
     isActive: boolean,

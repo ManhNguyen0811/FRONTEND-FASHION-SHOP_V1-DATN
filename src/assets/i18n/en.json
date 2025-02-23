@@ -155,5 +155,16 @@
   "out_of_stock": "Out of stock",
   "in_stock": "{{ store.quantity }} products available",
   "see_more": "See more",
-  "opening_hours": "Opening hours:"
+  "opening_hours": "Opening hours:",
+
+  "_commentStore-modal-succcsess" :"----------------------Phần Store Inventory----------------------------",
+  "Hoàn Thành": "Completed",
+  "Thêm Thành Công": "Added Successfully",
+
+  
+    "_commentStore-modal-error": "----------------------Phần commentStore-modal-error ----------------------------",
+    "Lỗi": "Error",
+    "Thêm Thất Bại": "Addition Failed"
+ 
+
 }
