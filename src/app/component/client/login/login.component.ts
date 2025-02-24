@@ -11,7 +11,10 @@ import {LoginDTO} from '../../../dto/user/login.dto';
 import {LoginResponse} from '../../../dto/Response/user/login.response';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import { ModalNotifyLoginComponent } from '../modal-notify-login/modal-notify-login.component';
+import { ModalNotifyLoginComponent } from '../Modal-notify/modal-notify-login/modal-notify-login.component';
+import { ToastrService } from 'ngx-toastr';
+import {AuthService} from '../../../services/Auth/auth.service';
+import {ModalService} from '../../../services/Modal/modal.service';
 
 @Component({
   selector: 'app-login',
@@ -41,6 +44,10 @@ export class LoginComponent implements OnInit{
     private userService: UserService,
     private tokenService: TokenService,
     private roleService: RoleService,
+        private toastr: ToastrService,
+    private authService: AuthService,
+    private modalService: ModalService
+
   ) { }
 
   ngOnInit() {
@@ -67,10 +74,18 @@ export class LoginComponent implements OnInit{
 
   }
 
-  createAccount() {
+  onLoginSuccess() {
+    console.log('✅ Đăng nhập thành công, đóng modal và điều hướng lại');
 
-    // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
-    this.router.navigate(['/signin']);
+    // Cập nhật trạng thái đăng nhập
+    this.authService.setLoginStatus(true);
+
+    // Đóng modal login
+    this.modalService.closeLoginModal();
+
+    // Điều hướng đến trang trước đó
+    const returnUrl = this.authService.getReturnUrl();
+    this.router.navigateByUrl(returnUrl);
   }
 
   login() {
@@ -83,7 +98,7 @@ export class LoginComponent implements OnInit{
     this.userService.login(loginDTO).subscribe({
       next: (data) => {
         console.log('Login Response:', data);
-
+        this.onLoginSuccess()
         const token = data.data.token;
         const roles = data.data.roles;
 
@@ -96,15 +111,16 @@ export class LoginComponent implements OnInit{
         this.tokenService.setToken(token);
 
         // Điều hướng dựa vào vai trò người dùng
-        if (roles.includes('ROLE_ADMIN')) {
-          this.router.navigate(['/admin']);
-        } else {
-          this.router.navigate(['/']);
-        }
+        // if (roles.includes('ROLE_ADMIN')) {
+        //   this.router.navigate(['/admin']);
+        // } else {
+        //   this.router.navigate(['/']);
+        // }
       },
       error: (error: any) => {
         console.error('Login error:', error);
         this.errorMessage = error.message || 'Email hoặc mật khẩu không đúng';
+        this.toastr.error('Email hoặc mật khẩu không đúng','ERROR',{timeOut: 2000})
       }
     });
   }
@@ -113,10 +129,6 @@ export class LoginComponent implements OnInit{
     this.showPassword = !this.showPassword;
   }
 
-  // Toggle hiện/ẩn mật khẩu
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
 
   // Hàm đăng nhập với Google (placeholder)
   loginWithGoogle() {

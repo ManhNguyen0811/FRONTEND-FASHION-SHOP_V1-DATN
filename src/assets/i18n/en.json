@@ -139,5 +139,32 @@
   "HÌNH ẢNH CHI TIẾT" :"DETAIL IMAGE",
   "Mẫu cao": "High Model",
    "Màu ": "Color",
-  "Kích thước" : "Size"
+  "Kích thước" : "Size",
+
+  "_commentStore-Inventory" :"----------------------Phần Store Inventory----------------------------",
+  "reload_location": "You can use this feature by reloading the page after enabling location services.",
+  "search_store": "If location services are not available, search for stores by entering keywords or postal codes.",
+  "no_order": "You cannot place orders directly from stores. This feature is only for checking product availability at the store.",
+  "back_product": "BACK TO PRODUCT DETAILS",
+  "find_store": "FIND AVAILABLE PRODUCTS IN STORE",
+  "select_color_size": "Please select color and size.",
+  "color": "COLOR",
+  "size": "SIZE",
+  "keyword": "KEYWORD",
+  "enter_city": "Enter city or province name",
+  "out_of_stock": "Out of stock",
+  "in_stock": "{{ store.quantity }} products available",
+  "see_more": "See more",
+  "opening_hours": "Opening hours:",
+
+  "_commentStore-modal-succcsess" :"----------------------Phần Store Inventory----------------------------",
+  "Hoàn Thành": "Completed",
+  "Thêm Thành Công": "Added Successfully",
+
+  
+    "_commentStore-modal-error": "----------------------Phần commentStore-modal-error ----------------------------",
+    "Lỗi": "Error",
+    "Thêm Thất Bại": "Addition Failed"
+ 
+
 }

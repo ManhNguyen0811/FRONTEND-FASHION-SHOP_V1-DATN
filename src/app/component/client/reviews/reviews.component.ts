@@ -13,6 +13,7 @@ import { DetailProductService } from '../../../services/client/DetailProductServ
 import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { ReviewTotalDTO } from '../../../dto/ReviewTotalDTO';
 import { ReviewAverageDTO } from '../../../dto/ReviewAverageDTO';
+import {TotalReviewByRatingDTO} from '../../../dto/TotalReviewByRatingDTO';
 
 @Component({
   selector: 'app-reviews',
@@ -26,13 +27,13 @@ export class ReviewsComponent implements OnInit {
   page: number = 0
   size: number = 4
   sortBy: string = 'id'
-  sortDir: string = 'asc'
+  sortDir: string = 'desc'
   currentPage: number = 0; // Trang hiện tại
   pageSize: number = 10; // Số phần tử trên mỗi trang
   isLoading: boolean = false; // Trạng thái tải dữ liệu
   reviewAverage: number = 0
   reviewTotal: number = 0
-  
+
 
   currentLang: string = '';
   currentCurrency: string = '';
@@ -42,13 +43,11 @@ export class ReviewsComponent implements OnInit {
   dataDetailReviews: ReviewDetailProductDTO[] | null | undefined = null;
   dataDetailsProduct: DetailProductDTO | null = null;
 
-
   constructor(
     private navigationService: NavigationService,
     private routerActive: ActivatedRoute,
     private reviewService: ReviewServiceService,
-        private detailProductService: DetailProductService,
-    
+    private detailProductService: DetailProductService,
 
   ) {
   }
@@ -62,6 +61,7 @@ export class ReviewsComponent implements OnInit {
     this.updatePercentages();
 
   }
+
 
   getIdsFromProductRouter(): void {
     this.routerActive.params.pipe(take(1)).subscribe(params => {
@@ -87,8 +87,6 @@ export class ReviewsComponent implements OnInit {
     this.reviewTotal = response.reviewTotal;
     this.dataDetailsProduct = response.dataDetailsProduct
 
-
-
   }
     getDetailsProduct(lang: string, productId: number): Observable<DetailProductDTO | null> {
       return this.detailProductService.getDetailProduct(lang, productId).pipe(
@@ -98,7 +96,7 @@ export class ReviewsComponent implements OnInit {
           return of(null);
         })
       );
-  
+
     }
   getReviewssDetailProduct(
     productId: number,
@@ -303,7 +301,6 @@ export class ReviewsComponent implements OnInit {
     return Array(5 - Math.floor(rating)).fill(0);
   }
 
-  //Đánh giá của khách hàng
   ratings = [
     { stars: 5, count: 1067, percentage: 92.78 },
     { stars: 4, count: 67, percentage: 5.83 },

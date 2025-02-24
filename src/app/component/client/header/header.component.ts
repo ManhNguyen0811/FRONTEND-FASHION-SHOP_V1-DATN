@@ -1,12 +1,15 @@
 import {NgClass, CommonModule} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import { NavigationEnd, Router, RouterLink} from '@angular/router';
-import {Language, TranslateModule} from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 import { NavigationService} from '../../../services/Navigation/navigation.service';
 import {LanguageDTO} from '../../../dto/LanguageDTO';
 import {CurrencyDTO} from '../../../dto/CurrencyDTO';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
+import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
+import {Observable} from 'rxjs';
+import {TokenService} from '../../../services/token/token.service';
 
 @Component({
   selector: 'app-header',
@@ -20,14 +23,20 @@ export class HeaderComponent implements OnInit{
   currencyList: CurrencyDTO[] = [];
   categoriesParent: CategoryDTO[] = [];
   apiError: any;
-
-
-
   isHome: boolean = false;
   currentLang: string = ''; // Ngôn ngữ mặc định
   currentCurrency: string = ''; // Tiền tệ mặc định
   isSearchActive: boolean = false;
-  constructor(private router: Router, private navigationService: NavigationService, private categoryService: CategoryService) {
+
+  userId: number = 0;
+  totalWishlist$!: Observable<number>;
+
+
+  constructor(private router: Router,
+              private navigationService: NavigationService,
+              private categoryService: CategoryService,
+              private wishlistService: WishlistService,
+              private tokenService: TokenService) {
     // Lắng nghe sự kiện NavigationEnd để kiểm tra URL hiện tại
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -51,6 +60,8 @@ export class HeaderComponent implements OnInit{
       this.isSearchActive = value;
     });
   }
+
+
 
   changeLanguageAndCurrency(lang: string) {
     // Cập nhật giá trị ngôn ngữ và tiền tệ trong NavigationService
@@ -126,5 +137,10 @@ export class HeaderComponent implements OnInit{
     this.getCurrency();
     this.getCategoriesParent(this.currentLang);
     this.categoryService.loadCategories(this.currentLang,1);
+    this.totalWishlist$ = this.wishlistService.totalWishlist$;
+    this.userId = this.tokenService.getUserId();
+    if(this.userId){
+      this.wishlistService.getWishlistTotal(this.userId)
+    }
   }
 }

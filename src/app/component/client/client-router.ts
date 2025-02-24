@@ -27,6 +27,9 @@ import {routes} from '../../app.routes';
 import {NgModule} from '@angular/core';
 import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
+import {StoreDetailComponent} from './store-detail/store-detail.component';
+import {PaymentSuccessComponent} from './payment-success/payment-success.component';
+
 
 export const clientRouter: Routes =[
     {
@@ -45,7 +48,7 @@ export const clientRouter: Routes =[
             },
             {
                 path: 'detail_product/:productId/:colorId/:sizeId',
-                component: DetailProductComponent
+                component: DetailProductComponent,
             },
             {
                 path: 'cart',
@@ -100,14 +103,19 @@ export const clientRouter: Routes =[
               canActivate: [AuthGuardFn]
             },
             {
-                path: 'review/new',
+                path: 'review/new/:productId/:colorId/:sizeId',
                 component: InsertReviewComponent,
                 canActivate: [AuthGuardFn]
             },
             {
-              path: 'store_inventory',
+              path: 'store_inventory/:productId/:colorId/:sizeId',
               component: StoreInventoryComponent
             },
+
+          {
+            path: 'store_detail/:storeId',
+            component: StoreDetailComponent
+          },
             {
                 path: 'size',
                 component: CheckSizeComponent
@@ -116,8 +124,14 @@ export const clientRouter: Routes =[
               path: 'imageDetail/:mediaId',
               component: ImageDetailComponent
             },
+
+          { path: 'payment_success',
+            component: PaymentSuccessComponent },
         ]
     },
+
+
+
     { path: '', redirectTo: 'vnd/vi', pathMatch: 'full' } // Mặc định là 'vi'
 ]
 @NgModule({

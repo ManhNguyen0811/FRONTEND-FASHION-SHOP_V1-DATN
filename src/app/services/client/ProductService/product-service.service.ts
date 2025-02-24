@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, map, Observable, of, tap} from 'rxjs';
 import { Product } from '../../../models/Product/product';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
@@ -13,10 +13,18 @@ import { CategoryParentDTO } from '../../../dto/CategoryParentDTO';
 import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { VariantsDetailProductDTO } from '../../../dto/VariantsDetailProductDTO';
 import { InventoryDTO } from '../../../dto/InventoryDTO';
+import {WishlistCheckResponse} from '../../../dto/WishlistCheckResponse';
+import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
+
+
+
 
 @Injectable({
   providedIn: 'root'
 })
+
+
+
 export class ProductServiceService {
 
   constructor(private http: HttpClient) { }
@@ -26,7 +34,7 @@ export class ProductServiceService {
   //Lấy danh sách các product
   getProducts(
     languageCode: string,
-    categoryId: number,
+    categoryId?: number,
     isActive: boolean = true,
     name?: string,
     minPrice?: number,
@@ -37,8 +45,10 @@ export class ProductServiceService {
     sortDir: 'asc' | 'desc' = 'asc'
   ): Observable<ApiResponse<PageResponse<ProductListDTO[]>>> {
     let params = new HttpParams()
-      .set('categoryId', categoryId.toString())
-      .set('isActive', isActive.toString())
+    if (categoryId !== undefined) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+    params = params.set('isActive', isActive.toString())
       .set('page', page.toString())
       .set('size', size.toString())
       .set('sortBy', sortBy);
@@ -115,4 +125,30 @@ export class ProductServiceService {
     return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/videos/${productId}`)
   }
 
+  isInWishlist(userId: number, productId: number, colorId: number): Observable<ApiResponse<WishlistCheckResponse>> {
+    const params = new HttpParams()
+      .set('userId', userId.toString())
+      .set('productId', productId.toString())
+      .set('colorId', colorId.toString());
+
+    return this.http.get<ApiResponse<WishlistCheckResponse>>(`${this.apiUrl}/wishlist/check`, { params }).pipe( // ✅ Log toàn bộ API response để debug
+      catchError(error => {
+        console.error('Lỗi khi kiểm tra wishlist:', error);
+        return of({
+          timestamp: new Date().toISOString(),
+          status: 500,
+          message: 'Lỗi kết nối đến server',
+          data: { isInWishList: false }, // ✅ Nếu lỗi, trả về giá trị mặc định hợp lệ
+          errors: null
+        });
+      })
+    );
+  }
+
+  suggestProducts(query: string, lang: string): Observable<ProductSuggestDTO[]> {
+    const url = `${this.apiUrl}/suggest/${lang}?productName=${query}`;
+    return this.http.get<{ data: ProductSuggestDTO[] }>(url).pipe(
+      map(response => response.data || [])
+    );
+  }
 }
