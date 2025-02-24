@@ -33,6 +33,7 @@
     "jsbarcode": "^3.11.6",
     "mapbox-gl": "^3.10.0",
     "ngx-barcode6": "^1.0.26",
+    "ngx-cookie-service": "^18.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

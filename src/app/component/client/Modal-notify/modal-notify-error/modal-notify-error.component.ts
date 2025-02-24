@@ -9,18 +9,23 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './modal-notify-error.component.html',
   styleUrl: './modal-notify-error.component.scss'
 })
-export class ModalNotifyErrorComponent  implements OnInit{
-  isModalOpen : boolean = true
+export class ModalNotifyErrorComponent implements OnInit {
+  isModalOpen: boolean = true;
+
   ngOnInit(): void {
-    document.body.classList.add('modal-open');
+    // Ngừng cuộn trang trên toàn bộ trang
+    document.documentElement.style.overflow = 'hidden';
+    
     setTimeout(() => {
       this.isModalOpen = false;
-      document.body.classList.remove('modal-open'); // Cho phép cuộn khi modal đóng
+      // Khôi phục cuộn trang khi modal đóng
+      document.documentElement.style.overflow = '';
     }, 1500);
   }
- 
 
-  openModal() {
-    this.isModalOpen = true;
+  closeModal() {
+    this.isModalOpen = false;
+    // Khôi phục cuộn trang khi modal đóng
+    document.documentElement.style.overflow = '';
   }
 }

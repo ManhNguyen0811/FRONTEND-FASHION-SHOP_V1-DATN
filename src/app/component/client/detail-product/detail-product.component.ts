@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
@@ -24,13 +24,22 @@ import { Currency } from '../../../models/Currency';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
 import { ReviewDetailProductDTO } from '../../../dto/ReviewDetailProductDTO';
 import { PageResponse } from '../../../dto/Response/page-response';
-import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
-import {TokenService} from '../../../services/token/token.service';
+import { WishlistService } from '../../../services/client/wishlist/wishlist.service';
+import { TokenService } from '../../../services/token/token.service';
+import { CartService } from '../../../services/client/CartService/cart.service';
+import { CookieService } from 'ngx-cookie-service';
+import { CreateCartDTO } from '../../../dto/CreateCartDTO';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNotifyErrorComponent } from '../modal-notify-error/modal-notify-error.component';
+import { FormsModule, NgModel } from '@angular/forms';
+import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-detail-product',
   standalone: true,
-  imports: [CommonModule, RouterLink, TranslateModule, NavBottomComponent],
+  imports: [CommonModule, RouterLink, TranslateModule, NavBottomComponent, ModalNotifyErrorComponent, NgClass,
+    FormsModule, ModelNotifySuccsessComponent
+  ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'
 })
@@ -43,6 +52,7 @@ export class DetailProductComponent implements OnInit {
   currentLang: string = '';
   currentCurrency: string = '';
   currentCurrencyDetail?: Currency;
+  qtyCart: number = 1
 
   userId: number = 0;
 
@@ -59,6 +69,8 @@ export class DetailProductComponent implements OnInit {
   reviewAverage: number = 0
   reviewTotal: number = 0
   salePrice: number = 0;
+  dataVariants: VariantsDetailProductDTO | null = null
+  variantId?: number = 0
   quantityInStock?: InventoryDTO | null = null;
 
   page: number = 0
@@ -67,6 +79,8 @@ export class DetailProductComponent implements OnInit {
   sortDir: string = 'desc'
 
   isWishlist: boolean = false;
+  sessionId?: string;
+  cart: CreateCartDTO = { productVariantId: 0, quantity: 0 };
 
   constructor(
     private router: Router,
@@ -80,31 +94,49 @@ export class DetailProductComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private wishlistService: WishlistService,
     private tokenService: TokenService,
+    private cartService: CartService,
+    private cookieService: CookieService,
+    private dialog: MatDialog
 
-  ) { }
+  ) {
+    this.sessionId = this.cookieService.get('SESSION_ID') || '';
+
+  }
 
   async ngOnInit(): Promise<void> {
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
     this.currentCurrency = await firstValueFrom(this.navigationService.currentCurrency$);
     this.getIdsFromProductRouter();
     this.fetchCurrency();
+    this.userId = this.tokenService.getUserId() ?? 0;
 
     this.routerActi.params.subscribe(params => {
       this.productId = Number(params['productId']) || 0;
       this.colorId = Number(params['colorId']) || 0;
       this.sizeId = Number(params['sizeId']) || 0;
+      console.log(this.productId)
+      console.log(this.colorId)
+      console.log(this.sizeId)
+      this.isValidToAddCart()
+
+      this.getDataVariants(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(price => {
+        this.variantId = price?.id;
+        console.log('variantId : ' + this.variantId)
+
+      });
 
 
-    this.fetchDetailProduct(this.productId ?? 0).then(() => {
-      this.selectedSizeId = this.sizeId ?? 0; // Đánh dấu size được chọn
-      this.selectedColorId = this.colorId ?? 0; // Đánh dấu size được chọn
-    });
+
+      this.fetchDetailProduct(this.productId ?? 0).then(() => {
+        this.selectedSizeId = this.sizeId ?? 0; // Đánh dấu size được chọn
+        this.selectedColorId = this.colorId ?? 0; // Đánh dấu size được chọn
+      });
 
 
-    this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
-    // this.changeImageOne(this.productId ?? 0,this.colorId ?? 0);
-    this.userId = this.tokenService.getUserId();
-    this.checkWishlist(this.userId, this.productId ?? 0, this.colorId ?? 0);
+      this.updateUrl(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0);
+      // this.changeImageOne(this.productId ?? 0,this.colorId ?? 0);
+      this.userId = this.tokenService.getUserId();
+      this.checkWishlist(this.userId, this.productId ?? 0, this.colorId ?? 0);
 
     });
   }
@@ -119,6 +151,7 @@ export class DetailProductComponent implements OnInit {
         allImagesProduct: this.getAllImagesProduct(productId).pipe(catchError(() => of([]))),
         dataSizes: this.getSizeProduct(productId).pipe(catchError(() => of([]))),
         salePrice: this.getSalePrice(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).pipe(catchError(() => of(0))),
+        dataVariants: this.getDataVariants(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).pipe(catchError(() => of(null))),
         dataColors: this.getColorNameProduct(productId).pipe(catchError(() => of([]))),
         dataCategoryParent: this.getCategoryParent(this.currentLang, productId).pipe(catchError(() => of([]))),
         dataDetailsProduct: this.getDetailsProduct(this.currentLang, productId).pipe(catchError(() => of(null))),
@@ -134,6 +167,7 @@ export class DetailProductComponent implements OnInit {
     this.dataImagesProduct = response.allImagesProduct;
     this.dataSizes = response.dataSizes;
     this.salePrice = response.salePrice;
+    this.dataVariants = response.dataVariants
     this.dataColors = response.dataColors;
     this.dataCategoryParent = response.dataCategoryParent;
     this.reviewAverage = response.reviewAverage;
@@ -144,6 +178,7 @@ export class DetailProductComponent implements OnInit {
     this.dataVideoProduct = response.dataVideoProduct
     this.dataReviewDetailProduct = response.dataReviewDetailProduct
     // console.log("dataQuantityInStock : " + this.dataReviewDetailProduct[0].comment)
+    console.log("object : " + this.dataVariants?.id)
 
     if (this.dataImagesProduct?.length) {
       this.colorImage = this.dataImagesProduct.find(img => img.colorId);
@@ -185,8 +220,53 @@ export class DetailProductComponent implements OnInit {
 
   }
 
+  isValidToAddCart(): boolean {
+    // Kiểm tra nếu số lượng giỏ hàng <= 0
+    if (this.qtyCart <= 0) {
+      this.dialog.open(ModalNotifyErrorComponent);
+      return false;
+    }
+    return true;
+  }
+  createCart() {
+    // Kiểm tra số lượng sản phẩm trong kho
+    this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(item => {
+      // Kiểm tra nếu sản phẩm hết hàng hoặc số lượng trong kho không đủ để thêm vào giỏ hàng
+      if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < this.qtyCart) {
+        this.dialog.open(ModalNotifyErrorComponent);  // Hiển thị thông báo lỗi nếu hết hàng hoặc số lượng không đủ
+        return;  // Dừng lại nếu sản phẩm không đủ số lượng
+      }
+  
+      // Nếu sản phẩm còn, tiến hành thêm vào giỏ hàng
+      const qty = Number(this.qtyCart);
+      this.cart = { productVariantId: this.variantId ?? 0, quantity: qty };
+  
+      if (this.isValidToAddCart()) {  // Kiểm tra lại số lượng sản phẩm trong giỏ hàng
+        if (this.cart.productVariantId !== 0 && this.cart.quantity !== 0) {
+          console.log(`this.cart :`, this.cart);
+          this.cartService.createCart(this.userId, this.sessionId ?? '', this.cart).subscribe((response) => {
+            this.dialog.open(ModelNotifySuccsessComponent);  // Hiển thị thông báo thành công
+          });
+        }
+      }
+    });
+  }
+  
 
 
+  onInput(event: any): void {
+    // Lọc chỉ cho phép nhập số
+    const inputValue = event.target.value;
+    
+    // Chỉ giữ lại số, bỏ qua chữ và ký tự đặc biệt
+    const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+    // Cập nhật lại giá trị qtyCart chỉ với các chữ số
+    this.qtyCart = numericValue ? parseInt(numericValue, 10) : 0;
+    
+    // Cập nhật lại giá trị input field
+    event.target.value = this.qtyCart;
+  }
   getIdsFromProductRouter(): void {
     this.routerActi.params.pipe(take(1)).subscribe(params => {
       this.productId = Number(params['productId']) || 0;
@@ -338,6 +418,12 @@ export class DetailProductComponent implements OnInit {
       catchError(() => of(0))
     );
   }
+  getDataVariants(productId: number, colorId: number, sizeId: number): Observable<VariantsDetailProductDTO | null> {
+    return this.productService.getSalePrice(productId, colorId, sizeId).pipe(
+      map((response: ApiResponse<VariantsDetailProductDTO>) => response.data || null),
+      catchError(() => of(null))
+    );
+  }
   //chọn để lấy giá trị màu và sizesize
 
   selectSize(size: SizeDTO): void {
@@ -354,6 +440,12 @@ export class DetailProductComponent implements OnInit {
       this.cdr.detectChanges();
     });
 
+    this.getDataVariants(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(price => {
+      this.variantId = price?.id;
+      console.log('variantId : ' + this.variantId)
+
+      this.cdr.detectChanges();
+    });
 
     this.updateUrl(this.productId ?? 0, this.colorId ?? 0, size.id);
   }
@@ -381,6 +473,13 @@ export class DetailProductComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+    this.getDataVariants(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(price => {
+      this.variantId = price?.id;
+      console.log('variantId : ' + this.variantId)
+
+      this.cdr.detectChanges();
+    });
+
 
     this.updateUrl(this.productId ?? 0, color.id, this.sizeId ?? 0);
 
@@ -438,7 +537,7 @@ export class DetailProductComponent implements OnInit {
   updateUrl(productId: number, colorId: number, sizeId: number): void {
     const newUrl = `/client/${this.currentCurrency}/${this.currentLang}/detail_product/${productId}/${colorId}/${sizeId}`;
     this.location.replaceState(newUrl);
-  } 
+  }
 
   //lấy cate cha
   getCategoryParent(lang: string, productId: number): Observable<CategoryParentDTO[]> {
@@ -473,7 +572,7 @@ export class DetailProductComponent implements OnInit {
 
   toggleWishlist(userId: number, productId: number, colorId: number): void {
 
-    if(userId === 0){
+    if (userId === 0) {
       const confirmRedirect = window.confirm(
         'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
       );
