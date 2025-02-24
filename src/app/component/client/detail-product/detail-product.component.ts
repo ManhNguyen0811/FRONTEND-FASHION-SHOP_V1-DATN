@@ -30,9 +30,9 @@ import { CartService } from '../../../services/client/CartService/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CreateCartDTO } from '../../../dto/CreateCartDTO';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalNotifyErrorComponent } from '../modal-notify-error/modal-notify-error.component';
 import { FormsModule, NgModel } from '@angular/forms';
-import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
+import { ModelNotifySuccsessComponent } from '../Modal-notify/model-notify-succsess/model-notify-succsess.component';
+import { ModalNotifyErrorComponent } from '../Modal-notify/modal-notify-error/modal-notify-error.component';
 
 @Component({
   selector: 'app-detail-product',
