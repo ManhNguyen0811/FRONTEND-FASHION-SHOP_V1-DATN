@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HeaderAdminComponent } from '../../header-admin/header-admin.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalNotifyLoginComponent } from '../../../client/modal-notify-login/modal-notify-login.component';
+import { ModalNotifyLoginComponent } from '../../../client/Modal-notify/modal-notify-login/modal-notify-login.component';
 
 @Component({
   selector: 'app-list-order',
@@ -33,9 +33,9 @@ export class ListOrderComponent {
   // Hàm loại bỏ dấu tiếng Việt
   removeVietnameseTones(str: string): string {
     return str
-      .normalize("NFD")  
-      .replace(/[\u0300-\u036f]/g, "")  
-      .replace(/đ/g, "d").replace(/Đ/g, "D");  
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "D");
   }
 
 

@@ -38,9 +38,9 @@
                   </div>
                 </div>
               </div>
-              
-              
-        
+
+
+
             <!-- Chọn Category Child -->
             <div class="col-md-4" *ngIf="categoryChildren && categoryChildren.length > 0  || isEditOpenCategoryChild">
                 <label class="form-label">Category Child</label>
@@ -66,7 +66,7 @@
                   </div>
                 </div>
               </div>
-              
+
 
               <div class="col-md-4" *ngIf="categorySubChildren && categorySubChildren.length > 0 || isEditOpenCategorySubChild">
                 <label class="form-label">Category Sub Child</label>
@@ -92,12 +92,12 @@
                   </div>
                 </div>
               </div>
-              
+
         </div>
-        
+
    <!-- <div class="col-md-4">
                     <label class="form-label">Tanng</label>
-    
+
                     <select class="form-select " aria-label="Default select example">
                         <option selected>Open this select menu</option>
                         <option value="1"> One</option>
@@ -116,14 +116,14 @@
                                [placeholder]="lang.name"
                                required>
                       </div>
-                      
+
                     <div class="invalid-feedback">
                       Please provide a valid value.
                     </div>
                   </div>
-                  
+
                   <!-- Nút để kiểm tra giá trị của translations -->
-                  
+
 
 
                 <!-- <div class="col-md-4">
@@ -149,13 +149,13 @@
                 (change)="changeActive(isActive)"
                 type="checkbox" checked>
             </div>
-            <div class="search-product"> 
-              <input type="text"  style="font-size: 10px;" [(ngModel)]="parentId" name="parentId" disabled 
+            <div class="search-product">
+              <input type="text"  style="font-size: 10px;" [(ngModel)]="parentId" name="parentId" disabled
                 placeholder="Parent Id">
             </div>
 
         </div>
-     
+
         <!-- BUTTON -->
          <div class="d-flex gap-1">
 

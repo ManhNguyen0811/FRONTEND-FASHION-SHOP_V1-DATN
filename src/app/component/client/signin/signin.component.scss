@@ -8,9 +8,9 @@
     top: 0%;
     left: 0;
     z-index: -1;
-  
+
   }
-  
+
   .overlay {
     position: absolute;
     top: 0%;
@@ -21,7 +21,7 @@
       rgb(255, 255, 255, 0.4);
     z-index: 2;
   }
-  
+
   .content-box {
     position: relative;
     z-index: 2;
@@ -29,7 +29,7 @@
     padding: 80px;
     margin: 20px 20px 0 20px;
   }
-  
+
   .login-box {
     border: 1px solid #dadada;
     background-color: rgba(255, 255, 255, 0.6);
@@ -44,27 +44,27 @@
    padding: 0 20px 0 0 ;
     flex: 4;
   }
-  
-  
+
+
   .login-title h2 {
     font-size: 1.8em;
     color: black;
     font-family: "Kanit", sans-serif;
   }
-  
+
   .login-title p {
     font-size: 0.875rem;
     color: #a9a9a9;
     font-family: "Kanit", sans-serif;
     min-width: 200px;
   }
-  
+
   .form-design label {
     font-size: 0.9rem;
     color: black;
     font-family: "Kanit", sans-serif;
   }
-  
+
   .form-design input {
     margin-bottom: 20px;
     font-family: "Kanit", sans-serif;
@@ -79,7 +79,7 @@
     margin-left: 2px;
     display: flex;
     justify-content: space-between;
-  
+
   }
   .form-check input{
     height: 20px;
@@ -97,7 +97,7 @@
     justify-content: space-between;
     z-index: 999;
   }
-   
+
   .btnLogin {
     font-weight: bolder;
     background-color: rgb(130, 186, 211, 0.3);
@@ -118,12 +118,12 @@
     transition: ease-out 0.4s;
     height: 60px;
   }
-  
+
   .slide_leftbtnLogin:hover {
     color: white;
     box-shadow: inset 0 0 0 50px #82bad3;
   }
-  
+
   .btnLogin {
     font-weight: bolder;
     background-color: rgb(130, 186, 211, 0.3);
@@ -144,14 +144,14 @@
     -moz-transition: ease-out 0.4s;
     transition: ease-out 0.4s;
     height: 100%;
-  
+
   }
-  
+
   .slide_leftbtnLogin:hover {
     color: white;
     box-shadow: inset 0 0 0 50px #82bad3;
   }
-  
+
   .btnLoginWithGoogle {
     font-weight: bolder;
     background-color: rgba(152, 244, 177, 0.3);
@@ -171,28 +171,28 @@
     -moz-transition: ease-out 0.4s;
     transition: ease-out 0.4s;
     height: 100%;
-  
+
   }
-  
+
   .slide_leftbtnbtnLoginWithGoogle:hover {
     color: white;
     box-shadow: inset 0 0 0 50px rgb(152, 244, 177, 0.7);
   }
-  
+
   .ggText {
     font-size: 1.375rem;
   }
-  
+
   .form-design h2 {
     margin-top: 20px;
     font-family: "Kanit", sans-serif;
-  
+
     color: black
   }
-  
+
   .form-design p {
     font-family: "Kanit", sans-serif;
-  
+
     color: black
   }
   .signin-form-btn{
@@ -204,17 +204,17 @@
     padding-right: 5px;
   }
   .signin-form-btn p{
-  
+
   min-width: 200px;
-  
-  
+
+
   }
- 
+
   .btnSignin {
 
     font-weight: bolder;
     background-color: rgba(206, 227, 237, 0.3);
-  
+
     text-align: center;
     width: 100%;
     color: #000000;
@@ -232,12 +232,35 @@
     transition: ease-out 0.4s;
     height: 100%;
   }
-  
+
   .slide_leftbtnSignin:hover {
     color: white;
     box-shadow: inset 0 0 0 50px #82bad3;
   }
-  
+
+/* Khi nút bị disable */
+.btnSignin:disabled,
+.btnSignin.disabled {
+  pointer-events: none; /* Vô hiệu hóa click và hover */
+  opacity: 0.5; /* Làm mờ nút */
+  cursor: default; /* Đổi con trỏ thành mặc định */
+  background-color: rgba(206, 227, 237, 0.2) !important; /* Làm nhạt màu nền */
+  border-color: #b3cdd9 !important; /* Làm nhạt màu viền */
+  box-shadow: none !important; /* Loại bỏ hiệu ứng hover */
+  color: #999 !important; /* Làm nhạt màu chữ */
+}
+
+/* Loại bỏ hiệu ứng hover khi bị disable */
+.btnSignin.disabled:hover {
+  color: #999 !important;
+  background-color: rgba(206, 227, 237, 0.2) !important;
+  box-shadow: none !important;
+}
+
+  .form-label{
+    color: black;
+  }
+
   @media (max-width:1100px) {
     .content-box {
       padding: 10px;
@@ -249,12 +272,12 @@
     .btnLogin {
       padding: 12px 20px;
     font-size: 1rem;
-      
+
 
     }
     .btnLoginWithGoogle{
       padding: 12px 20px;
-  
+
     }
     .btnLoginWithGoogle span{
       display: none;
