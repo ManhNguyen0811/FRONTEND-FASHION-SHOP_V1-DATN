@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit{
     console.log(`Email typed: ${this.email}`);
     //how to validate ? phone must be at least 6 characters
   }
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit{
     private tokenService: TokenService,
     private roleService: RoleService,
         private toastr: ToastrService,
-    
+
   ) { }
 
   ngOnInit() {

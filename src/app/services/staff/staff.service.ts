@@ -4,23 +4,21 @@ import {HttpUntilService} from '../http.until.service';
 import {DOCUMENT} from '@angular/common';
 import {environment} from '../../../environments/environment';
 import {RegisterDTO} from '../../dto/user/register.dto';
-import {catchError, map, Observable, throwError} from 'rxjs';
+import {catchError, map, Observable, of, throwError} from 'rxjs';
 import {LoginDTO} from '../../dto/user/login.dto';
 import {UserResponse} from '../../dto/Response/user/user.response';
-import {User} from '../../models/user';
+
 import {ApiResponse} from '../../dto/Response/ApiResponse';
-import {UserDetailDTO} from '../../dto/UserDetailDTO';
+import {StaffLoginDto} from '../../dto/staff/staff-login.dto';
+import {LoginResponse} from '../../dto/staff/staff-login-response.dto';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private userUrl = `${environment.apiBaseUrl}/users`;
+export class StaffService {
+  private userUrl = `${environment.apiBaseUrl}/staff`;
 
-  private apiRegister = `${this.userUrl}/register`;
   private apiLogin = `${this.userUrl}/login`;
-  private apiUserDetail = `${this.userUrl}/details`;
-  private apiCheckEmail = `${this.userUrl}/check-email`;
-  private apiCheckPhone = `${this.userUrl}/check-phone`;
+
   localStorage?:Storage
 
   private apiConfig:{headers: any};
@@ -36,76 +34,42 @@ export class UserService {
         headers: this.httpUnitlService.createHeaders(),
       };
   }
-
-  register(registerDTO: RegisterDTO):Observable<any> {
-    return this.http.post(this.apiRegister, registerDTO, this.apiConfig);
-  }
-
-  login(loginDTO: LoginDTO): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(this.apiLogin, loginDTO, this.apiConfig).pipe(
+  login(staffLoginDTO: StaffLoginDto): Observable<ApiResponse<LoginResponse>> {
+    return this.http.post<ApiResponse<LoginResponse>>(this.apiLogin, staffLoginDTO, this.apiConfig).pipe(
       map(response => {
-        if (!response || response.status !== 200 || !response.data) {
+        if (!response || !response.data || !response.data.token) {
           throw new Error(response?.message || 'Đăng nhập thất bại');
         }
-
         const { token, refresh_token, username, id, roles } = response.data;
 
-        if (!token) {
-          throw new Error('Không nhận được token');
-        }
-
-        // Lưu token và thông tin user vào localStorage
         localStorage.setItem('access_token', token);
-        localStorage.setItem('refresh_token', refresh_token);
+        localStorage.setItem('refresh_token',refresh_token);
         localStorage.setItem('user_info', JSON.stringify({ username, id, roles }));
 
-
-
         console.log('Đăng nhập thành công, token:', token);
-
-        return response.data;
-      }),catchError(error => {
-        // Log toàn bộ lỗi từ API
+        return response;
+      }),
+      catchError(error => {
         console.error('Login API error:', error);
-        if (error.error) {
-          console.error('Chi tiết lỗi từ API:', error.error);
+
+        if (error.status === 0) {
+          return throwError(() => new Error('Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng.'));
         }
 
-        // Nếu API trả về lỗi, trích xuất thông báo lỗi nếu có
         const errorMessage = error.error?.message || 'Đăng nhập thất bại, vui lòng thử lại.';
-        return throwError(() => new Error(errorMessage));
+
+        return of({
+          timestamp: new Date().toISOString(), // ✅ Thêm timestamp để phù hợp với ApiResponse<LoginResponse>
+          status: 400,
+          message: errorMessage,
+          data: null,
+          errors: error
+        } as unknown as ApiResponse<LoginResponse>); // ✅ Ép kiểu để tránh lỗi
+
       })
     );
   }
 
-  getUserInfo(): { username: string; id: number; roles: string[] } | null {
-    try {
-      const userInfoJSON = localStorage.getItem('user_info');
-      if (!userInfoJSON) {
-        return null;
-      }
-      return JSON.parse(userInfoJSON);
-    } catch (error) {
-      // console.error('❌ Lỗi khi lấy thông tin user từ localStorage:', error);
-      return null;
-    }
-  }
-
-
-  getUserDetail(token: string): Observable<UserDetailDTO> {
-    return this.http.post<any>(
-      this.apiUserDetail,
-      {},
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        })
-      }
-    ).pipe(
-      map(response => response.data as UserDetailDTO) // Lấy `data` từ response
-    );
-  }
 
   saveUserResponseToLocalStorage(userResponse?: UserResponse) {
     try {
@@ -149,16 +113,6 @@ export class UserService {
       console.error('Error removing user data from local storage:', error);
       // Handle the error as needed
     }
-  }
-
-  checkEmail(email: string): Observable<boolean> {
-    const params = new HttpParams().set('email', email);
-    return this.http.get<boolean>(this.apiCheckEmail, { params });
-  }
-
-  checkPhone(phone: string): Observable<boolean> {
-    const params = new HttpParams().set('phone', phone);
-    return this.http.get<boolean>(this.apiCheckPhone, {params});
   }
 
   // getUserProfile(): Observable<User> {

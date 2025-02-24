@@ -8,6 +8,7 @@ import {ListStoreDTO} from '../../../dto/ListStoreDTO';
 import {PageResponse} from '../../../dto/Response/page-response';
 import {StoreInventoryDTO} from '../../../dto/StoreInventoryDTO';
 import {StoreDetailDTO} from '../../../dto/StoreDetailDTO';
+import {ListStoreStockDTO} from '../../../dto/ListStoreStockDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,19 @@ export class StoreService {
     return this.http.get<ApiResponse<PageResponse<ListStoreDTO>>>(`${this.apiUrl}/search${params}`);
   }
 
+  getStoresForLogin(pageNo: number,
+            pageSize: number,
+            name: string
+  ): Observable<ApiResponse<PageResponse<ListStoreDTO>>> {
+    let params = `?page=${pageNo}&size=${pageSize}`;
+
+    if (name) {
+      params += `&name=${encodeURIComponent(name)}`;
+    }
+
+    return this.http.get<ApiResponse<PageResponse<ListStoreDTO>>>(`${this.apiUrl}/search${params}`);
+  }
+
   getStoreInventory(productId: number, colorId: number, sizeId: number, storeId: number): Observable<ApiResponse<StoreInventoryDTO>> {
     const params = new HttpParams()
       .set('productId', productId)
@@ -49,4 +63,35 @@ export class StoreService {
     return this.http.get<ApiResponse<StoreDetailDTO>>(`${this.apiUrl}/${storeId}`);
   }
 
+
+  getStoresStock(
+    pageNo: number,
+    pageSize: number,
+    storeId: number,
+    languageCode: string = 'vi',
+    productName?: string | undefined,
+    categoryId?: number | null,
+    sortBy: string = 'id',
+    sortDir: string = 'asc'
+  ): Observable<ApiResponse<PageResponse<ListStoreStockDTO>>> {
+    let params = new HttpParams()
+      .set('page', pageNo)
+      .set('size', pageSize)
+      .set('languageCode', languageCode)
+      .set('sortBy', sortBy)
+      .set('sortDir', sortDir);
+
+    if (productName) {
+      params = params.set('productName', productName);
+    }
+
+    if (categoryId) {
+      params = params.set('categoryId', categoryId);
+    }
+
+    return this.http.get<ApiResponse<PageResponse<ListStoreStockDTO>>>(
+      `${this.apiUrl}/product-inventory/${storeId}`,
+      { params }
+    );
+  }
 }

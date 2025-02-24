@@ -39,10 +39,9 @@ export class DashboardComponent implements OnInit {
 
 
    headers: string[] = ['id', 'name', 'imageUrl'  , 'parentsName', 'createAt', 'updateAt', ];
-  
-  
-  
-  
+
+
+
     dataTable: TableDataModel[] = [
       {
         id: 1,
@@ -75,7 +74,7 @@ export class DashboardComponent implements OnInit {
         updateAt: '2024-02-10T09:30:00Z'
       }
     ];
-  
+
 
   constructor() { }
 
