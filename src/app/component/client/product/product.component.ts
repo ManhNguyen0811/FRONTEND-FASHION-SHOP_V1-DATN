@@ -88,6 +88,7 @@ export class ProductComponent implements OnInit {
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
     this.userId = this.tokenService.getUserId();
+    
 
     this.route.queryParams.subscribe(params => {
       const categoryId = params['categoryId'] ? parseInt(params['categoryId'], 10) : undefined;
