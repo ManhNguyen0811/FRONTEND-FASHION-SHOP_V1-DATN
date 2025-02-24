@@ -1,14 +1,13 @@
-
 <div class="container-table">
 
     <div class="table-content">
         <table class="table table-hover">
             <thead class="thead-light">
                 <tr>
+                    <th>#</th>
+
                     <th>
-
                         <input type="checkbox" disabled>
-
                     </th>
                     <th *ngFor="let header of tableHeaders">
                         <ng-container *ngIf="header === 'imageUrl'">
@@ -62,9 +61,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of tableData" (click)="toggleCheckbox(item)">
-                    <td>
-                        <input type="checkbox" [checked]="item.checked" (change)="toggleCheckbox(item)">
+                <tr *ngFor="let item of tableData; let i = index">
+                    <td (click)="toggleCheckbox(item)">{{i + 1}}</td>
+                    <td (click)="toggleCheckbox(item)">
+                        <input type="checkbox" [checked]="item.checked" style="margin-top: 5px;">
                     </td>
                     <td *ngFor="let header of tableHeaders">
                         <ng-container *ngIf="header === 'imageUrl'">
@@ -87,7 +87,7 @@
                         <ng-container *ngIf="header === 'isActive'">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked"
-                                    [checked]="item[header]">
+                                    (change)="changeActive(item)" [checked]="item[header]">
                             </div>
                         </ng-container>
 

@@ -34,7 +34,7 @@ export class ProductServiceService {
   //Lấy danh sách các product
   getProducts(
     languageCode: string,
-    categoryId: number,
+    categoryId?: number,
     isActive: boolean = true,
     name?: string,
     minPrice?: number,
@@ -45,8 +45,10 @@ export class ProductServiceService {
     sortDir: 'asc' | 'desc' = 'asc'
   ): Observable<ApiResponse<PageResponse<ProductListDTO[]>>> {
     let params = new HttpParams()
-      .set('categoryId', categoryId.toString())
-      .set('isActive', isActive.toString())
+    if (categoryId !== undefined) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+    params = params.set('isActive', isActive.toString())
       .set('page', page.toString())
       .set('size', size.toString())
       .set('sortBy', sortBy);

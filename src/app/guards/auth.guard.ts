@@ -5,21 +5,28 @@ import {
   CanActivateFn
 } from '@angular/router';
 import { TokenService } from '../services/token/token.service';
-import { Router } from '@angular/router'; // Đảm bảo bạn đã import Router ở đây.
+import { Router } from '@angular/router';
 import { inject } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
-import {NavigationService} from '../services/Navigation/navigation.service';
+import { isPlatformBrowser } from '@angular/common';
+import { NavigationService } from '../services/Navigation/navigation.service';
+import { ModalService } from '../services/Modal/modal.service';
+import {AuthService} from '../services/Auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard {
-  currentLang: string = ''; // Ngôn ngữ mặc định
-  currentCurrency: string = ''; // Tiền tệ mặc định
+  currentLang: string = '';
+  currentCurrency: string = '';
+
+  private isModalOpened = false; // Biến kiểm soát mở modal
+
   constructor(
     private tokenService: TokenService,
     private navigationService: NavigationService,
+    private modalService: ModalService,
     private router: Router,
+    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: any
   ) {
     this.navigationService.currentLang$.subscribe((lang) => {
@@ -28,6 +35,13 @@ export class AuthGuard {
 
     this.navigationService.currentCurrency$.subscribe((currency) => {
       this.currentCurrency = currency;
+    });
+
+    // Lắng nghe khi modal đóng để reset trạng thái
+    this.modalService.modalLoginState$.subscribe(isOpen => {
+      if (!isOpen) {
+        this.isModalOpened = false; // Reset khi modal đóng
+      }
     });
   }
 
@@ -39,21 +53,23 @@ export class AuthGuard {
       if (!isTokenExpired && isUserIdValid) {
         return true;
       } else {
-        const confirmRedirect = window.confirm(
-          'Bạn cần đăng nhập để truy cập. Bạn có muốn chuyển đến trang đăng nhập không?'
-        );
-        if (confirmRedirect) {
-          this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/login`]);
-        }
-        return false;
+
+        // Lưu trang hiện tại để quay lại sau khi đăng nhập
+        this.authService.setReturnUrl(this.router.url);
+        console.log(`URL: ${this.authService.getReturnUrl()}`)
+        // Mở modal login nhưng không block route
+        setTimeout(() => {
+          this.modalService.openLoginModal();
+        }, 0);
+
+        return false; // Không chặn route nữa!
       }
     }
     return false;
   }
 }
 
-// Sử dụng functional guard như sau:
+// Functional Guard
 export const AuthGuardFn: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-
   return inject(AuthGuard).canActivate(next, state);
-}
+};

@@ -24,11 +24,13 @@ import { ImagesDetailProductDTO } from '../../../dto/ImagesDetailProductDTO';
 import { CateProductDTO } from '../../../dto/CateProductDTO';
 import {WishlistService} from '../../../services/client/wishlist/wishlist.service';
 import {TokenService} from '../../../services/token/token.service';
+import {WishlistCheckResponse} from '../../../dto/WishlistCheckResponse';
 
 export interface ImagesOfDetailProduct {
   productId: number,
   imageDetailProduct: ImagesDetailProductDTO[]
 }
+type ExtendedDetailMediaDTO = DetailMediaDTO & { isInWishlist: boolean };
 
 @Component({
   selector: 'app-image-detail',
@@ -48,15 +50,16 @@ export class ImageDetailComponent implements OnInit {
   mediaId: number = 0;
   userId: number = 0;
 
+
+
   dataMediaInfo: MediaInfoDTO | null = null;
-  dataDetailMedia: DetailMediaDTO[] | null = null
+  dataDetailMedia: ExtendedDetailMediaDTO[] = [];
   currentCurrencyDetail?: Currency;
   dataProduct: DetailProductDTO[] | null = null
   dataDetailsProduct: DetailProductDTO | null = null;
   dataCategoryParent: CateProductDTO[] = [];
   dataImagesOfDetailProduct: ImagesOfDetailProduct[] | null = null
 
-  isWishlist: boolean = false;
 
 
   constructor(
@@ -110,7 +113,24 @@ export class ImageDetailComponent implements OnInit {
 
     const response = await firstValueFrom(forkJoin(callApis));
     this.dataMediaInfo = response.dataMediaInfo;
-    this.dataDetailMedia = response.dataDetailMedia ?? []; // Đảm bảo không bị null
+
+    //this.dataDetailMedia = response.dataDetailMedia ?? []; // Đảm bảo không bị null
+
+    // ✅ Thêm thuộc tính `isInWishlist` vào từng phần tử
+    this.dataDetailMedia = (response.dataDetailMedia ?? []).map(item => ({
+      ...item,
+      isInWishlist: false // Mặc định là false
+    })) as ExtendedDetailMediaDTO[];
+
+    if (this.dataDetailMedia.length > 0) {
+      await Promise.all(
+        this.dataDetailMedia
+          .filter(item => item.productId && item.colorId) // Chỉ lấy những item có đầy đủ dữ liệu
+          .map(async (item) => {
+            item.isInWishlist = await this.checkWishlist(this.userId, item.productId, item.colorId);
+          })
+      );
+    }
 
     // Kiểm tra trước khi gọi forEach
     if (this.dataDetailMedia?.length > 0) {
@@ -327,7 +347,6 @@ export class ImageDetailComponent implements OnInit {
 
         // ✅ Chỉ gọi checkWishlist sau khi toggleWishlistInProductDetail thành công
         this.wishlistService.getWishlistTotal(userId);
-        this.checkWishlist(userId, productId, colorId);
       },
       error: (error) => {
         console.error('API Error:', error);
@@ -335,23 +354,16 @@ export class ImageDetailComponent implements OnInit {
     });
   }
 
-  checkWishlist(userId: number, productId: number, colorId: number) {
-    if (!userId || !productId || !colorId) {
-      console.warn('Dữ liệu không hợp lệ:', { userId, productId, colorId });
-      return;
+  async checkWishlist(userId: number, productId: number, colorId: number): Promise<boolean> {
+    try {
+      const response = await firstValueFrom(this.productService.isInWishlist(userId, productId, colorId));
+      console.log(response.data?.isInWishList)
+      return response.data?.isInWishList ?? false;
+    } catch (error) {
+      console.error('Lỗi khi kiểm tra wishlist:', error);
+      return false;
     }
-
-    this.productService.isInWishlist(userId, productId, colorId).subscribe({
-      next: (response) => {
-
-        // ✅ Lấy giá trị đúng key từ API (`isInWishList` thay vì `isInWishlist`)
-        this.isWishlist = response.data?.isInWishList ?? false;
-
-      },
-      error: (error) => {
-        console.error('Lỗi khi kiểm tra wishlist:', error);
-        this.isWishlist = false; // ✅ Nếu API lỗi, tránh bị undefined
-      }
-    });
   }
+
+
 }

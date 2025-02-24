@@ -6,11 +6,23 @@ import {NavigationService} from '../../../services/Navigation/navigation.service
 import {TranslatePipe} from '@ngx-translate/core';
 import {CategoryDTO} from '../../../dto/CategoryDTO';
 import {CategoryService} from '../../../services/client/CategoryService/category.service';
-import {debounceTime, distinctUntilChanged, Observable, of, Subscription, switchMap} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  Subscription,
+  switchMap
+} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {ProductServiceService} from '../../../services/client/ProductService/product-service.service';
 import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 import {FormsModule} from '@angular/forms';
+import {CategoryParentDTO} from '../../../dto/CategoryParentDTO';
+import {ApiResponse} from '../../../dto/Response/ApiResponse';
 
 @Component({
   selector: 'app-nav-bottom',
@@ -119,6 +131,7 @@ export class NavBottomComponent implements OnInit{
 
   searchQuery: string = '';
   searchResults: ProductSuggestDTO[] = [];
+
   private searchSubscription!: Subscription;
 
   closeSearch(): void {
@@ -128,28 +141,85 @@ export class NavBottomComponent implements OnInit{
     this.searchResults = [];
   }
 
+  getCategoryParent(lang: string, productId: number | 0): Observable<CategoryParentDTO[]> {
+    return this.productService.getCategoryParent(lang, productId)
+      .pipe(
+        map((response: ApiResponse<CategoryParentDTO[]>) => response.data || []),
+        catchError(() => of([]))
+      )
+  }
+
   onSearchInput(event: any) {
     const query = event.target.value.trim();
     this.searchQuery = query;
 
-    // Nếu ô tìm kiếm có nội dung, gọi API
     if (query.length > 0) {
       if (this.searchSubscription) {
         this.searchSubscription.unsubscribe();
       }
 
-      this.searchSubscription = this.productService.suggestProducts(query, this.currentLang).subscribe({
-        next: (response) => {
-          this.searchResults = response.length > 0 ? response : [];
-        },
-        error: (err) => {
-          console.error('Lỗi khi tìm kiếm sản phẩm:', err);
-          this.searchResults = [];
+      this.searchSubscription = this.productService.suggestProducts(query, this.currentLang).pipe(
+        switchMap((products: ProductSuggestDTO[]) => {
+          if (products.length === 0) {
+            return of([]);
+          }
+
+          // Lọc các sản phẩm có ID hợp lệ
+          const validProducts = products.filter(product => product.id !== undefined);
+
+          // Gọi API lấy danh mục cha của từng sản phẩm
+          const categoryRequests = validProducts.map(product =>
+            this.getCategoryParent(this.currentLang, product.id!)
+          );
+
+          return forkJoin(categoryRequests).pipe(
+            map((categoriesList) => {
+              return products.map((product, index) => ({
+                ...product,
+                categoryParent: product.id !== undefined
+                  ? categoriesList[validProducts.findIndex(p => p.id === product.id)] || []
+                  : []
+              }));
+            })
+          );
+        }),
+        catchError((error) => {
+          console.error('Lỗi khi tìm kiếm sản phẩm:', error);
+          return of([]);
+        })
+      ).subscribe({
+        next: (mergedResults) => {
+          this.searchResults = mergedResults;
+          console.log('✅ searchResults cập nhật:', this.searchResults); // Debug
         }
       });
     } else {
       this.searchResults = [];
     }
   }
+
+  onSearchEnter(): void {
+    if (this.searchQuery.trim()) {
+      this.navigationService.currentLang$.subscribe((lang) => {
+        this.currentLang = lang;
+      });
+
+      this.navigationService.currentCurrency$.subscribe((currency) => {
+        this.currentCurrency = currency;
+      });
+
+      this.router.navigate([`/client/${this.currentCurrency}/${this.currentLang}/product`], {
+        queryParams: {
+          name: this.searchQuery.trim(),
+          isActive: true,
+          page: 0,
+          size: 10,
+          sortBy: 'id',
+          sortDir: 'asc'
+        }
+      });
+    }
+  }
+
 
 }

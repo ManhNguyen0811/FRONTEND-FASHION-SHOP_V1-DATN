@@ -11,6 +11,11 @@
           </a>
         </div>
 
+        <video class="col-6 p-0" *ngFor="let video of dataVideoProduct" autoplay loop>
+          <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
+          Trình duyệt của bạn không hỗ trợ phát video.
+        </video>
+
         <div class="col-6 position-relative p-0" *ngFor="let img of noColorImages">
           <img [src]="getImageProduct(img.mediaUrl)">
           <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]" class="image-icon"
@@ -19,10 +24,6 @@
           </a>
         </div>
 
-        <video class="col-6 p-0" *ngFor="let video of dataVideoProduct" autoplay>
-          <source [src]="'http://localhost:8080/uploads/images/products/' + video.mediaUrl" type="video/mp4">
-          Trình duyệt của bạn không hỗ trợ phát video.
-        </video>
 
         <!-- <div class="col-6 position-relative">
             <img src="https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456261/sub/vngoods_456261_sub7_3x4.jpg?width=369" alt="Model Pose 2" class="img-fluid rounded">
@@ -40,7 +41,7 @@
 
       <div class="accordion mt-4 " id="productAccordion">
         <h5 class="fw-bold">{{ "Mô tả" | translate }}</h5>
-        <p class="text-muted">{{ "Mã sản phẩm:" | translate }} 465748</p>
+        <p class="text-muted">{{ "Mã sản phẩm:" | translate }} {{ dataDetailsProduct?.id }}</p>
         <hr>
         <!-- Chi tiết -->
         <div class="accordion-item">
@@ -55,9 +56,6 @@
             <div class="accordion-body">
               <div class="details-content" data-test="overview-accordion-content">
                 {{dataDetailsProduct?.description}}
-                <br />
-                - Thích hợp cho các hoạt động thể thao, giải trí hoặc mặc hằng ngày. <br />
-                - UPF50+.
               </div>
             </div>
           </div>
@@ -119,7 +117,7 @@
             </ng-container>
           </div>
           <p class="mb-1">
-            <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.shoeSize }}<br>
+            <span class="">{{ "Kích cỡ đã mua:" | translate }}</span> {{ review.purchasedSize }}<br>
             <span class="">{{ "Quần áo có vừa không:" | translate }}</span> {{ review.fit }}
           </p>
           <p class="mb-3">
@@ -141,7 +139,7 @@
           <span class="text-primary">{{ "Xem thêm" | translate }}</span>
         </a>
       </div>
-      <div class="text-end mt-2 mb-2">
+      <div class="text-end mt-2 mb-2" *ngIf="userId != 0">
         <a [routerLink]="['/client', currentCurrency, currentLang,'review','new',productId, colorId, sizeId ]" style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <i class="fa-solid fa-pen"></i>
@@ -280,8 +278,11 @@
                 <ng-container *ngIf="dataDetailsProduct?.promotion?.isActive">
                   <br>
                   <div class="product-item-coupon" style="font-size: 0.88rem; color: red;">
-                    <span>{{ "Giảm giá hết thời hạn" | translate }} {{ dataDetailsProduct?.promotion?.endDate |
-                      date:'dd/MM/yyyy' }}</span>
+                    <span class="fw-light">
+                        {{ "Giảm giá hết thời hạn" | translate }}
+                    </span>
+                      <span class="fw-bold">{{ dataDetailsProduct?.promotion?.endDate | date:'dd/MM/yyyy' }}</span>
+
                   </div>
                 </ng-container>
               </span>
