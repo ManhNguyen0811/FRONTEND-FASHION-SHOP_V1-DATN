@@ -6,6 +6,8 @@ import { ApiResponse } from '../../../dto/Response/ApiResponse';
 import { PageResponse } from '../../../dto/Response/page-response';
 import { CategoryAdmin } from '../../../models/Category/CategotyAdmin';
 import { CategoryDTO } from '../../../dto/CategoryDTO';
+import { CategoryEditDTO } from '../../../dto/CategoryEditDTO';
+import { CategoryAdminDTO } from '../../../dto/CategoryAdminDTO';
 
 
 
@@ -50,6 +52,22 @@ export class CategoryAdminService {
   createCategory(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}`, formData);
   }
+  updateCategory(categoryId: number, category: CategoryAdminDTO, selectedFile?: File | null): Observable<any> {
+    const formData = new FormData();
+    formData.append('request', new Blob([JSON.stringify(category)], { type: 'application/json' }));
+
+    if (selectedFile) {
+        formData.append('imageFile', selectedFile, selectedFile.name);
+    } else {
+        // Nếu không có file, thêm một giá trị rỗng để giữ key 'imageFile'
+        formData.append('imageFile', new Blob([], { type: 'application/octet-stream' }), 'empty-file');
+    }
+    
+    console.log('selectedFile:', selectedFile);
+    return this.http.put(`${this.apiUrl}/${categoryId}`, formData);
+}
+
+
 
   getParentCategories(): Observable<ApiResponse<CategoryDTO[]>> {
     return this.http.get<ApiResponse<CategoryDTO[]>>(`${this.apiUrl}/en/parent`)
@@ -64,7 +82,19 @@ export class CategoryAdminService {
   }
 
   changeActive(categoryId: number, isActive: boolean): Observable<any> {
-    return this.http.put(`${this.apiUrl}/status/${categoryId}?isActive=${isActive}`,{})
+    return this.http.put(`${this.apiUrl}/status/${categoryId}?isActive=${isActive}`, {})
+  }
+
+  getCategoryEditById(categoryId: number): Observable<ApiResponse<CategoryEditDTO>> {
+    return this.http.get<ApiResponse<CategoryEditDTO>>(`${this.apiUrl}/edit/${categoryId}`)
+  }
+
+  getCategoryParentIdByCategoryChildId(childId: number): Observable<ApiResponse<CategoryDTO>> {
+    return this.http.get<ApiResponse<CategoryDTO>>(`${this.apiUrl}/en/category/parent/reverse/${childId}`)
+  }
+
+  getCategoryById(categoryId: number): Observable<ApiResponse<CategoryDTO>> {
+    return this.http.get<ApiResponse<CategoryDTO>>(`${this.apiUrl}/en/category/${categoryId}`)
   }
 
 }

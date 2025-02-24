@@ -8,7 +8,7 @@ export class HttpUntilService {
   createHeaders(): HttpHeaders {
 return new HttpHeaders({
   'Content-Type': 'application/json',
-  'Accept-language': 'vi',
+  'Accept-language': 'en',
 })
   }
 }

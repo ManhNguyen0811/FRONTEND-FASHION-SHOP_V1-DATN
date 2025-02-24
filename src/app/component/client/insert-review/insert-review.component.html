@@ -100,35 +100,37 @@
           <!-- Tiêu đề -->
           <div class="mb-4 title-row row mt-4">
             <div class="col-md-3">
-              <label class="title-form-label">{{ "TIÊU ĐỀ *" | translate }}</label>
+              <label class="title-form-label" [class.activeValidationText]="errorFields.title">{{ "TIÊU ĐỀ *" | translate }}</label>
             </div>
             <div class="col-md-9">
-              <input type="text" class="title-form-control" placeholder="Tóm tắt đánh giá của bạn" [(ngModel)]="reviewNew.title" name="title" />
+              <input type="text" class="title-form-control" [class.activeValidationInput]="errorFields.title" 
+                placeholder="Tóm tắt đánh giá của bạn" [(ngModel)]="reviewNew.title" name="title" />
               <small class="title-text-muted">{{ "Tiêu đề của bạn phải ít hơn 100 ký tự." | translate }}</small>
             </div>
           </div>
+          
 
           <!-- Bình luận -->
           <div class="mb-4 row">
             <div class="col-md-3">
-              <label class="form-label fw-bold">{{ "BÌNH LUẬN *" | translate }}</label>
+              <label class="form-label fw-bold" [class.activeValidationText]="errorFields.comment">{{ "BÌNH LUẬN *" | translate }}</label>
             </div>
             <div class="col-md-9">
-              <textarea class="form-control" rows="4" placeholder="" [(ngModel)]="reviewNew.comment"  name="comment"></textarea>
-              <div *ngIf="reviewForm.get('comment')?.hasError('minlength') && reviewForm.get('comment')?.touched">
-                <small class="text-danger">{{ "Bình luận phải có ít nhất 50 ký tự." | translate }}</small>
-              </div>
+              <textarea class="form-control" [class.activeValidationInput]="errorFields.comment"
+                rows="4" placeholder="" [(ngModel)]="reviewNew.comment" name="comment"></textarea>
             </div>
           </div>
-
+          
           <!-- Kích cỡ đã mua -->
           <div class="mb-4">
-            <label class="form-label fw-bold">{{ "KÍCH CỠ ĐÃ MUA *" | translate }}</label>
-            <select class="form-select"  [(ngModel)]="reviewNew.purchasedSize" name="purchasedSize">
+            <label class="form-label fw-bold" [class.activeValidationText]="errorFields.purchasedSize">{{ "KÍCH CỠ ĐÃ MUA *" | translate }}</label>
+            <select class="form-select" [(ngModel)]="reviewNew.purchasedSize" name="purchasedSize"
+              [class.activeValidationInput]="errorFields.purchasedSize">
               <option value="">{{ "Chọn" | translate }}</option>
               <option *ngFor="let size of dataSizes" [value]="size.valueName">{{ size.valueName }}</option>
             </select>
           </div>
+          
 
           <!-- Biệt danh -->
           <div class="mb-4">
@@ -141,15 +143,16 @@
             <h6 class="fw-bold">{{ "THÔNG TIN NGƯỜI MẶC" | translate }}</h6>
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "GIỚI TÍNH *" | translate }}</label>
-                <select class="form-select" [(ngModel)]="reviewNew.gender" name="gender">
+                <label class="form-label fw-bold" [class.activeValidationText]="errorFields.gender">{{ "GIỚI TÍNH *" | translate }}</label>
+                <select class="form-select" [(ngModel)]="reviewNew.gender" name="gender" [class.activeValidationInput]="errorFields.gender">
                   <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let g of genders" [value]="g.gender">{{ g.gender }}</option>
                 </select>
               </div>
+              
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "VỊ TRÍ *" | translate }}</label>
-                <div class="custom-select">
+                <label class="form-label fw-bold"   [class.activeValidationText]="bien">{{ "VỊ TRÍ *" | translate }}</label>
+                <div class="custom-select" [class.activeValidationInput]="bien">
                   <div class="selected-item" (click)="isOpen = !isOpen">
                     <span *ngIf="selectedItem">{{ selectedItem.name }}</span>
                     <span *ngIf="!selectedItem">Choose Province</span>
@@ -165,48 +168,57 @@
                     </ul>
                   </div>
                 </div>
+                
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "ĐỘ TUỔI *" | translate }}</label>
-                <select class="form-select" [(ngModel)]="reviewNew.ageGroup" name="ageGroup">
+                <label class="form-label fw-bold" [class.activeValidationText]="errorFields.ageGroup">{{ "ĐỘ TUỔI *" | translate }}</label>
+                <select class="form-select" [(ngModel)]="reviewNew.ageGroup" name="ageGroup"
+                  [class.activeValidationInput]="errorFields.ageGroup">
                   <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let a of ages" [value]="a.age">{{ a.age }}</option>
                 </select>
               </div>
+              
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "CHIỀU CAO *" | translate }}</label>
-                <select class="form-select" [(ngModel)]="reviewNew.height" name="height">
+                <label class="form-label fw-bold" [class.activeValidationText]="errorFields.height">{{ "CHIỀU CAO *" | translate }}</label>
+                <select class="form-select" [(ngModel)]="reviewNew.height" name="height"
+                  [class.activeValidationInput]="errorFields.height">
                   <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let h of heights" [value]="h.height">{{ h.height }}</option>
                 </select>
               </div>
+              
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "CÂN NẶNG *" | translate }}</label>
-                <select class="form-select" [(ngModel)]="reviewNew.weight" name="weight">
+                <label class="form-label fw-bold" [class.activeValidationText]="errorFields.weight">{{ "CÂN NẶNG *" | translate }}</label>
+                <select class="form-select" [(ngModel)]="reviewNew.weight" name="weight"
+                  [class.activeValidationInput]="errorFields.weight">
                   <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let w of weights" [value]="w.weight">{{ w.weight }}</option>
                 </select>
               </div>
+              
               <div class="col-md-6">
-                <label class="form-label fw-bold">{{ "CỠ GIÀY *" | translate }}</label>
-                <select class="form-select" [(ngModel)]="reviewNew.shoeSize" name="shoeSize">
+                <label class="form-label fw-bold" [class.activeValidationText]="errorFields.shoeSize">{{ "CỠ GIÀY *" | translate }}</label>
+                <select class="form-select" [(ngModel)]="reviewNew.shoeSize" name="shoeSize"
+                  [class.activeValidationInput]="errorFields.shoeSize">
                   <option value="">{{ "Chọn" | translate }}</option>
                   <option *ngFor="let ss of shoeSizes" [value]="ss.size">{{ ss.size }}</option>
                 </select>
               </div>
+              
             </div>
           </div>
           <hr>
           <!-- Điều khoản -->
           <div class="review-form-container mt-4">
-            <h5 class="fw-bold">{{ "ĐĂNG BÀI ĐÁNH GIÁ CỦA BẠN:" | translate }}</h5>
+            <h5 class="fw-bold" >{{ "ĐĂNG BÀI ĐÁNH GIÁ CỦA BẠN:" | translate }}</h5>
             <ul class="review-form-text-muted">
               <li>{{ "Bình luận đã đăng của bạn có thể được sử dụng cho mục đích quảng cáo." | translate }}</li>
               <li>{{ "Chúng tôi không chấp nhận các yêu cầu đăng quảng cáo cho các thương hiệu, cá nhân, tổ chức khác. Ngoài ra, chúng tôi không thể đăng tình trạng còn hàng và kích cỡ sản phẩm." | translate }}</li>
             </ul>
 
             <div class="review-checkbox-container">
-              <input class="review-form-checkbox-input" [(ngModel)]="terms"  name="terms"
+              <input class="review-form-checkbox-input" [(ngModel)]="terms"  name="terms"  [class.activeValidationInput]="terms"
               style="height: 1.3rem; width: 1.3rem" 
               type="checkbox" id="terms" required />
        

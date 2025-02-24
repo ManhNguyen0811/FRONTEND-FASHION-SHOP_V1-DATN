@@ -1,0 +1,265 @@
+<!--<div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">-->
+<!--  {{message}}-->
+<!--</div>-->
+<app-store-header [title_header]="'CHECKOUT'" [title_btn]="'insert'"/>
+
+<div class="container-fluid " style="  max-height: 80vh; /* Giới hạn chiều cao */
+    overflow-y: auto;
+">
+  <div class="background-box">
+    <!-- <img src="../../../assets/images/backgroundCart.jpeg" alt=""> -->
+    <div class="overlay"></div>
+  </div>
+  <div class="content-box">
+    <div class=" cart-layout">
+
+<!--      <div class="cart-title">-->
+<!--        <i class="fa-solid fa-cart-shopping"> </i>-->
+<!--        <h2> {{ "THANH TOÁN" | translate }} </h2>-->
+<!--      </div>-->
+<!--      <p></p>-->
+
+<!--      <div class="scan-product ">-->
+<!--        <button class="btn btn-primary">-->
+<!--          <i class="fa-solid fa-barcode"></i> {{ "QUÉT SẢN PHẨM" | translate }}-->
+<!--        </button>-->
+<!--      </div>-->
+
+      <div class="cart-allProduct ms-0 ps-0">
+        <!-- render product cart -->
+        <div class="cart-product-item">
+          <div class="item-layout-image">
+            <div class="product-item-image">
+              <img src="../../../assets/images/pr1.png" alt="Image">
+            </div>
+          </div>
+          <div class="item-layout-infor">
+            <p class="item-name"> Half-Zip Sweatshirt Half-Zip Sweatshirt Sweatshirt Half-Zip Sweatshirt
+              Sweatshirt Half-Zip Sweatshirt </p>
+            <div class="item-inforColorSizeQty">
+              <div style="flex: 4;">
+                <p class="item-size">
+                  <span>{{ "Màu sắc:" | translate }} <span class="text-size-color">66 BLUE</span> </span>
+                </p>
+                <p class="item-color">
+                  <span>{{ "Kích thước:" | translate }} <span class="text-size-color">MEN S</span> </span>
+                </p>
+              </div>
+              <div style="flex: 6;">
+                <div class="input-group input-group-qty ">
+                                    <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                  <input class="input-qty" type="number">
+                  <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-inforPrice_btnRemove">
+              <span class="item-btnRemove"><a href="">{{ "Xóa" | translate }}</a></span>
+              <div class="item-price">Giá: <span class="textTotal"> 200,000 </span></div>
+              <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000  </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-product-item">
+          <div class="item-layout-image">
+            <div class="product-item-image">
+              <img src="../../../assets/images/pr1.png" alt="Image">
+            </div>
+          </div>
+          <div class="item-layout-infor">
+            <p class="item-name"> Half-Zip Sweatshirt Half-Zip Sweatshirt Sweatshirt Half-Zip Sweatshirt
+              Sweatshirt Half-Zip Sweatshirt </p>
+            <div class="item-inforColorSizeQty">
+              <div style="flex: 4;">
+                <p class="item-size">
+                  <span>Màu sắc: <span class="text-size-color">66 BLUE</span> </span>
+                </p>
+                <p class="item-color">
+                  <span>Kích thước: <span class="text-size-color">MEN S</span> </span>
+                </p>
+              </div>
+              <div style="flex: 6;">
+                <div class="input-group input-group-qty ">
+                                    <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                  <input class="input-qty" type="number">
+                  <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-inforPrice_btnRemove">
+              <span class="item-btnRemove"><a href="">Remove</a></span>
+              <div class="item-price">Giá: <span class="textTotal"> 200,000 Vnd</span></div>
+              <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000 Vnd </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-product-item">
+          <div class="item-layout-image">
+            <div class="product-item-image">
+              <img src="../../../assets/images/pr1.png" alt="Image">
+            </div>
+          </div>
+          <div class="item-layout-infor">
+            <p class="item-name"> Half-Zip Sweatshirt Half-Zip Sweatshirt Sweatshirt Half-Zip Sweatshirt
+              Sweatshirt Half-Zip Sweatshirt </p>
+            <div class="item-inforColorSizeQty">
+              <div style="flex: 4;">
+                <p class="item-size">
+                  <span>Màu sắc: <span class="text-size-color">66 BLUE</span> </span>
+                </p>
+                <p class="item-color">
+                  <span>Kích thước: <span class="text-size-color">MEN S</span> </span>
+                </p>
+              </div>
+              <div style="flex: 6;">
+                <div class="input-group input-group-qty ">
+                                    <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                  <input class="input-qty" type="number">
+                  <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-inforPrice_btnRemove">
+              <span class="item-btnRemove"><a href="">Remove</a></span>
+              <div class="item-price">Giá: <span class="textTotal"> 200,000 Vnd</span></div>
+              <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000 Vnd </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-product-item">
+          <div class="item-layout-image">
+            <div class="product-item-image">
+              <img src="../../../assets/images/pr1.png" alt="Image">
+            </div>
+          </div>
+          <div class="item-layout-infor">
+            <p class="item-name"> Half-Zip Sweatshirt Half-Zip Sweatshirt Sweatshirt Half-Zip Sweatshirt
+              Sweatshirt Half-Zip Sweatshirt </p>
+            <div class="item-inforColorSizeQty">
+              <div style="flex: 4;">
+                <p class="item-size">
+                  <span>Màu sắc: <span class="text-size-color">66 BLUE</span> </span>
+                </p>
+                <p class="item-color">
+                  <span>Kích thước: <span class="text-size-color">MEN S</span> </span>
+                </p>
+              </div>
+              <div style="flex: 6;">
+                <div class="input-group input-group-qty ">
+                                    <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                  <input class="input-qty" type="number">
+                  <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-inforPrice_btnRemove">
+              <span class="item-btnRemove"><a href="">Remove</a></span>
+              <div class="item-price">Giá: <span class="textTotal"> 200,000 Vnd</span></div>
+              <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000 Vnd </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-product-item">
+          <div class="item-layout-image">
+            <div class="product-item-image">
+              <img src="../../../assets/images/pr1.png" alt="Image">
+            </div>
+          </div>
+          <div class="item-layout-infor">
+            <p class="item-name"> Half-Zip Sweatshirt Half-Zip Sweatshirt Sweatshirt Half-Zip Sweatshirt
+              Sweatshirt Half-Zip Sweatshirt </p>
+            <div class="item-inforColorSizeQty">
+              <div style="flex: 4;">
+                <p class="item-size">
+                  <span>Màu sắc: <span class="text-size-color">66 BLUE</span> </span>
+                </p>
+                <p class="item-color">
+                  <span>Kích thước: <span class="text-size-color">MEN S</span> </span>
+                </p>
+              </div>
+              <div style="flex: 6;">
+                <div class="input-group input-group-qty ">
+                                    <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </span>
+                  <input class="input-qty" type="number">
+                  <span class="input-group-text btn-group-qty">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </span>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-inforPrice_btnRemove">
+              <span class="item-btnRemove"><a href="">Remove</a></span>
+              <div class="item-price">Giá: <span class="textTotal"> 200,000 Vnd</span></div>
+              <div class="item-price-subtotal">Tổng: <span class="textTotal"> 200,000,000 Vnd </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="cart-order sticky-top">
+          <div class="priceBill sticky-top">
+            <p class="total-decor-bold"> <span>{{ "TỔNG SỐ LƯỢNG" | translate }} </span> <span>20 {{ "SẢN PHẨM" | translate }}</span> </p>
+            <hr>
+            <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p>
+            <p class="total-decor"> <span>{{ "TỔNG TIỀN" | translate }} </span> <span>20,000,000 VND </span> </p>
+            <hr>
+            <p class="total-decor-bold"> <span>{{ "TỔNG HÓA ĐƠN" | translate }} </span> <span>20,000,000 VND </span> </p>
+          </div>
+
+          <p class="priceBill total-decor-bold coupon-item p-0 ms-3 fs-5"> COUPON </p>
+
+          <div class="priceBill d-flex pt-0">
+
+              <input type="text" class="border rounded-1 px-2" style="width: 350px" placeholder="Nhập mã">
+              <button class="btn btn-secondary ms-2">
+                <i class="fa-solid fa-qrcode"></i>
+              </button>
+          </div>
+
+
+          <div class="priceBill">
+            <div class="btnBuyCart slide_leftbtnBuyCart"  > {{ "MUA NGAY" | translate }} </div>
+            <!-- <span class="hr-element-decor"><hr>or <hr></span -->
+            <hr>
+            <div class="btnBuyToContinue slide_leftbtnBuyToContinue">{{"TIẾP TỤC MUA SẮM" | translate}}</div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

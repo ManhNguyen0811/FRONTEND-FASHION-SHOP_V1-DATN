@@ -9,6 +9,7 @@ import {LoginDTO} from '../../dto/user/login.dto';
 import {UserResponse} from '../../dto/Response/user/user.response';
 import {User} from '../../models/user';
 import {ApiResponse} from '../../dto/Response/ApiResponse';
+import {UserDetailDTO} from '../../dto/UserDetailDTO';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,7 +38,12 @@ export class UserService {
   }
 
   register(registerDTO: RegisterDTO):Observable<any> {
-    return this.http.post(this.apiRegister, registerDTO, this.apiConfig);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept-Language': 'vi' // Hoặc lấy từ setting của user
+    });
+
+    return this.http.post<any>(this.apiRegister, registerDTO, { headers });
   }
 
   login(loginDTO: LoginDTO): Observable<ApiResponse<any>> {
@@ -58,6 +64,8 @@ export class UserService {
         localStorage.setItem('refresh_token', refresh_token);
         localStorage.setItem('user_info', JSON.stringify({ username, id, roles }));
 
+
+
         console.log('Đăng nhập thành công, token:', token);
 
         return response.data;
@@ -75,17 +83,32 @@ export class UserService {
     );
   }
 
+  getUserInfo(): { username: string; id: number; roles: string[] } | null {
+    try {
+      const userInfoJSON = localStorage.getItem('user_info');
+      if (!userInfoJSON) {
+        return null;
+      }
+      return JSON.parse(userInfoJSON);
+    } catch (error) {
+      // console.error('❌ Lỗi khi lấy thông tin user từ localStorage:', error);
+      return null;
+    }
+  }
 
-  getUserDetail(token: string) {
-    return this.http.post(
-      this.apiUserDetail,  // URL of the API
-      {},                  // Body (you can put an empty object if you don't need to send any data in the body)
+
+  getUserDetail(token: string): Observable<UserDetailDTO> {
+    return this.http.post<any>(
+      this.apiUserDetail,
+      {},
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`  // Add the Authorization header
+          'Authorization': `Bearer ${token}`
         })
       }
+    ).pipe(
+      map(response => response.data as UserDetailDTO) // Lấy `data` từ response
     );
   }
 
