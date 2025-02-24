@@ -19,8 +19,8 @@ import { ImageDetailService } from '../../../services/client/ImageDetailService/
 import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { DetailProductService } from '../../../services/client/DetailProductService/detail-product-service.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalNotifyErrorComponent } from '../modal-notify-error/modal-notify-error.component';
-import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
+import { ModalNotifyErrorComponent } from '../Modal-notify/modal-notify-error/modal-notify-error.component';
+import { ModelNotifySuccsessComponent } from '../Modal-notify/model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-insert-review',

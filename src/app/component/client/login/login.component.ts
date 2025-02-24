@@ -11,7 +11,7 @@ import {LoginDTO} from '../../../dto/user/login.dto';
 import {LoginResponse} from '../../../dto/Response/user/login.response';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import { ModalNotifyLoginComponent } from '../modal-notify-login/modal-notify-login.component';
+import { ModalNotifyLoginComponent } from '../Modal-notify/modal-notify-login/modal-notify-login.component';
 import { ToastrService } from 'ngx-toastr';
 import {AuthService} from '../../../services/Auth/auth.service';
 import {ModalService} from '../../../services/Modal/modal.service';
@@ -87,11 +87,6 @@ export class LoginComponent implements OnInit{
     const returnUrl = this.authService.getReturnUrl();
     this.router.navigateByUrl(returnUrl);
   }
-  createAccount() {
-
-    // Chuyển hướng người dùng đến trang đăng ký (hoặc trang tạo tài khoản)
-    this.router.navigate(['/signin']);
-  }
 
   login() {
     const loginDTO: LoginDTO = {
@@ -126,7 +121,6 @@ export class LoginComponent implements OnInit{
         console.error('Login error:', error);
         this.errorMessage = error.message || 'Email hoặc mật khẩu không đúng';
         this.toastr.error('Email hoặc mật khẩu không đúng','ERROR',{timeOut: 2000})
-
       }
     });
   }
@@ -135,10 +129,6 @@ export class LoginComponent implements OnInit{
     this.showPassword = !this.showPassword;
   }
 
-  // Toggle hiện/ẩn mật khẩu
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
 
   // Hàm đăng nhập với Google (placeholder)
   loginWithGoogle() {

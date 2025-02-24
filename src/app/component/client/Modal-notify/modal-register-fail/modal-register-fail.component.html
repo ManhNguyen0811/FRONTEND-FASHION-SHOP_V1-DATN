@@ -2,17 +2,17 @@
 
 <div class="modal-container" [ngClass]="{'hide': !isModalOpen}">
 
-    <div class="icon-content"><i class="fa-solid fa-circle-check " style="color: white; font-size: 50px;"></i>  </div>
-    <div class="modal-content">
-        <span> {{ 'Hoàn Thành' | translate}} </span>
-        <p>{{'Thêm Thành Công' | translate}}!</p>
+  <div class="icon-content"> <i class="fa-regular fa-circle-xmark" style="color: white; font-size: 50px;"></i></div>
+  <div class="modal-content">
+    <span> {{ 'Lỗi' | translate}} </span>
+    <p>{{'Đăng kí thất bại' | translate}}!</p>
 
-    </div>
+  </div>
 </div>
 
 
 <!-- <div class="d-flex justify-content-between">
-            <button class="btn-content btn-login" 
+            <button class="btn-content btn-login"
              >ĐĂNG NHẬP</button>
             <button class="btn-content btn-closes" (click)="closeModal()">HỦY </button>
         </div> -->

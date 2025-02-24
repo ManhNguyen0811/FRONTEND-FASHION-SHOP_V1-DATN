@@ -6,7 +6,7 @@ import {FooterComponent} from './footer/footer.component';
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CouponComponent} from './coupon/coupon.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import {ModalNotifyLoginComponent} from './modal-notify-login/modal-notify-login.component';
+import {ModalNotifyLoginComponent} from './Modal-notify/modal-notify-login/modal-notify-login.component';
 
 
 @Component({

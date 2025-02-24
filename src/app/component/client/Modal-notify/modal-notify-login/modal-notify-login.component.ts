@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink,Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { NavigationService } from '../../../services/Navigation/navigation.service';
-import {ModalService} from '../../../services/Modal/modal.service';
-import {AuthService} from '../../../services/Auth/auth.service';
-import {AuthGuard} from '../../../guards/auth.guard';
+import { NavigationService } from '../../../../services/Navigation/navigation.service';
+import {ModalService} from '../../../../services/Modal/modal.service';
+import {AuthService} from '../../../../services/Auth/auth.service';
+import {AuthGuard} from '../../../../guards/auth.guard';
 
 @Component({
   selector: 'app-modal-notify-login',
