@@ -351,3 +351,9 @@ input[type="range"] {
 .dropdown li:hover {
   background: #f1f1f1;
 }
+.activeValidationText{
+  color: red;
+}
+.activeValidationInput{
+  border:  1px solid red;
+}

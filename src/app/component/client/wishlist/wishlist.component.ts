@@ -48,6 +48,7 @@ export class WishlistComponent implements OnInit {
     this.userId = this.tokenService.getUserId();
 
     if (this.userId) {
+      this.wishlistService.getWishlistTotal(this.userId);
       this.getWishlistByUserId(this.userId);
     }
 

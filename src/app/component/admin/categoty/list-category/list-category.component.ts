@@ -477,16 +477,13 @@ export class ListCategoryComponent implements OnInit {
 
 
   deleteCategory = (id: number): void => {
-    // Mở modal xác nhận xóa
     const dialogRef = this.diaLog.open(DialogComponent, {
       data: { message: 'Are you sure you want to delete Category?' }
     });
 
-    // Sau khi modal đóng, kiểm tra kết quả
     dialogRef.afterClosed().subscribe(result => {
       console.log(`result: ${result}`);
       if (result === true) {
-        // Nếu người dùng xác nhận (result true), gọi API xóa
         this.categoryAdminService.deleteCategory(id).subscribe({
           next: response => {
             this.toastService.success('Success', 'Category Deleted successfully!', { timeOut: 3000 });
@@ -505,21 +502,19 @@ export class ListCategoryComponent implements OnInit {
   changeActive = (item: any): void => {
     console.log('Category ID:', item.id);
     
-    const newStatus = !item.isActive; // Đảo trạng thái
+    const newStatus = !item.isActive;  
     this.categoryAdminService.changeActive(item.id, newStatus).subscribe({
       next: (response) => {
         this.toastService.success('Success', 'Category change isActive successfully!', { timeOut: 3000 });
-        item.isActive = newStatus; // Cập nhật trạng thái trên giao diện
+        item.isActive = newStatus; 
       },
       error: (error) => {
         this.toastService.error('Error', 'There was an error deleting the category.', { timeOut: 3000 });
-
       }
     });
   };
 
   toggleCheckbox = (item: any): void => {
-    // Đảo trạng thái checkbox của item
     item.checked = !item.checked;
 
     if (item.checked) {

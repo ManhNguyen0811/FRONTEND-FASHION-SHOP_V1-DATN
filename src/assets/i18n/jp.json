@@ -102,6 +102,13 @@
   "out_of_stock": "在庫切れ",
   "in_stock": "{{ store.quantity }} 点在庫あり",
   "see_more": "もっと見る",
-  "opening_hours": "営業時間:"
+  "opening_hours": "営業時間:",
 
+  "_commentStore-modal-succcsess" :"----------------------Phần Store Inventory----------------------------",
+  "Hoàn Thành": "完了しました",
+  "Thêm Thành Công": "追加に成功しました",
+
+  "_commentStore-modal-error": "----------------------Phần commentStore-modal-error ----------------------------",
+    "Lỗi": "エラー",
+  "Thêm Thất Bại": "追加に失敗しました"
 }

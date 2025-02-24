@@ -38,7 +38,12 @@ export class UserService {
   }
 
   register(registerDTO: RegisterDTO):Observable<any> {
-    return this.http.post(this.apiRegister, registerDTO, this.apiConfig);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept-Language': 'vi' // Hoặc lấy từ setting của user
+    });
+
+    return this.http.post<any>(this.apiRegister, registerDTO, { headers });
   }
 
   login(loginDTO: LoginDTO): Observable<ApiResponse<any>> {
