@@ -15,10 +15,8 @@
                 <i class="fa-solid fa-cart-shopping"> </i>
                 <h2> {{ "GIỎ HÀNG" | translate }} </h2>
             </div>
+            <p></p>
             <div class="cart-allProduct">
-                <p class="clear-cart" style="color: black; margin-left: 20px; " (click)="clearCart()"> <i
-                        class="fa-solid fa-square-xmark"></i>{{'Xóa giỏ hàng' | translate}}</p>
-
                 <!-- render product cart -->
                 <div class="cart-product-item" *ngFor="let cart of cartItems">
 
@@ -45,23 +43,11 @@
                             </div>
                             <div style="flex: 6;">
                                 <div class="input-group input-group-qty ">
-                                    <span class="input-group-text btn-group-qty" (click)="reduceQty(cart.quantity,cart.id,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.productId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.colorId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.sizeId ?? 0)
-                                        ">
+                                    <span class="input-group-text btn-group-qty">
                                         <i class="fa-solid fa-minus"></i>
                                     </span>
-                                    <input class="input-qty" (change)="updateQtyCart(cart.id,getInputValue($event),
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.productId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.colorId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.sizeId ?? 0)"
-                                        [value]="cart.quantity" [name]="cart.id" type="number">
-                                    <span class="input-group-text btn-group-qty" (click)="redoubleQty(cart.quantity,cart.id,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.productId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.colorId ?? 0,
-                                    getProductDetailByProductVariantId(cart.productVariantId)?.sizeId ?? 0)
-                                        ">
+                                    <input class="input-qty" [value]="cart.quantity" type="number">
+                                    <span class="input-group-text btn-group-qty">
                                         <i class="fa-solid fa-plus"></i>
                                     </span>
                                 </div>
@@ -69,8 +55,7 @@
                             </div>
                         </div>
                         <div class="item-inforPrice_btnRemove">
-                            <span class="item-btnRemove" (click)="deleteCart(cart.id)"><a>{{ "Xóa" | translate
-                                    }}</a></span>
+                            <span class="item-btnRemove"><a href="">{{ "Xóa" | translate }}</a></span>
                             <div class="item-price">
                                 <span class="textTotal">
                                     <span>Giá: </span>
@@ -99,7 +84,7 @@
                                                 1,currentCurrencyDetail?.code ?? '' )}}
 
                                             </span>
-                                            <br>
+    <br>
                                             <span class="product-item-priceInit" style="text-decoration: line-through;">
                                                 {{
                                                 getCurrencyPrice(getProductDetailByProductVariantId(cart.productVariantId)?.basePrice
@@ -118,31 +103,27 @@
                                 <!-- <ng-container *ngIf="product.promotion?.isActive != null && product.promotion?.isActive">
                                     <div class="product-item-coupon">
                                       <span>{{ "Giảm giá hết thời hạn" | translate }}  {{ product.promotion?.endDate | date:'dd/MM/yyyy, hh:mm a' }}</span>
-                      
-                      
+
+
                                     </div>
                                   </ng-container> -->
                             </div>
                             <div class="item-price-subtotal">Tổng: <span class="textTotal">
-                                    <ng-container
-                                        *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice == getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
+                               <ng-container *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice == getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
 
-                                        {{
-                                        getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.basePrice
-                                        ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
-                                        1,currentCurrencyDetail?.code ?? '' )}}
+                                {{
+                                    getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.basePrice ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
+                                    1,currentCurrencyDetail?.code ?? '' )}}
 
 
-                                    </ng-container>
-                                    <ng-container
-                                        *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice != getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
+                               </ng-container>
+                               <ng-container *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice != getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
 
 
-                                        {{
-                                        getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.salePrice
-                                        ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
-                                        1,currentCurrencyDetail?.code ?? '' )}}
-                                    </ng-container>
+                                {{
+                                    getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.salePrice ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
+                                    1,currentCurrencyDetail?.code ?? '' )}}
+                               </ng-container>
 
                                 </span>
                             </div>
@@ -151,37 +132,73 @@
 
                 </div>
 
-
                 <div class="cart-order">
                     <div class="priceBill">
-                        <p class="total-decor-bold"> <span>{{ "TỔNG SỐ LƯỢNG" | translate }} </span> <span>{{qtyTotal}}
-                                {{ "SẢN PHẨM" | translate }}</span> </p>
+                        <p class="total-decor-bold"> <span>{{ "TỔNG SỐ LƯỢNG" | translate }} </span> <span>20 {{ "SẢN PHẨM" | translate }}</span> </p>
                         <hr>
-                        <!-- <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p> -->
-                        <p class="total-decor"> <span>{{ "TỔNG TIỀN" | translate }} </span> <span>
-
-                                {{
-                                getCurrencyPrice(dataCart?.totalPrice
-                                ?? 0, currentCurrencyDetail?.rateToBase ??
-                                1,currentCurrencyDetail?.code ?? '' )}}
-
-
-                            </span>
+                      <ng-container *ngIf="appliedCoupon">
+                        <p class="total-decor">
+                          <span>{{ "MÃ GIẢM GIÁ" | translate }} ({{ appliedCoupon.code }})</span>
+                          <span>
+            <ng-container *ngIf="appliedCoupon.discountType === 'PERCENTAGE'">
+                -{{ appliedCoupon.discountValue }}%
+                ( {{
+                getCurrencyPrice((dataCart?.totalPrice ?? 0) * (appliedCoupon.discountValue / 100),
+                  currentCurrencyDetail?.rateToBase ?? 1,
+                  currentCurrencyDetail?.code ?? '')
+              }})
+            </ng-container>
+            <ng-container *ngIf="appliedCoupon.discountType === 'FIXED'">
+                -{{ getCurrencyPrice(appliedCoupon.discountValue ?? 0,
+              currentCurrencyDetail?.rateToBase ?? 1,
+              currentCurrencyDetail?.code ?? '') }}
+            </ng-container>
+        </span>
                         </p>
                         <hr>
-                        <p class="total-decor-bold"> <span>{{ "TỔNG HÓA ĐƠN" | translate }} </span> <span> {{
+                      </ng-container>
+
+                      <!-- <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p> -->
+                        <p class="total-decor"> <span>{{ "TỔNG TIỀN" | translate }} </span> <span>
+
+                            {{
                                 getCurrencyPrice(dataCart?.totalPrice
                                 ?? 0, currentCurrencyDetail?.rateToBase ??
                                 1,currentCurrencyDetail?.code ?? '' )}}
+                           </span>
+                        </p>
+                        <hr>
+                        <p class="total-decor-bold"> <span>{{ "TỔNG HÓA ĐƠN" | translate }} </span> <span>    {{
+                            getCurrencyPrice( getTotalAfterDiscount()
+                            ?? 0, currentCurrencyDetail?.rateToBase ??
+                            1,currentCurrencyDetail?.code ?? '' )}}
                             </span> </p>
                     </div>
-
-                    <div class="priceBill">
-                        <p class="total-decor-bold-coupon" style="margin: 0;
-                        align-items: center; min-width: 100px;
-                        "> <span class="coupon-item"> {{ "MÃ GIẢM" | translate }} </span> <span
-                                class="iput-coupon-item"> <input type="text"> </span> </p>
+                  <div class="mt-m">
+                    <div class="a11y-focus-section">
+                      <nav class="fr-transition-btn-cards">
+                        <ul class="fr-link-wrapper" [routerLink]="['../coupon']">
+                          <li class="btn">
+                            <button  style="text-decoration: none">
+                              <div class="fr-link-wrapper fr-flbox middle"><span class="block-icon"><span
+                                class="mr-xxs"><span class="fr-icon coupon" aria-hidden="true"
+                                                     style="font-size: 24px;"></span></span><span
+                                class="text">Phiếu giảm giá</span><span
+                                style="position: absolute; right: 0px; top: calc(50% - 12px);"><span class="fr-icon" aria-hidden="true" style="font-size: 24px;"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path
+                                fill="#757575" fill-rule="evenodd">
+                           </path></svg></span></span></span>
+                              </div>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
+                  </div>
+
+
+
+
 
 
                     <div class="priceBill">
@@ -189,8 +206,7 @@
                             translate }} </div>
                         <!-- <span class="hr-element-decor"><hr>or <hr></span -->
                         <hr>
-                        <div class="btnBuyToContinue slide_leftbtnBuyToContinue" [routerLink]="['../product']">{{"TIẾP
-                            TỤC MUA SẮM" | translate}}</div>
+                        <div class="btnBuyToContinue slide_leftbtnBuyToContinue" [routerLink]="['../product']">{{"TIẾP   TỤC MUA SẮM" | translate}}</div>
 
                     </div>
 

@@ -18,32 +18,69 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <div class="address-item">
-                        <a class="address-thumb"><img src="https://cdn-icons-png.flaticon.com/512/4942/4942358.png"
-                                alt="address"></a>
-                        <div class="address-info">
-                            <h4 class="address-title"><a> 273 Đ. An Dương Vương, Phường 3, Quận 5, Hồ Chí Minh</a></h4>
-                            <div class="text-lg text-medium text-muted">Nguyễn Thanh Mạnh </div>
-                            <div>Số Điện Thoại Nhận Hàng:
-                                <div class="d-inline text-success">0986484774</div>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Đặt làm địa chỉ mặc
-                                        định</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-center">
-                    <label for="toggleForm" class="btn-open-form btn-primary"> <span class="mobile-title"> Sửa </span>
-                        <span class="pc-title "  type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi-profile"><i class="fa-solid fa-plus"></i> Thêm địa chỉ mới</span>
+        <tr *ngFor="let address of address">
+          <td>
+            <div class="address-item">
+              <a class="address-thumb">
+                <img src="https://cdn-icons-png.flaticon.com/512/4942/4942358.png" alt="address" />
+              </a>
+              <div class="address-info">
+                <!-- Hiển thị tên đường, quận, tỉnh, v.v. -->
+                <h4 class="address-title">
+                  <a>{{ address.street }}, {{ address.district }}, {{ address.ward }}, {{ address.province }}</a>
+                </h4>
+                <!-- Hiển thị tên người nhận -->
+                <div class="text-lg text-medium text-muted"></div>
+                <!-- Hiển thị số điện thoại -->
+                <div>
+                  Số Điện Thoại Nhận Hàng:
+                  <div class="d-inline text-success">{{address.phoneNumber}}</div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" id="flexSwitchCheckChecked"
+                           type="radio"
+                           name="defaultAddress"
+                    [id]="'address' + address.id"
+                    [checked]="address.isDefault"
+                           (change)="onAddressDefaultChange(address)"
+                    >
 
-                     </label>
-                </td>
-            </tr>
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Đặt làm địa chỉ mặc
+                      định</label>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="text-center">
+            <label
+              for="toggleForm"
+              class="btn-open-form btn-primary"
+            >
+              <span
+                class="pc-title"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#dang-ky-dia-chi-profile"
+                (click)="editAddress(address)">
+
+
+               Sửa</span
+              >
+
+            </label>
+          </td>
+          <td >
+              <span
+                class="btn btn-outline-danger"
+                type="button"
+                (click)="confirmDelete(address)"
+              >  Xóa</span
+              >
+          </td>
+        </tr>
+
 
         </tbody>
     </table>
@@ -52,202 +89,185 @@
 
 
 <div class="container">
-    <!-- <input type="checkbox" id="toggleForm" class="toggle-checkbox"> -->
-    <!-- Nút mở form -->
-    <!-- <label for="toggleForm" class="overlay"></label> -->
-
-    <!-- Form -->
-    <!-- <div class="sliding-form">
-        <label for="toggleForm" class="close-btn ms-5">✖</label>
-        <form>
-            <h3 style="text-align: center;">Chỉnh Sửa</h3>
-            <div class="form-group form-edit-address">
-                <label for="name">Họ và Tên</label>
-                <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên">
-            </div>
-            <div class="form-group form-edit-address">
-                <label>Số Điện Thoại</label>
-                <input type="text" class="form-control" placeholder="Nhập số điện thoại ">
-            </div>
-            <div class="form-group form-edit-address">
-                <label>Tỉnh/Thành Phố</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="form-group form-edit-address">
-                <label>Quận/Huyện </label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="form-group form-edit-address">
-                <label>Phường/Xã</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="form-group form-edit-address">
-                <label>Tên đường/Số nhà</label>
-                <input type="text" class="form-control" placeholder="Nhập Tên đường/Số nhà ">
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                    Chọn làm địa chỉ mặc định.
-                </label>
-            </div>
-            <button type="button" class="btn btn-outline-success me-1">Thêm Địa Chỉ </button>
-            <label for="toggleForm" class="btn-open-form btn-primary" style="background-color: red !important; width: 50px;">Đóng</label>
-        </form>
-    </div> -->
-
 
     <div class="modal" id="dang-ky-dia-chi-profile" tabindex="-1" aria-labelledby="modal-new-address"  aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title text-uppercase">Đăng ký một địa chỉ mới</h3>
+              <h3 class="modal-title text-uppercase">  {{ NewAddress.id === 0 ? 'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ' }}</h3>
               <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Hủy"></button>
             </div>
             <div class="modal-body">
               <div class="wrapper">
-                <form novalidate="" class="form-new-address">
+                <form #addressForm="ngForm" novalidate class="form-new-address">
 
+                  <!-- Tên -->
                   <div class="row mb-3">
-                    <label  class="col-sm-3 col-form-label">Tên&nbsp;</label>
+                    <label class="col-sm-3 col-form-label">Tên&nbsp;</label>
                     <div class="col-sm-9">
-                      <input class="form-control" maxlength="30" name="givenName"
-                             placeholder="Vui lòng nhập tên của bạn" autocomplete="on" required="" type="text"
-                             pattern="^.{1,30}$">
+                      <input class="form-control" maxlength="30" name="givenName" placeholder="Vui lòng nhập tên của bạn"
+                             required [(ngModel)]="NewAddress.lastName" #givenName="ngModel"
+                             [ngClass]="{'is-invalid': givenName.invalid && givenName.touched}">
+                      <div *ngIf="givenName.invalid && givenName.touched" class="invalid-feedback">
+                        <small *ngIf="givenName.errors?.required">Tên không được để trống.</small>
+                        <small *ngIf="givenName.errors?.maxlength">Tên tối đa 30 ký tự.</small>
+                      </div>
                     </div>
                   </div>
 
+                  <!-- Họ -->
                   <div class="row mb-3">
-                    <label  class="col-sm-3 col-form-label">Họ&nbsp;</label>
+                    <label class="col-sm-3 col-form-label">Họ&nbsp;</label>
                     <div class="col-sm-9">
-                      <input class="form-control" maxlength="30" name="familyName" pattern="^.{1,30}$"
-                             placeholder="Vui lòng nhập họ của bạn" autocomplete="on" required="" type="text">
+                      <input class="form-control" maxlength="30" name="familyName" placeholder="Vui lòng nhập họ của bạn"
+                             required [(ngModel)]="NewAddress.firstName" #familyName="ngModel"
+                             [ngClass]="{'is-invalid': familyName.invalid && familyName.touched}">
+                      <div *ngIf="familyName.invalid && familyName.touched" class="invalid-feedback">
+                        <small *ngIf="familyName.errors?.required">Họ không được để trống.</small>
+                        <small *ngIf="familyName.errors?.maxlength">Họ tối đa 30 ký tự.</small>
+                      </div>
                     </div>
                   </div>
 
+
+
+
+
+
+
+
+
+
+                  <!-- Tỉnh -->
                   <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">Tỉnh&nbsp;</label>
                     <div class="col-sm-9">
-                      <select
-                        class="form-select" name="state" type="select" required=""
-                      ><option value="">Vui lòng chọn một tỉnh.</option><option
-                        value="Lào Cai">Lào Cai</option><option value="Hưng Yên">Hưng Yên</option><option
-                        value="Hòa Bình">Hòa Bình</option><option value="Sơn La">Sơn La</option><option
-                        value="Điện Biên">Điện Biên</option><option value="Lai Châu">Lai Châu</option><option
-                        value="Yên Bái">Yên Bái</option><option value="Bình Định">Bình Định</option><option
-                        value="Ninh Thuận">Ninh Thuận</option><option value="Phú Yên">Phú Yên</option><option
-                        value="Kon Tum">Kon Tum</option><option value="Bình Thuận">Bình Thuận</option><option
-                        value="Bạc Liêu">Bạc Liêu</option><option value="Cà Mau">Cà Mau</option><option
-                        value="Hậu Giang">Hậu Giang</option><option value="Bắc Ninh">Bắc Ninh</option><option
-                        value="Bắc Giang">Bắc Giang</option><option value="Lạng Sơn">Lạng Sơn</option><option
-                        value="Cao Bằng">Cao Bằng</option><option value="Bắc Kạn">Bắc Kạn</option><option
-                        value="Thái Nguyên">Thái Nguyên</option><option value="Quảng Nam">Quảng Nam</option><option
-                        value="Quảng Ngãi">Quảng Ngãi</option><option value="Đắk Nông">Đắk Nông</option><option
-                        value="Tây Ninh">Tây Ninh</option><option value="Bình Phước">Bình Phước</option><option
-                        value="Quảng Trị">Quảng Trị</option><option value="Quảng Bình">Quảng Bình</option><option
-                        value="Hà Tĩnh">Hà Tĩnh</option><option value="Nghệ An">Nghệ An</option><option
-                        value="Thanh Hóa">Thanh Hóa</option><option value="Ninh Bình">Ninh Bình</option><option
-                        value="Hà Nam">Hà Nam</option><option value="Nam Định">Nam Định</option><option
-                        value="Quảng Ninh">Quảng Ninh</option><option value="Phú Thọ">Phú Thọ</option><option
-                        value="Tuyên Quang">Tuyên Quang</option><option value="Hà Giang">Hà Giang</option><option
-                        value="Thái Bình">Thái Bình</option><option value="Hải Dương">Hải Dương</option><option
-                        value="Hải Phòng">Hải Phòng</option><option
-                        value="Thừa Thiên - Huế">Thừa Thiên - Huế</option><option
-                        value="Vĩnh Phúc">Vĩnh Phúc</option><option value="Cần Thơ">Cần Thơ</option><option
-                        value="Kiên Giang">Kiên Giang</option><option value="Sóc Trăng">Sóc Trăng</option><option
-                        value="An Giang">An Giang</option><option value="Đồng Tháp">Đồng Tháp</option><option
-                        value="Vĩnh Long">Vĩnh Long</option><option value="Trà Vinh">Trà Vinh</option><option
-                        value="Bến Tre">Bến Tre</option><option value="Tiền Giang">Tiền Giang</option><option
-                        value="Long An">Long An</option><option value="Đắk Lắk">Đắk Lắk</option><option
-                        value="Lâm Đồng">Lâm Đồng</option><option value="Khánh Hòa">Khánh Hòa</option><option
-                        value="Gia Lai">Gia Lai</option><option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option><option
-                        value="Bình Dương">Bình Dương</option><option value="Đồng Nai">Đồng Nai</option><option
-                        value="Đà Nẵng">Đà Nẵng</option><option value="Hồ Chí Minh">Hồ Chí Minh</option><option
-                        value="Hà Nội">Hà Nội</option></select>
+                      <select class="form-select" required name="state"  [(ngModel)]="selectedProvince" #province="ngModel"
+                              (change)="onProvinceChange($event)"
+                              [ngClass]="{'is-invalid': province.invalid && province.touched}">
+                        <option value="">Chọn tỉnh/thành</option>
+                        <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }} </option>
+                      </select>
+                      <div *ngIf="province.invalid && province.touched" class="invalid-feedback">
+                        <small>Vui lòng chọn tỉnh/thành.</small>
+                      </div>
                     </div>
                   </div>
 
-
-
+                  <!-- Quận/Huyện -->
+                  <!-- Quận/Huyện -->
                   <div class="row mb-3">
-                    <label  class="col-sm-3 col-form-label">Quận&nbsp;</label>
+                    <label class="col-sm-3 col-form-label">Quận/Huyện:</label>
                     <div class="col-sm-9">
-                      <select class="form-select" name="city" type="select" required="">
-                        <option value="">Vui lòng chọn quận của bạn.</option>
+                      <select
+                        class="form-select"
+                        required
+                        [(ngModel)]="selectedDistrict"
+                        #district="ngModel"
+                        (change)="onDistrictChange($event)"
+                        [disabled]="!selectedProvince"
+                        [ngClass]="{'is-invalid': district.invalid && district.touched}">
+                        <option value="">Chọn quận/huyện</option>
+                        <option *ngFor="let district of districts" [value]="district.code">
+                          {{ district.name }}
+                        </option>
                       </select>
 
+
+
+                      <div *ngIf="district.invalid && district.touched" class="invalid-feedback">
+                        <small>Vui lòng chọn quận/huyện.</small>
+                      </div>
                     </div>
                   </div>
-
-                  <div class="row mb-3" >
-                    <label  class="col-sm-3 col-form-label">Phường&nbsp;</label>
-                    <div class="col-sm-9">
-                      <select  class="form-select" name="street1" type="select" required="">
-                        <option value="">Vui lòng chọn phường của bạn.</option></select>
-                    </div>
-                  </div>
-
-
+                  <!-- Phường/Xã -->
                   <div class="row mb-3">
-                    <label  class="col-sm-3 col-form-label">Chi tiết địa chỉ&nbsp;</label>
+                    <label class="col-sm-3 col-form-label">Phường/Xã:</label>
                     <div class="col-sm-9">
-                      <input class="form-control" maxlength="70" name="street2" pattern="^.{0,70}$"
-                             placeholder="Căn hộ, dãy phòng, khu, tòa nhà, tầng, v.v." autocomplete="on" required=""
-                             type="text" >
-                      <div class="form-text">
-                        Để hóa đơn hợp lệ, yêu cầu điền chính xác thông tin bằng tiếng Việt có dấu.&nbsp;
+                      <select
+                        class="form-select"
+                        required
+                        [(ngModel)]="selectedWard"
+                        #ward="ngModel"
+                        (change)="onWardChange($event)"
+                        [disabled]="!selectedDistrict"
+                        [ngClass]="{'is-invalid': ward.invalid && ward.touched}">
+                        <option value="">Chọn phường/xã</option>
+                        <option *ngFor="let ward of wards" [value]="ward.code">
+                          {{ ward.name }}
+                        </option>
+                      </select>
+                      <div *ngIf="ward.invalid && ward.touched" class="invalid-feedback">
+                        <small>Vui lòng chọn phường/xã.</small>
                       </div>
                     </div>
                   </div>
 
 
-                  <div class="row mb-3" style="width: auto;">
-                    <label  class="col-sm-3 col-form-label"> Điện thoại&nbsp;</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <!-- Chi tiết địa chỉ -->
+                  <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">Chi tiết địa chỉ&nbsp;</label>
                     <div class="col-sm-9">
-                      <input class="form-control" maxlength="11" name="phone"
-                             pattern="^0[235789][0-9]{8,9}$" placeholder="Nhập 10-11 số bắt đầu bằng số 0"
-                             autocomplete="on" type="text">
-                      <div class="form-text">
-                        Vui lòng nhập 10-11 số bắt đầu bằng 0&nbsp;
+                      <input class="form-control" maxlength="70" name="street" placeholder="Nhập địa chỉ chi tiết"
+                             required [(ngModel)]="NewAddress.street" #street="ngModel"
+                             [ngClass]="{'is-invalid': street.invalid && street.touched}">
+                      <div *ngIf="street.invalid && street.touched" class="invalid-feedback">
+                        <small *ngIf="street.errors?.required">Địa chỉ không được để trống.</small>
+                        <small *ngIf="street.errors?.maxlength">Tối đa 70 ký tự.</small>
                       </div>
                     </div>
                   </div>
 
+                  <!-- Điện thoại -->
                   <div class="row mb-3">
-                    <div class="form-text">Chúng tôi có thể liên hệ với bạn qua điện thoại hoặc email nếu chúng tôi có
-                      thắc mắc về đơn đặt hàng và tùy chọn giao hàng của bạn.
+                    <label class="col-sm-3 col-form-label">Điện thoại&nbsp;</label>
+                    <div class="col-sm-9">
+                      <input class="form-control" name="phone" placeholder="Nhập số điện thoại"
+                             pattern="^0[235789][0-9]{8,9}$" required [(ngModel)]="NewAddress.phoneNumber" #phone="ngModel"
+                             [ngClass]="{'is-invalid': phone.invalid && phone.touched}">
+                      <div *ngIf="phone.invalid && phone.touched" class="invalid-feedback">
+                        <small *ngIf="phone.errors?.required">Số điện thoại không được để trống.</small>
+                        <small *ngIf="phone.errors?.pattern">Số điện thoại không hợp lệ.</small>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="row g-3" >
+                  <!-- Nút xác nhận -->
+                  <div class="row g-3">
                     <div class="col">
-                      <button class="btn btn-address" style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
-                              type="button" data-test="đăng-ký-button">Đăng ký
+                      <button class="btn btn-address" [disabled]="addressForm.invalid"
+                              style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
+                              type="button" (click)="isUpdate ? updateAddress() : addNewAddress()">
+                        {{ isUpdate ? 'Cập nhật' : 'Xác nhận' }}
                       </button>
-
                     </div>
                     <div class="col">
-                      <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
-                              type="button" data-bs-dismiss="modal">Huỷ </button>
+                      <button class="btn btn-address border" style="padding: 10px 100px; color: #1b1b1b"
+                              type="button" data-bs-dismiss="modal">Huỷ</button>
                     </div>
                   </div>
 
                 </form>
+
               </div>
             </div>
 
