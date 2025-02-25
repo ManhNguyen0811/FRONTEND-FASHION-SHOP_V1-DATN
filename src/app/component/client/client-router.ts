@@ -29,6 +29,7 @@ import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 import {StoreDetailComponent} from './store-detail/store-detail.component';
 import {PaymentSuccessComponent} from './payment-success/payment-success.component';
+import {combineLatestAll} from 'rxjs';
 
 
 export const clientRouter: Routes =[
@@ -66,10 +67,10 @@ export const clientRouter: Routes =[
               { path: '', redirectTo: 'shipping', pathMatch: 'full' },
             ],
           },
-
           { path: 'coupon',
             component: CouponComponent
           },
+
             {
                 path: 'login',
                 component: LoginComponent
