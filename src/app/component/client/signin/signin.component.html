@@ -46,9 +46,9 @@
                     <!-- GIỚI TÍNH -->
                     <label class="form-label fw-bold">{{ "GIỚI TÍNH" | translate }}</label>
                     <select class="form-control" name="gender" [(ngModel)]="gender" required #genderCtrl="ngModel">
-                      <option value="Nam">{{ "Nam" | translate }}</option>
-                      <option value="Nữ">{{ "Nữ" | translate }}</option>
-                      <option value="Khác">{{ "Khác" | translate }}</option>
+                      <option value="M">{{ "Nam" | translate }}</option>
+                      <option value="F">{{ "Nữ" | translate }}</option>
+                      <option value="U">{{ "Khác" | translate }}</option>
                     </select>
                     <div *ngIf="genderCtrl.touched && genderCtrl.invalid" class="text-danger">
                       {{ "Vui lòng chọn giới tính." | translate }}

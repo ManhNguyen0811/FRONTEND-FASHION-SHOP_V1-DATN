@@ -53,8 +53,6 @@ export class SigninComponent implements OnInit{
   private phoneCheck$ = new Subject<string>();
 
 
-
-
   ngOnInit() {
     this.emailCheck$.pipe(
       debounceTime(500), // Giảm số lần gọi API
@@ -90,7 +88,6 @@ export class SigninComponent implements OnInit{
     this.passwordMismatch = this.password !== this.retypePassword;
     this.cdRef.detectChanges();
   }
-
 
   onSubmit(form: NgForm) {
     console.log("ok nho")
@@ -131,7 +128,5 @@ export class SigninComponent implements OnInit{
       }
     });
   }
-
-
 
 }

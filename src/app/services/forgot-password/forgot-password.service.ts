@@ -23,8 +23,11 @@ export class ForgotPasswordService {
     return this.http.post<any>(`${this.apiUrl}/verify-otp`, {}, { params });
   }
 
-  // resetPassword(email: string, newPassword: string): Observable<any> {
-  //   const params = new HttpParams().set('email', email).set('newPassword', newPassword);
-  //   return this.http.post<any>(`${this.apiUrl}/reset-password`, {}, { params });
-  // }
+  resetPassword(email: string, newPassword: string): Observable<any> {
+    const url = `${this.apiUrl}/${encodeURIComponent(email)}/reset-password-email`;
+
+    const params = new HttpParams().set('newPassword', newPassword);
+
+    return this.http.post<any>(url, {}, { params });
+  }
 }

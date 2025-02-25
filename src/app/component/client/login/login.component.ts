@@ -29,6 +29,9 @@ export class LoginComponent implements OnInit{
   showPassword: boolean = false;
   errorMessage: string = ''; // Thêm biến lưu lỗi
 
+  currentLang: string = '';
+  currentCurrency: string = '';
+
   roles: Role[] = []; // Mảng roles
   rememberMe: boolean = true;
   selectedRole: Role | undefined; // Biến để lưu giá trị được chọn từ dropdown
@@ -44,13 +47,23 @@ export class LoginComponent implements OnInit{
     private userService: UserService,
     private tokenService: TokenService,
     private roleService: RoleService,
-        private toastr: ToastrService,
+    private toastr: ToastrService,
     private authService: AuthService,
-    private modalService: ModalService
-
+    private modalService: ModalService,
+    private navigationService: NavigationService
   ) { }
 
   ngOnInit() {
+
+    this.navigationService.currentLang$.subscribe((lang) => {
+      this.currentLang = lang;
+    });
+
+    this.navigationService.currentCurrency$.subscribe((currency) => {
+      this.currentCurrency = currency;
+    });
+
+
     // Gọi API lấy danh sách roles và lưu vào biến roles
 
     this.roleService.getRoles().subscribe({
@@ -75,7 +88,6 @@ export class LoginComponent implements OnInit{
   }
 
   onLoginSuccess() {
-    console.log('✅ Đăng nhập thành công, đóng modal và điều hướng lại');
 
     // Cập nhật trạng thái đăng nhập
     this.authService.setLoginStatus(true);
@@ -85,7 +97,10 @@ export class LoginComponent implements OnInit{
 
     // Điều hướng đến trang trước đó
     const returnUrl = this.authService.getReturnUrl();
+
+
     this.router.navigateByUrl(returnUrl);
+
   }
 
   login() {

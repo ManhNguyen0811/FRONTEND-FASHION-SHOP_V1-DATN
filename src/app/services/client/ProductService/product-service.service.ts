@@ -40,7 +40,7 @@ export class ProductServiceService {
     minPrice?: number,
     maxPrice?: number,
     page: number = 0,
-    size: number = 10,
+    size: number = 0,
     sortBy: string = 'id',
     sortDir: 'asc' | 'desc' = 'asc'
   ): Observable<ApiResponse<PageResponse<ProductListDTO[]>>> {
