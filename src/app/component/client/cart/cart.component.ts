@@ -70,11 +70,7 @@ export class CartComponent implements OnInit {
     } else {
       console.log('⚠️ Không có mã giảm giá nào!');
     }
-
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
-
-
-
   }
 
 
