@@ -550,7 +550,7 @@ button {
   width: 100%;
   padding: 10px;
   background-color: #000;
-  color: #fff;
+  //color: #fff;
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
@@ -609,3 +609,165 @@ button:hover {
   }
 }
 
+/* bổ sung mới nhất */
+.fr-h-rule {
+  display: block;
+  height: 1px;
+  line-height: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+}
+
+
+.middle.fr-flbox, .middle.fr-pulldown-box {
+  align-items: center;
+}
+.mt-l {
+  margin-top: 28px;
+}
+.w4-f {
+  width: 288px !important;
+}
+.pay-in-store .fr-textfield {
+  box-sizing: border-box;
+}
+.pay-in-store .fr-textfield-label {
+  display: flex;
+}
+.fr-flbox, .fr-pulldown-box {
+  display: flex
+;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.pay-in-store .fr-textfield-label .fr-form-label {
+  padding-top: 9px;
+  width: 30%;
+}
+
+ .fr-form-label:lang(vi) {
+   font-size: 17px !important;
+ }
+.fr-textfield .fr-textfield-input {
+  -webkit-tap-highlight-color: rgba(55, 134, 148, 0.25);
+  background-color: #f7f7f7;
+  border: 0;
+  border-bottom: 1px solid #ababab;
+  box-shadow: 0 1px 0 0 transparent;
+  color: #1b1b1b;
+  display: inline-block;
+  min-height: 2.25em;
+  padding: 12px;
+  width: 70%;
+  font-size: 16px;
+}
+.fr-textfield .fr-textfield-input, .fr-pulldown .fr-pulldown-select, .fr-textarea .fr-textarea-input {
+  font-size: 17px;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.471;
+}
+.pay-in-store .link-text-left {
+  font-size: 18px;
+}
+
+ .fr-link.link-text-left {
+   text-align: left;
+ }
+.fr-link.link-text-left .inner {
+  align-items: center;
+  display: inline-flex
+;
+  text-decoration: underline;
+}
+.fr-link .inner {
+  position: relative;
+}
+.fr-flbox, .fr-pulldown-box {
+  display: flex
+;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.primary.fr-btn {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.25);
+  background: #1b1b1b;
+  border-color: #1b1b1b;
+  color: #fff;
+}
+.fr-list.bordered-bottom-with-pd {
+  border-bottom: 0;
+  border-top: 0;
+}
+//.mb-xl {
+//  margin-bottom: 40px;
+//}
+.fr-list.bordered-bottom-with-pd>* {
+  border-bottom: 1px solid #dadada;
+  margin: 0;
+}
+.fr-list>* {
+  list-style: none;
+}
+.fr-panel {
+  margin: 20px auto;
+}
+.fr-panel .panel-inner {
+  min-height: 1.6em;
+  position: relative;
+}
+.fr-panel .panel-inner .panel-contents {
+  display: flex
+;
+  justify-content: space-between;
+}
+.fr-showmore {
+  max-height: calc(10em + 48px);
+  overflow: hidden;
+  padding-bottom: calc((1em* 1.2) + 8px);
+  position: relative;
+}
+
+.mt-xxs {
+  margin-top: 8px;
+}
+.pay-in-store .fr-text {
+  line-height: 24px;
+}
+.fr-text {
+  display: block;
+  overflow-wrap: break-word;
+}
+.fr-load-more {
+  align-items: center;
+  background-color: #fff;
+  border-top: 1px solid #dadada;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 20px;
+  min-height: 60px;
+  padding: 20px calc(4% + 24px + .5em);
+  padding: 20px calc(4vw + 24px + .5em);
+  position: relative;
+  text-decoration: none;
+}
+.fr-load-more .text {
+  color: #1b1b1b;
+  text-align: center;
+  text-decoration: none;
+  white-space: pre-line;
+}
+.fr-icon.chevron_updown {
+  background-image: url(https://asset.uniqlo.com/g/icons/chevron_updown.svg);
+}
+.fr-icon {
+  overflow: visible;
+  position: relative;
+  background-size: 72px 24px;
+
+}
+.fr-load-more .arrow {
+  margin-left: .5em;
+  margin-right: calc(-24px - .5em);
+}
