@@ -9,6 +9,9 @@ import {ApiResponse} from '../../../dto/Response/ApiResponse';
 import {AddressDTO} from '../../../dto/address/AddressDTO';
 import {CouponService} from '../../../services/client/CouponService/coupon-service.service';
 import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
+import {CartDTO} from '../../../dto/CartDTO';
+import {CartService} from '../../../services/client/CartService/cart.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-coupon',
@@ -29,16 +32,37 @@ export class CouponComponent implements OnInit {
   userId: number | null = null; // userId ban đầu là null
   coupons : CouponLocalizedDTO[] | null = null;
   message : string = '';
-  orderTotal : number = 50000000
+
+  cartData: CartDTO | null = null;
+  sessionId?: string;
+
   constructor(private router: Router,
               private navigationService: NavigationService,
               private couponService: CouponService,
               private tokenService: TokenService,
-              private activatedRoute: ActivatedRoute
-  ) {}
+              private activatedRoute: ActivatedRoute,
+              private cartService: CartService,
+              private cookieService: CookieService,
+
+  ) {
+
+  }
   ngOnInit() {
+    this.sessionId = this.cookieService.get('SESSION_ID') || '';
+    console.log(this.sessionId);
     this.userId = this.tokenService.getUserId() // Gọi API khi component được khởi tạo4
     this.loadCoupons()
+    this.cartService.getAllCart(this.userId,this.sessionId ).subscribe({
+      next: (response) => {
+        this.cartData = response.data;
+        console.log('Giỏ hàng:', this.cartData);
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy giỏ hàng:', error);
+      }
+    });
+
+
   }
   loadCoupons() {
     if (this.userId !== null) {
@@ -84,17 +108,13 @@ export class CouponComponent implements OnInit {
     // ✅ Chuẩn bị dữ liệu DTO đầy đủ để gửi sang trang checkout
     const checkoutData = {
       coupon: this.coupons, // Gửi DTO đầy đủ
-      orderTotal: this.orderTotal, // Tổng tiền hàng
+      orderTotal: this.cartData?.totalPrice, // Tổng tiền hàng
       userId: this.userId // ID người dùng
     };
     // ✅ Chuyển sang trang thanh toán, truyền toàn bộ DTO qua state
     this.message = '🎉 Mã giảm giá hợp lệ! Đang áp dụng...';
     setTimeout(() => {
-      this.router.navigate(['../checkout/shipping'], { relativeTo: this.activatedRoute });
-
-
-
-
+      this.router.navigate(['../cart'], { relativeTo: this.activatedRoute });
     }, 500);
   }
 
@@ -107,11 +127,13 @@ export class CouponComponent implements OnInit {
       this.selectedCoupon = selected; // Gán mã giảm giá đã chọn
       this.couponCode = selected.code; // Cập nhật mã giảm giá hiển thị trên UI
       console.log('✅ Selected Coupon:', this.selectedCoupon);
+      this.couponService.setCouponDTO(selected);
     } else {
       this.selectedCoupon = null;
       console.warn('⚠️ Không tìm thấy mã giảm giá!');
     }
   }
+
 
 
 

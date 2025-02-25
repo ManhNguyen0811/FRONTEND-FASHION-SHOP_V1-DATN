@@ -41,7 +41,6 @@ export class CartService {
     if (sessionId?.trim()) { // Kiểm tra sessionId có giá trị hợp lệ
       params.push(`sessionId=${encodeURIComponent(sessionId)}`);
     }
-
     const queryString = params.length ? `?${params.join('&')}` : '';
 
 
@@ -64,9 +63,6 @@ export class CartService {
         params.push(`sessionId=${encodeURIComponent(sessionId)}`);
       }
     }
-
-
-
 
     const queryString = params.length ? `?${params.join('&')}` : '';
     console.log('Request URL:', `${this.apiUrl}${queryString}`);

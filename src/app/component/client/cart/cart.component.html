@@ -74,8 +74,8 @@
                                         <!-- Nếu basePrice > salePrice, hiển thị cả hai giá -->
                                         <span
                                             *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice != getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
-                                           
-                                        
+
+
                                             <span class="product-item-priceSale" style="color: red;">
 
                                                 {{
@@ -103,8 +103,8 @@
                                 <!-- <ng-container *ngIf="product.promotion?.isActive != null && product.promotion?.isActive">
                                     <div class="product-item-coupon">
                                       <span>{{ "Giảm giá hết thời hạn" | translate }}  {{ product.promotion?.endDate | date:'dd/MM/yyyy, hh:mm a' }}</span>
-                      
-                      
+
+
                                     </div>
                                   </ng-container> -->
                             </div>
@@ -115,16 +115,16 @@
                                     getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.basePrice ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
                                     1,currentCurrencyDetail?.code ?? '' )}}
 
-                              
+
                                </ng-container>
                                <ng-container *ngIf="getProductDetailByProductVariantId(cart.productVariantId)?.basePrice != getProductDetailByProductVariantId(cart.productVariantId)?.salePrice">
-                               
-                
+
+
                                 {{
                                     getCurrencyPrice((getProductDetailByProductVariantId(cart.productVariantId)?.salePrice ?? 0) * cart.quantity, currentCurrencyDetail?.rateToBase ??
                                     1,currentCurrencyDetail?.code ?? '' )}}
                                </ng-container>
-                                
+
                                 </span>
                             </div>
                         </div>
@@ -132,36 +132,73 @@
 
                 </div>
 
-
                 <div class="cart-order">
                     <div class="priceBill">
                         <p class="total-decor-bold"> <span>{{ "TỔNG SỐ LƯỢNG" | translate }} </span> <span>20 {{ "SẢN PHẨM" | translate }}</span> </p>
                         <hr>
-                        <!-- <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p> -->
+                      <ng-container *ngIf="appliedCoupon">
+                        <p class="total-decor">
+                          <span>{{ "MÃ GIẢM GIÁ" | translate }} ({{ appliedCoupon.code }})</span>
+                          <span>
+            <ng-container *ngIf="appliedCoupon.discountType === 'PERCENTAGE'">
+                -{{ appliedCoupon.discountValue }}%
+                ( {{
+                getCurrencyPrice((dataCart?.totalPrice ?? 0) * (appliedCoupon.discountValue / 100),
+                  currentCurrencyDetail?.rateToBase ?? 1,
+                  currentCurrencyDetail?.code ?? '')
+              }})
+            </ng-container>
+            <ng-container *ngIf="appliedCoupon.discountType === 'FIXED'">
+                -{{ getCurrencyPrice(appliedCoupon.discountValue ?? 0,
+              currentCurrencyDetail?.rateToBase ?? 1,
+              currentCurrencyDetail?.code ?? '') }}
+            </ng-container>
+        </span>
+                        </p>
+                        <hr>
+                      </ng-container>
+
+                      <!-- <p class="total-decor"> <span>{{ "KHẤU TRỪ" | translate }} </span> <span>20,000 VND </span> </p> -->
                         <p class="total-decor"> <span>{{ "TỔNG TIỀN" | translate }} </span> <span>
 
                             {{
-                                getCurrencyPrice(dataCart?.totalPrice 
+                                getCurrencyPrice(dataCart?.totalPrice
                                 ?? 0, currentCurrencyDetail?.rateToBase ??
                                 1,currentCurrencyDetail?.code ?? '' )}}
-
-                          
                            </span>
                         </p>
                         <hr>
                         <p class="total-decor-bold"> <span>{{ "TỔNG HÓA ĐƠN" | translate }} </span> <span>    {{
-                            getCurrencyPrice(dataCart?.totalPrice 
+                            getCurrencyPrice( getTotalAfterDiscount()
                             ?? 0, currentCurrencyDetail?.rateToBase ??
                             1,currentCurrencyDetail?.code ?? '' )}}
                             </span> </p>
                     </div>
-
-                    <div class="priceBill">
-                        <p class="total-decor-bold-coupon" style="margin: 0;
-                        align-items: center; min-width: 100px;
-                        "> <span class="coupon-item"> {{ "MÃ GIẢM" | translate }} </span> <span
-                                class="iput-coupon-item"> <input type="text"> </span> </p>
+                  <div class="mt-m">
+                    <div class="a11y-focus-section">
+                      <nav class="fr-transition-btn-cards">
+                        <ul class="fr-link-wrapper" [routerLink]="['../coupon']">
+                          <li class="btn">
+                            <button  style="text-decoration: none">
+                              <div class="fr-link-wrapper fr-flbox middle"><span class="block-icon"><span
+                                class="mr-xxs"><span class="fr-icon coupon" aria-hidden="true"
+                                                     style="font-size: 24px;"></span></span><span
+                                class="text">Phiếu giảm giá</span><span
+                                style="position: absolute; right: 0px; top: calc(50% - 12px);"><span class="fr-icon" aria-hidden="true" style="font-size: 24px;"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path
+                                fill="#757575" fill-rule="evenodd">
+                           </path></svg></span></span></span>
+                              </div>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
+                  </div>
+
+
+
+
 
 
                     <div class="priceBill">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, firstValueFrom, forkJoin, map, Observable, of, tap } from 'rxjs';
+import {BehaviorSubject, catchError, firstValueFrom, forkJoin, map, Observable, of, tap} from 'rxjs';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from '../../../services/client/CartService/cart.service';
@@ -17,6 +17,8 @@ import { Currency } from '../../../models/Currency';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
 import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { DetailProductService } from '../../../services/client/DetailProductService/detail-product-service.service';
+import {CouponLocalizedDTO} from '../../../dto/coupon/CouponClientDTO';
+import {CouponService} from '../../../services/client/CouponService/coupon-service.service';
 
 @Component({
   selector: 'app-cart',
@@ -34,7 +36,7 @@ export class CartComponent implements OnInit {
   userId?: number;
   sessionId?: string;
   currentCurrencyDetail?: Currency;
-
+  appliedCoupon: CouponLocalizedDTO | null = null;
   dataDetailsProduct: DetailProductDTO | null = null;
   dataCart: CartDTO | null = null;
   dataProductDetail: ProductVariantDetailDTO[] = [];
@@ -48,6 +50,7 @@ export class CartComponent implements OnInit {
     private tokenService: TokenService,
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
+    private couponService: CouponService,
 
 
   ) {
@@ -61,10 +64,23 @@ export class CartComponent implements OnInit {
     this.fetchCurrency()
     await this.fetchApiCart();
     await this.loadProductDetails();
+    this.appliedCoupon = this.couponService.getCouponDTO();
+    if (this.appliedCoupon) {
+      console.log('🎉 Coupon áp dụng:', this.appliedCoupon);
+    } else {
+      console.log('⚠️ Không có mã giảm giá nào!');
+    }
 
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
 
+
+
   }
+
+
+
+
+  /** 🔹 Lưu mã giảm giá đã chọn */
 
   async fetchApiCart(): Promise<void> {
     if (!this.sessionId) {
@@ -96,7 +112,7 @@ export class CartComponent implements OnInit {
     }
 
     const requests = this.cartItems.map((item) =>
-      
+
       this.getProductDetail(this.currentLang, item.productVariantId)
     );
 
@@ -117,7 +133,7 @@ export class CartComponent implements OnInit {
       return null;
     }
   }
-  
+
 
   getDetailsProduct(lang: string, productId: number): Observable<DetailProductDTO | null> {
     return this.detailProductService.getDetailProduct(lang, productId).pipe(
@@ -133,17 +149,17 @@ export class CartComponent implements OnInit {
     this.getCurrency().subscribe(({ data }) => {
       const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
       let currency = data?.[index];
-  
+
       // Kiểm tra currency nếu undefined hoặc thiếu code
       if (!currency || !currency.code) {
         currency = { id: 1, code: 'USD', name: 'US Dollar', symbol: '$', rateToBase: 1, isBase: true };
       }
-  
+
       this.currentCurrencyDetail = currency;
       console.log('💰 Thông tin tiền tệ:', currency);
     });
   }
-  
+
 
   getCurrency(): Observable<ApiResponse<Currency[]>> {
     return this.currencySevice.getCurrency().pipe(
@@ -167,7 +183,7 @@ export class CartComponent implements OnInit {
       })
     );
   }
-  
+
   getProductDetailByProductVariantId(productVariantId: number): ProductVariantDetailDTO | null {
     return this.dataProductDetail.find(item => item.id === productVariantId) || null;
   }
@@ -186,12 +202,12 @@ export class CartComponent implements OnInit {
     if (!symbol || symbol.trim() === "") {
       symbol = "USD"; // Gán mặc định là USD nếu không hợp lệ
     }
-  
+
     const convertedPrice = price * rate;
-  
+
     try {
       const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
-  
+
       // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
       return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
     } catch (error) {
@@ -199,7 +215,7 @@ export class CartComponent implements OnInit {
       return `${convertedPrice} ${symbol}`; // Trả về chuỗi đơn giản nếu format thất bại
     }
   }
-  
+
   getTotalQty(userId: number, sessionId: string): Observable<TotalQty | null> {
     return this.cartService.getTotalQty(userId, sessionId).pipe(
       map((response: ApiResponse<TotalQty>) => response?.data || null),
@@ -219,4 +235,18 @@ export class CartComponent implements OnInit {
       })
     );
   }
+  getDiscountAmount(): number {
+    if (!this.appliedCoupon || !this.dataCart) return 0;
+
+    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
+      return (this.dataCart.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
+    }
+
+    return this.appliedCoupon.discountValue ?? 0;
+  }
+
+  getTotalAfterDiscount(): number {
+    return Math.max((this.dataCart?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
+  }
+
 }
