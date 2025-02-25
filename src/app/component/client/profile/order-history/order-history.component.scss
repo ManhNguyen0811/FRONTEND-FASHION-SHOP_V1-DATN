@@ -129,15 +129,15 @@ body {
     width: 100%;
     width: 86px;
 }
-.product-item{
-    transition: transform 0.3s ease;
-
-}
-.product-item:hover{
-    cursor: pointer;
-    /* Chuyển con trỏ thành bàn tay khi hover */
-    transform: scale(0.9);
-}
+//.product-item{
+//    transition: transform 0.3s ease;
+//
+//}
+//.product-item:hover{
+//    cursor: pointer;
+//    /* Chuyển con trỏ thành bàn tay khi hover */
+//    transform: scale(0.9);
+//}
 .shopping-cart .product-item,
 .wishlist-table .product-item,
 .order-table .product-item {

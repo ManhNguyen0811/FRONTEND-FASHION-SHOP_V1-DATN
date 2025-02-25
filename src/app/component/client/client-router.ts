@@ -98,8 +98,8 @@ export const clientRouter: Routes =[
                 component: ProfileComponent,
                 children: [
                     { path: 'order_history', component: OrderHistoryComponent },
+                     { path: 'order_history/order_detail/:id', component: OrderDetailComponent },
                     { path: 'edit_profile', component: EditProfileComponent },
-                    { path: 'order_history/order_detail', component: OrderDetailComponent  },
                     { path: 'edit_address', component: EditAddressComponent },
                 ],
               canActivate: [AuthGuardFn]
