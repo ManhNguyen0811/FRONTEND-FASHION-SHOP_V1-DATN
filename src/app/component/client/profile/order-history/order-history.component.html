@@ -1,57 +1,80 @@
 <div class="table-responsive wishlist-table margin-bottom-none p-3">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Lịch Sử Hóa Đơn</th>
-                <th class="text-center"><a class="btn btn-sm btn-outline-danger">Xóa Lịch Sử</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr [routerLink]="['../order_history/order_detail']"  >
-                <td>
-                    <div class="product-item">
-                        <a class="product-thumb" ><img src="https://www.bootdey.com/image/220x180/FF0000/000000" alt="Product"></a>
-                        <div class="product-info">
-                            <h4 class="product-title"><a  >Unionbay Park</a></h4>
-                            <div class="text-lg text-medium text-muted">$43.90</div>
-                            <div>Availability:
-                                <div class="d-inline text-success">In Stock</div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-center"><a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="product-item">
-                        <a class="product-thumb" href="#"><img src="https://www.bootdey.com/image/220x180/87CEFA/000000" alt="Product"></a>
-                        <div class="product-info">
-                            <h4 class="product-title"><a href="#">Daily Fabric Cap</a></h4>
-                            <div class="text-lg text-medium text-muted">$24.70</div>
-                            <div>Availability:
-                                <div class="d-inline text-warning">2 - 3 Weeks</div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-center"><a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="product-item">
-                        <a class="product-thumb" href="#"><img src="https://www.bootdey.com/image/220x180/483D8B/000000" alt="Product"></a>
-                        <div class="product-info">
-                            <h4 class="product-title"><a href="#">Cole Haan Crossbody</a></h4>
-                            <div class="text-lg text-medium text-muted">$200.00</div>
-                            <div>Availability:
-                                <div class="d-inline text-success">In Stock</div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-center"><a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="icon-cross"></i></a></td>
-            </tr>
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Lịch Sử Hóa Đơn</th>
+      <th class="text-center">
+        <button class="btn btn-sm btn-outline-danger ms-2" (click)="clearOrderHistory()">Xóa Lịch Sử</button>
+        <select class="form-select d-inline-block w-auto ms-2" [(ngModel)]="status" (change)="loadOrderHistoryByStatus()">
+          <option value="">Tất cả</option>
+          <option value="PENDING">Chờ xử lý</option>
+          <option value="PROCESSING">Đang xử lý</option>
+          <option value="SHIPPED">Đã gửi hàng</option>
+          <option value="DELIVERED">Đã giao hàng</option>
+          <option value="CANCELLED">Đã hủy</option>
+          <option value="DONE">Hoàn thành</option>
+        </select>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="orderHistory.length === 0">
+      <td colspan="2" class="text-center text-muted">
+        Không có đơn hàng nào theo tiêu chí lọc.
+      </td>
+    </tr>
+
+    <tr *ngFor="let order of orderHistory">
+      <td>
+        <div class="product-item">
+          <div class="product-info">
+            <h2 class="product-title">
+             Mã đơn hàng: {{order.orderId}}
+            </h2>
+            <div>Phương thức vận chuyển: {{ order.shippingMethodName }}</div>
+            <div>Phí vận chuyển: {{ order.shippingFee | number }} VND</div>
+
+            <div [ngClass]="getStatusClass(order.orderStatus)">
+              Trạng thái: {{ order.orderStatus }}
+            </div>
+            <div>Địa chỉ: {{ order.shippingAddress }}</div>
+
+            <div>Ngày tạo: {{ order.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+            <div class="text-lg text-medium text-muted">Tổng tiền:  {{ order.totalPrice | number }} VND</div>
+
+            <!-- Nút Xem Chi Tiết -->
+            <button class="btn btn-outline-primary mt-2"
+                    [routerLink]="['/client', currentCurrency, currentLang, 'profile', 'order_history', 'order_detail', order.orderId]">
+              Xem chi tiết đơn hàng
+            </button>
+
+
+          </div>
+        </div>
+      </td>
+      <td class="text-center">
+        <a class="remove-from-cart" href="#" (click)="removeOrder(order.orderId, $event)">
+          <i class="icon-cross"></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
+<!-- Phân trang -->
+<nav *ngIf="totalPages > 1">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" (click)="changePage(currentPage - 1)">«</button>
+    </li>
+
+    <li *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="page-item" [class.active]="i + 1 === currentPage">
+      <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+    </li>
+
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link" (click)="changePage(currentPage + 1)">»</button>
+    </li>
+  </ul>
+</nav>
