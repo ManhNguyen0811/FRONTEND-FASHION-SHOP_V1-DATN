@@ -229,23 +229,26 @@ export class DetailProductComponent implements OnInit {
     return true;
   }
   createCart() {
-    // Kiểm tra số lượng sản phẩm trong kho
+ 
     this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(item => {
-      // Kiểm tra nếu sản phẩm hết hàng hoặc số lượng trong kho không đủ để thêm vào giỏ hàng
+ 
       if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < this.qtyCart) {
-        this.dialog.open(ModalNotifyErrorComponent);  // Hiển thị thông báo lỗi nếu hết hàng hoặc số lượng không đủ
-        return;  // Dừng lại nếu sản phẩm không đủ số lượng
+        this.dialog.open(ModalNotifyErrorComponent);   
+        return;   
       }
   
-      // Nếu sản phẩm còn, tiến hành thêm vào giỏ hàng
+      
       const qty = Number(this.qtyCart);
       this.cart = { productVariantId: this.variantId ?? 0, quantity: qty };
   
-      if (this.isValidToAddCart()) {  // Kiểm tra lại số lượng sản phẩm trong giỏ hàng
+      if (this.isValidToAddCart()) {   
         if (this.cart.productVariantId !== 0 && this.cart.quantity !== 0) {
           console.log(`this.cart :`, this.cart);
           this.cartService.createCart(this.userId, this.sessionId ?? '', this.cart).subscribe((response) => {
             this.dialog.open(ModelNotifySuccsessComponent);  // Hiển thị thông báo thành công
+            this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
+              this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
+            });
           });
         }
       }
