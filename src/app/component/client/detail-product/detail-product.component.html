@@ -6,7 +6,7 @@
         <div class="col-6 position-relative p-0 " *ngIf="colorImage">
           <img [src]="getImageProduct(colorImage.mediaUrl)">
           <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',colorImage.id]" class="image-icon"
-             *ngIf="colorImage.hasVariants">
+            *ngIf="colorImage.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
@@ -19,7 +19,7 @@
         <div class="col-6 position-relative p-0" *ngFor="let img of noColorImages">
           <img [src]="getImageProduct(img.mediaUrl)">
           <a [routerLink]="['/client', currentCurrency, currentLang,'imageDetail',img.id]" class="image-icon"
-             *ngIf="img.hasVariants">
+            *ngIf="img.hasVariants">
             <i class="fa-solid fa-mountain-sun"></i>
           </a>
         </div>
@@ -133,14 +133,14 @@
       </div>
       <!--Xem thêm review và nhập review-->
       <div class="text-end mt-2 mb-2">
-        <a [routerLink]="['/client', currentCurrency, currentLang,'reviews', productId ]"
-        style="cursor: pointer"
+        <a [routerLink]="['/client', currentCurrency, currentLang,'reviews', productId ]" style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <span class="text-primary">{{ "Xem thêm" | translate }}</span>
         </a>
       </div>
       <div class="text-end mt-2 mb-2" *ngIf="userId != 0">
-        <a [routerLink]="['/client', currentCurrency, currentLang,'review','new',productId, colorId, sizeId ]" style="cursor: pointer"
+        <a [routerLink]="['/client', currentCurrency, currentLang,'review','new',productId, colorId, sizeId ]"
+          style="cursor: pointer"
           class="check-size-link d-flex align-items-center justify-content-end gap-2 text-dark text-decoration-none">
           <i class="fa-solid fa-pen"></i>
           <span class="text-primary">{{ "Viết bài đánh giá" | translate }}</span>
@@ -163,7 +163,8 @@
               <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </button>
             <!-- Nút Yêu thích -->
-            <button class="btn btn-icon" (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0);checkWishlist(userId,productId ?? 0,colorId ?? 0)">
+            <button class="btn btn-icon"
+              (click)="toggleWishlist(userId,productId ?? 0,colorId ?? 0);checkWishlist(userId,productId ?? 0,colorId ?? 0)">
               <i *ngIf="isWishlist" class="fa-solid fa-heart" style="color: #ff0000;"></i>
               <i *ngIf="!isWishlist" class="fa-regular fa-heart"></i>
             </button>
@@ -177,7 +178,8 @@
               <div class="color-item" *ngFor="let color of dataColors" [attr.data-test]="color.valueName">
                 <dt>
                   <input type="radio" [value]="color.id" name="product-color-picker"
-                    [id]="'product-color-picker' + color.id" class="color-input" (click)="selectColor(color);checkWishlist(userId,productId ?? 0,colorId ?? 0)"
+                    [id]="'product-color-picker' + color.id" class="color-input"
+                    (click)="selectColor(color);checkWishlist(userId,productId ?? 0,colorId ?? 0)"
                     [checked]="color.id === selectedColorId">
 
                   <label class="color-label" [for]="'product-color-picker' + color.id"
@@ -279,9 +281,9 @@
                   <br>
                   <div class="product-item-coupon" style="font-size: 0.88rem; color: red;">
                     <span class="fw-light">
-                        {{ "Giảm giá hết thời hạn" | translate }}
+                      {{ "Giảm giá hết thời hạn" | translate }}
                     </span>
-                      <span class="fw-bold">{{ dataDetailsProduct?.promotion?.endDate | date:'dd/MM/yyyy' }}</span>
+                    <span class="fw-bold">{{ dataDetailsProduct?.promotion?.endDate | date:'dd/MM/yyyy' }}</span>
 
                   </div>
                 </ng-container>
@@ -315,9 +317,11 @@
         <!-- product-quantity-->
         <div class="product-actions mt-3">
           <!-- Quantity Selector -->
-          <div class="quantity-selector d-flex align-items-center justify-content-start gap-2">
+          <div class="quantity-selector d-flex align-items-center justify-content-start gap-2 " style="width: 40%;">
             <button class="quantity-btn">-</button>
-            <div class="quantity-value">1</div>
+            <input type="text" [(ngModel)]="qtyCart" name="qtyCart" id="" (input)="onInput($event)"
+              style="border: none; width: 50%; text-align: center; background-color: #f7f7f7;">
+
             <button class="quantity-btn">+</button>
           </div>
           <div class="stock-status mt-2">
@@ -326,13 +330,15 @@
           </div>
 
           <!-- Add to Cart Button -->
-          <div class="add-to-cart mt-3">
-            <button class="btn-cart">{{ "THÊM VÀO GIỎ HÀNG" | translate }}</button>
+          <div class="add-to-cart mt-3  " (click)="createCart()">
+            <button class="btn-cart">
+              {{ "THÊM VÀO GIỎ HÀNG" | translate }}
+            </button>
           </div>
 
+
           <!-- Find Product in Inventory -->
-          <div class="inventory-check mt-3 text-end"
-               [routerLink]="['/client', currentCurrency, currentLang,'store_inventory', dataDetailsProduct?.id,
+          <div class="inventory-check mt-3 text-end" [routerLink]="['/client', currentCurrency, currentLang,'store_inventory', dataDetailsProduct?.id,
                                                                                     dataColors?.[0]?.id,
                                                                                     dataSizes?.[0]?.id]">
             <a style="cursor: pointer" class="link-inventory">{{ "Tìm sản phẩm còn hàng trong cửa hàng" |

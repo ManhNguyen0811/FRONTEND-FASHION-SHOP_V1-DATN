@@ -9,6 +9,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+
 // Tạo TranslateHttpLoader
 const tokenInterceptorProvider: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     // provideHttpClient(),
     tokenInterceptorProvider,
+
     provideAnimations(),
     provideToastr(), // Toastr providers
     // provideRouter(routes),
