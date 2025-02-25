@@ -4,6 +4,8 @@ export interface UserDetailDTO {
   lastName: string;
   email: string;
   phone: string;
+  dateOfBirth: string;
+  gender: string;
   role: {
     id: number;
     name: string;

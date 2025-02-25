@@ -10,6 +10,7 @@ import {UserResponse} from '../../dto/Response/user/user.response';
 import {User} from '../../models/user';
 import {ApiResponse} from '../../dto/Response/ApiResponse';
 import {UserDetailDTO} from '../../dto/UserDetailDTO';
+import {TokenService} from '../token/token.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +29,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private httpUnitlService: HttpUntilService,
+    private tokenService: TokenService,
     @Inject(DOCUMENT) private document:Document
   ) {
       this.localStorage = document.defaultView?.localStorage;
@@ -98,7 +100,7 @@ export class UserService {
 
 
   getUserDetail(token: string): Observable<UserDetailDTO> {
-    return this.http.post<any>(
+    return this.http.post<ApiResponse<UserDetailDTO>>(
       this.apiUserDetail,
       {},
       {
@@ -108,9 +110,20 @@ export class UserService {
         })
       }
     ).pipe(
-      map(response => response.data as UserDetailDTO) // Lấy `data` từ response
+      map(response => {
+        if (response.status === 200 && response.data) {
+          return response.data; // Lấy `data` từ `ApiResponse`
+        } else {
+          throw new Error(response.message || "Không thể lấy thông tin người dùng");
+        }
+      }),
+      catchError(error => {
+        console.error("Lỗi khi lấy thông tin người dùng:", error);
+        return throwError(() => new Error("Lỗi lấy thông tin người dùng"));
+      })
     );
   }
+
 
   saveUserResponseToLocalStorage(userResponse?: UserResponse) {
     try {
@@ -166,7 +179,38 @@ export class UserService {
     return this.http.get<boolean>(this.apiCheckPhone, {params});
   }
 
-  // getUserProfile(): Observable<User> {
-  //   return this.http.get<User>(`${this.userUrl}/profile`);
-  // }
+  updateUser(userId: number, userData: Partial<UserDetailDTO>): Observable<any> {
+    const token = this.tokenService.getToken();
+    if (!token) {
+      return throwError(() => new Error("Không tìm thấy token, vui lòng đăng nhập lại."));
+    }
+
+    const url = `${this.userUrl}/${userId}`;
+
+    // Thêm Authorization vào request
+    const options = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.put<ApiResponse<any>>(url, userData, options).pipe(
+      map(response => {
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          throw new Error(response.message || "Cập nhật thất bại.");
+        }
+      }),
+      catchError(error => {
+        console.error("Lỗi cập nhật user:", error);
+        return throwError(() => new Error(error.error?.message || "Lỗi khi cập nhật thông tin người dùng."));
+      })
+    );
+  }
+
+
+
+
+
 }

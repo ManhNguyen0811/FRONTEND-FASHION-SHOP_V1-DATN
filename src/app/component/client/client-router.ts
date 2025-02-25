@@ -29,6 +29,8 @@ import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 import {StoreDetailComponent} from './store-detail/store-detail.component';
 import {PaymentSuccessComponent} from './payment-success/payment-success.component';
+import {OTPComponent} from './otp/otp.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
 
 
 export const clientRouter: Routes =[
@@ -127,6 +129,12 @@ export const clientRouter: Routes =[
 
           { path: 'payment_success',
             component: PaymentSuccessComponent },
+
+          { path: 'otp',
+            component: OTPComponent },
+
+          { path: 'reset-password',
+            component: ResetPasswordComponent },
         ]
     },
 
