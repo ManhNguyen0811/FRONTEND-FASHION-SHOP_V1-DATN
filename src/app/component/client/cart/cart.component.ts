@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import {BehaviorSubject, catchError, firstValueFrom, forkJoin, map, Observable, of, tap} from 'rxjs';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of, tap } from 'rxjs';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from '../../../services/client/CartService/cart.service';
@@ -17,13 +17,22 @@ import { Currency } from '../../../models/Currency';
 import { CurrencyService } from '../../../services/currency/currency-service.service';
 import { DetailProductDTO } from '../../../dto/DetailProductDTO';
 import { DetailProductService } from '../../../services/client/DetailProductService/detail-product-service.service';
+import { response } from 'express';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalNotifyErrorComponent } from '../Modal-notify/modal-notify-error/modal-notify-error.component';
+import { ModelNotifySuccsessComponent } from '../Modal-notify/model-notify-succsess/model-notify-succsess.component';
+import { FormsModule } from '@angular/forms';
+import { InventoryDTO } from '../../../dto/InventoryDTO';
+import { ModalNotifyDeleteComponent } from '../Modal-notify/modal-notify-delete/modal-notify-delete.component';
+import { ModalRegisterSuccessComponent } from '../Modal-notify/modal-register-success/modal-register-success.component';
 import {CouponLocalizedDTO} from '../../../dto/coupon/CouponClientDTO';
 import {CouponService} from '../../../services/client/CouponService/coupon-service.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [RouterLink, TranslateModule, CommonModule],
+  imports: [RouterLink, TranslateModule, ModalNotifyDeleteComponent,
+    CommonModule, ModalNotifyErrorComponent, ModelNotifySuccsessComponent, FormsModule],
   providers: [CookieService],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
@@ -36,7 +45,8 @@ export class CartComponent implements OnInit {
   userId?: number;
   sessionId?: string;
   currentCurrencyDetail?: Currency;
-  appliedCoupon: CouponLocalizedDTO | null = null;
+  qtyNew?: number
+  appliedCoupon : CouponLocalizedDTO | null = null;
   dataDetailsProduct: DetailProductDTO | null = null;
   dataCart: CartDTO | null = null;
   dataProductDetail: ProductVariantDetailDTO[] = [];
@@ -50,7 +60,8 @@ export class CartComponent implements OnInit {
     private tokenService: TokenService,
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
-    private couponService: CouponService,
+    private dialog: MatDialog,
+    private couponService : CouponService
 
 
   ) {
@@ -70,13 +81,10 @@ export class CartComponent implements OnInit {
     } else {
       console.log('⚠️ Không có mã giảm giá nào!');
     }
+
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
+
   }
-
-
-
-
-  /** 🔹 Lưu mã giảm giá đã chọn */
 
   async fetchApiCart(): Promise<void> {
     if (!this.sessionId) {
@@ -108,13 +116,9 @@ export class CartComponent implements OnInit {
     }
 
     const requests = this.cartItems.map((item) =>
-
       this.getProductDetail(this.currentLang, item.productVariantId)
     );
-
     const results = await firstValueFrom(forkJoin(requests));
-
-    // Lọc bỏ giá trị null
     this.dataProductDetail = results.filter((product): product is ProductVariantDetailDTO => product !== null);
 
   }
@@ -128,6 +132,77 @@ export class CartComponent implements OnInit {
       console.error("❌ Lỗi khi lấy chi tiết sản phẩm:", error);
       return null;
     }
+  }
+
+  clearCart() {
+    const dialogRef = this.dialog.open(ModalNotifyDeleteComponent);
+    dialogRef.afterClosed().subscribe(result =>{
+    if(result){
+      this.cartService.clearCart(this.userId ?? 0,this.sessionId ?? '').subscribe ( async response =>{
+        this.dialog.open(ModalRegisterSuccessComponent);
+        await this.fetchApiCart();
+
+      })
+    }
+    })
+  }
+  deleteCart(cardId: number) {
+    const dialogRef = this.dialog.open(ModalNotifyDeleteComponent);
+    dialogRef.afterClosed().subscribe(result =>{
+    if(result){
+      this.cartService.deleteCart(this.userId ?? 0,this.sessionId ?? '',cardId).subscribe ( async response =>{
+        this.dialog.open(ModalRegisterSuccessComponent);
+        await this.fetchApiCart();
+
+      })
+    }
+    })
+  }
+
+  updateQtyCart(cardId: number, newQuantity: number, productId: number, colorId: number, sizeId: number) {
+    if (newQuantity <= 0) {
+      newQuantity = 1;
+    }
+    this.getStatusQuantityInStock(productId, colorId, sizeId).subscribe(item => {
+      if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < newQuantity) {
+        // this.dialog.open(ModalNotifyErrorComponent);
+        newQuantity = 1;
+      }
+
+      this.cartService.updateQtyCart(this.userId ?? 0, this.sessionId ?? '', cardId, newQuantity)
+        .subscribe(async (response) => {
+          console.log(`Số lượng mới của sản phẩm ${cardId}: ${newQuantity}`);
+          await this.fetchApiCart();
+          this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
+            this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
+          });
+
+          console.log("Giỏ hàng đã được làm mới:", this.cartItems);
+
+
+
+        }, (error) => {
+          console.error("Lỗi khi cập nhật số lượng:", error);
+        });
+
+    });
+  }
+  getInputValue(event: Event): number {
+    const inputElement = event.target as HTMLInputElement;
+    return inputElement ? +inputElement.value : 0;
+  }
+
+  reduceQty(qtyNew: number, cardId: number, productId: number, colorId: number, sizeId: number) {
+    if (qtyNew > 1) {
+      this.updateQtyCart(cardId, qtyNew - 1, productId, colorId, sizeId);
+    } else {
+      console.warn("Số lượng tối thiểu là 1.");
+    }
+  }
+
+
+  redoubleQty(qtyNew: number, cardId: number, productId: number, colorId: number, sizeId: number) {
+    this.updateQtyCart(cardId, qtyNew + 1, productId, colorId, sizeId);
   }
 
 
@@ -193,7 +268,12 @@ export class CartComponent implements OnInit {
       })
     );
   }
-
+  getStatusQuantityInStock(productId: number, colorId: number, sizeId: number): Observable<InventoryDTO | null> {
+    return this.productService.getStatusQuantityInStock(productId, colorId, sizeId).pipe(
+      map((response: ApiResponse<InventoryDTO>) => response.data || null),
+      catchError(() => of(null))
+    )
+  }
   getCurrencyPrice(price: number, rate: number, symbol: string): string {
     if (!symbol || symbol.trim() === "") {
       symbol = "USD"; // Gán mặc định là USD nếu không hợp lệ
@@ -231,18 +311,4 @@ export class CartComponent implements OnInit {
       })
     );
   }
-  getDiscountAmount(): number {
-    if (!this.appliedCoupon || !this.dataCart) return 0;
-
-    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
-      return (this.dataCart.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
-    }
-
-    return this.appliedCoupon.discountValue ?? 0;
-  }
-
-  getTotalAfterDiscount(): number {
-    return Math.max((this.dataCart?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
-  }
-
 }
