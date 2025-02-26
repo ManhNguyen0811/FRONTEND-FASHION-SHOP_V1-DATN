@@ -6,11 +6,12 @@ import {ForgotPasswordService} from '../../../services/forgot-password/forgot-pa
 import {FormsModule, NgForm} from '@angular/forms';
 import {response} from 'express';
 import {error} from 'console';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, NgIf],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })

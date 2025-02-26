@@ -24,7 +24,7 @@ export class ForgotPasswordService {
   }
 
   resetPassword(email: string, newPassword: string): Observable<any> {
-    const url = `${this.apiUrl}/${encodeURIComponent(email)}/reset-password-email`;
+    const url = `${this.apiUrl}/reset-password-email/${encodeURIComponent(email)}`;
 
     const params = new HttpParams().set('newPassword', newPassword);
 

@@ -5,12 +5,14 @@ import {ForgotPasswordService} from '../../../services/forgot-password/forgot-pa
 import {NavigationService} from '../../../services/Navigation/navigation.service';
 import {response} from 'express';
 import {error} from 'console';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-otp',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './otp.component.html',
   styleUrl: './otp.component.scss'
@@ -43,12 +45,12 @@ export class OTPComponent implements OnInit {
 
     // Gọi API xác thực OTP
     this.forgotPasswordService.verifyOtp(this.email, this.otp).subscribe({
-      next: () => {
+      next: async () => {
         console.log('Xác thực OTP thành công');
 
-        // Điều hướng sang trang reset-password
-        this.router.navigate(
-          [`/client/${this.currentCurrency}/${this.currentLang}/reset-password/${encodeURIComponent(this.email)}`]
+        // Điều hướng sang trang reset-password-email/{email} theo API mới
+        await this.router.navigate(
+          [`/client/${this.currentCurrency}/${this.currentLang}/reset-password/${this.email}`]
         );
       },
       error: (error) => {
