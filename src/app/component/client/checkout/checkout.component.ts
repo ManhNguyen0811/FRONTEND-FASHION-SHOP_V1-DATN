@@ -13,12 +13,13 @@ import {CartDTO} from '../../../dto/CartDTO';
 import {CouponService} from '../../../services/client/CouponService/coupon-service.service';
 import {CouponLocalizedDTO} from '../../../dto/coupon/CouponClientDTO';
 import {Currency} from '../../../models/Currency';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
   imports: [
-    RouterOutlet, ShippingComponent, PaymentComponent, ReviewOrderComponent, NgIf, RouterLink
+    RouterOutlet, ShippingComponent, PaymentComponent, ReviewOrderComponent, NgIf, RouterLink, TranslatePipe
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
@@ -30,7 +31,7 @@ export class CheckoutComponent implements OnInit {
   sessionId: string;
   appliedCoupon : CouponLocalizedDTO | null = null;
   qtyTotal: number = 0;
-  // currentCurrencyDetail?: Currency;
+  currentCurrencyDetail?: Currency;
   constructor(private router: Router, private route: ActivatedRoute,
               private navigationService: NavigationService,
               private cartService: CartService,
@@ -66,36 +67,36 @@ export class CheckoutComponent implements OnInit {
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
 
   }
-  // getCurrencyPrice(price: number, rate: number, symbol: string): string {
-  //   if (!symbol || symbol.trim() === "") {
-  //     symbol = "USD"; // Gán mặc định là USD nếu không hợp lệ
-  //   }
-  //
-  //   const convertedPrice = price * rate;
-  //
-  //   try {
-  //     const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
-  //
-  //     // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
-  //     return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
-  //   } catch (error) {
-  //     console.error("❌ Lỗi khi format tiền tệ:", error);
-  //     return `${convertedPrice} ${symbol}`; // Trả về chuỗi đơn giản nếu format thất bại
-  //   }
-  // }
-  // getDiscountAmount(): number {
-  //   if (!this.appliedCoupon || !this.cartData) return 0;
-  //
-  //   if (this.appliedCoupon.discountType === 'PERCENTAGE') {
-  //     return (this.cartData.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
-  //   }
-  //
-  //   return this.appliedCoupon.discountValue ?? 0;
-  // }
-  //
-  // getTotalAfterDiscount(): number {
-  //   return Math.max((this.cartData?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
-  // }
+  getCurrencyPrice(price: number, rate: number, symbol: string): string {
+    if (!symbol || symbol.trim() === "") {
+      symbol = "USD"; // Gán mặc định là USD nếu không hợp lệ
+    }
+
+    const convertedPrice = price * rate;
+
+    try {
+      const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: symbol }).format(convertedPrice);
+
+      // Nếu ký hiệu là USD thì thay thế "US$" bằng "$"
+      return symbol === 'USD' ? formattedPrice.replace('US$', '$') : formattedPrice;
+    } catch (error) {
+      console.error("❌ Lỗi khi format tiền tệ:", error);
+      return `${convertedPrice} ${symbol}`; // Trả về chuỗi đơn giản nếu format thất bại
+    }
+  }
+  getDiscountAmount(): number {
+    if (!this.appliedCoupon || !this.cartData) return 0;
+
+    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
+      return (this.cartData.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
+    }
+
+    return this.appliedCoupon.discountValue ?? 0;
+  }
+
+  getTotalAfterDiscount(): number {
+    return Math.max((this.cartData?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
+  }
 
 
 

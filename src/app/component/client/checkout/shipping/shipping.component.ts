@@ -9,13 +9,14 @@ import {AddressServiceService} from '../../../../services/client/AddressService/
 import {TokenService} from '../../../../services/token/token.service';
 import {LocationServiceService} from '../../../../services/client/LocationService/location-service.service';
 import {ApiResponse} from '../../../../dto/Response/ApiResponse';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-shipping',
   standalone: true,
   imports: [
     NgIf,
-    NgClass,CommonModule,
+    NgClass, CommonModule, FormsModule,
   ],
   templateUrl: './shipping.component.html',
   styleUrl: './shipping.component.scss'
@@ -59,7 +60,7 @@ export class ShippingComponent implements OnInit{
     this.getProvinces();
     this.userId = this.tokenService.getUserId() // Gọi API khi component được khởi tạo
     this.getAddress();
-    alert("Ádsadas")
+
 
   }
   goToPayment() {
@@ -106,7 +107,7 @@ export class ShippingComponent implements OnInit{
       return;
     }
     const selectedAddress = this.address?.find(a => a.id === this.selectedAddressId);
-    console.log("Địa chỉ giao hàng:", selectedAddress?.street); // Lấy địa chỉ street
+    console.log("Địa chỉ giao hàng:", selectedAddress?.street ); // Lấy địa chỉ street
   }
 
 
