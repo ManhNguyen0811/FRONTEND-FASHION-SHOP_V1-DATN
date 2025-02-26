@@ -435,6 +435,134 @@ svg {
 button:focus {
   outline: none;
 }
+.fr-transition-btn-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.fr-link-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn button:hover {
+  background-color: #f5f5f5;
+}
+
+.fr-link-wrapper.fr-flbox.middle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.block-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mr-xxs {
+  margin-right: 5px;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fr-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+// css btn ma giam
+.fr-transition-btn-cards {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.fr-link-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn button:hover {
+  background-color: #f5f5f5;
+}
+
+.fr-link-wrapper.fr-flbox.middle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.block-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mr-xxs {
+  margin-right: 5px;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fr-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+}
 
 
 
@@ -550,7 +678,7 @@ button:focus {
     color: black;
     font-family: "Kanit", sans-serif;
     cursor: pointer;
-    
+
 }
 .clear-cart:hover{
     color: red;

@@ -357,4 +357,19 @@ export class CartComponent implements OnInit {
       })
     );
   }
+  // coupon
+  getDiscountAmount(): number {
+    if (!this.appliedCoupon || !this.dataCart) return 0;
+
+    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
+      return (this.dataCart.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
+    }
+
+    return this.appliedCoupon.discountValue ?? 0;
+  }
+
+  getTotalAfterDiscount(): number {
+    return Math.max((this.dataCart?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
+  }
+
 }
