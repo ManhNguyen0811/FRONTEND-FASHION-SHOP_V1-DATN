@@ -55,8 +55,8 @@ export const clientRouter: Routes =[
             },
             {
                 path: 'cart',
-                component: CartComponent,
-                canActivate: [AuthGuardFn]
+                component: CartComponent
+                // canActivate: [AuthGuardFn]
             },
           {
             path: 'checkout',

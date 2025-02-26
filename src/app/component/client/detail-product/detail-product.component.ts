@@ -246,6 +246,7 @@ export class DetailProductComponent implements OnInit {
           console.log(`this.cart :`, this.cart);
           this.cartService.createCart(this.userId, this.sessionId ?? '', this.cart).subscribe((response) => {
             this.dialog.open(ModelNotifySuccsessComponent);  // Hiển thị thông báo thành công
+            
             this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
               this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
             });
