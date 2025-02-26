@@ -113,7 +113,6 @@ export class ProductComponent implements OnInit {
   }
 eventClick(){
   this.dialog.open(ModelNotifySuccsessComponent)
-
 }
   fetchProducts(
     categoryId: number | undefined,
@@ -171,7 +170,6 @@ eventClick(){
       const index = { en: 0, vi: 1, jp: 2 }[this.currentLang] ?? 0;
       const currency = data?.[index] || { code: '', name: '', symbol: '', exchangeRate: 0 };
       this.currentCurrencyDetail = currency
-
       console.log('Thông tin tiền tệ:', currency);
     });
 
@@ -369,7 +367,6 @@ eventClick(){
   changePage(newPage: number) {
     if (newPage >= 0 && newPage < this.totalPages) {
       console.log('🔄 Chuyển sang trang:', newPage);
-
       this.router.navigate([], {
         queryParams: {
           categoryId: this.categoryId,
@@ -381,6 +378,7 @@ eventClick(){
         },
         queryParamsHandling: 'merge'
       });
+      this.fetchProducts(this.categoryId, true, newPage, this.pageSize, this.sortBy, this.sortDir);
     }
   }
 

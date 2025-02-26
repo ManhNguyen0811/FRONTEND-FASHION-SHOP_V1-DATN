@@ -6,79 +6,77 @@
 <div class="coupon-box">
   <h1>ÁP DỤNG PHIẾU GIẢM GIÁ</h1>
   <p id="success"></p>
+
+  <!-- Ô nhập mã giảm giá -->
   <div class="coupon-value">
     <p class="text">NHẬP MÃ GIẢM GIÁ</p>
-    <input class="" id="input" type="text" placeholder="Mã giảm giá gồm 13 chữ số" [(ngModel)]="couponCode">
-    <button class="responsive-button" [disabled]="!couponCode" style=" background-color:#dadada; border-color:#dadada; color:white ">THÊM</button>
-    <!-- (click)="applyCoupon()"   -->
+    <input id="input" type="text" placeholder="Nhập mã giảm giá" [(ngModel)]="couponCode">
+    <button class="responsive-button" [disabled]="!couponCode" type="button" (click)="applyCoupon()">ÁP DỤNG</button>
   </div>
+  <p *ngIf="message" class="coupon-message">{{ message }}</p>
   <hr>
 
-  <div class="mb-xl">
-    <div>
-      <div class="fr-wrapper mb-m" style="width: auto;">
-        <h5 id="" class="fr-head h5 h5"><span class="title">Phiếu giảm giá có sẵn<em class="text-emphasis">(1)</em></span>
-        </h5>
-        <div class="fr-wrapper mt-xs" style="width: auto;">
-          <div class="fr-text withtooltip fr-system-text p-3"><span class=" ">Chọn một phiếu giảm giá từ danh sách dưới đây và áp dụng cho đơn hàng của bạn.</span>
-            <div class="">
-              <div class="fr-tooltip-icon fr-tooltip-icon--pc"><span class="fr-icon info" aria-hidden="true"
-                                                                     style="font-size: 24px;"></span></div>
-            </div>
-          </div>
+  <div>
+    <div class="fr-wrapper mb-m">
+      <h5 class="fr-head h5">
+        <span class="title">Phiếu giảm giá có sẵn <em class="text-emphasis">({{ coupons?.length || 0 }})</em></span>
+      </h5>
+      <div class="fr-wrapper mt-xs">
+        <div class="fr-text withtooltip fr-system-text p-3">
+          <span>Chọn một phiếu giảm giá từ danh sách dưới đây và áp dụng cho đơn hàng của bạn.</span>
         </div>
-
       </div>
+    </div>
+    <!-- Hiển thị danh sách mã giảm giá -->
+    <div class="mb-xl">
       <ul class="fr-list mbt-m mb-m coupon-list-wrapper">
-        <li class="coupon-tile-wrapper">
+        <li class="coupon-tile-wrapper" *ngFor="let coupon of coupons">
           <div class="coupon-tile">
             <div class="fr-panel">
               <div class="panel-inner">
                 <div class="panel-contents fr-flbox between d-flex">
+
+                  <!-- Hình ảnh & Thông tin mã giảm giá -->
                   <div class="fr-coupon-list-item">
                     <div class="fr-coupon-list-item-image d-flex justify-content-between">
-                      <figure class="fr-coupon-image"><img
-                        src="https://im.uniqlo.com/coupon/images/uq/vn/pc/pc_1720432249113_2117241469.jpg"
-                        alt="Chúc Mừng Sinh Nhật" class="thumb-img"></figure>
+                      <figure class="fr-coupon-image">
+                        <img [src]="'http://localhost:8080/uploads/images/coupons/'+coupon.imageUrl" alt="{{ coupon.name }}" class="thumb-img">
+                      </figure>
                     </div>
-                    <div class="fr-coupon-list-item-info"><p class="coupon-name text-uppercase">Chúc Mừng Sinh Nhật</p>
-                      <p class="coupon-expiration">Ngày hết hạn: 31/12/2024 11:59 PM</p></div>
+                    <div class="fr-coupon-list-item-info">
+                      <p class="coupon-code"><strong>Mã:</strong> <span class="text-danger">{{ coupon.code }}</span></p>
+                      <p class="coupon-discount"><strong>Giảm:</strong> {{ coupon.discountValue }}% (Tối đa {{ coupon.minOrderValue | number }} VND)</p>
+                      <p class="coupon-min-order"><strong>Đơn tối thiểu:</strong> {{ coupon.minOrderValue | number }} VND</p>
+                      <p class="coupon-expiration"><strong>Ngày hết hạn:</strong>{{ coupon.expirationDate | date: 'dd/MM/yyyy HH:mm' }}</p>
+                    </div>
                   </div>
-                  <div class="panel-action"
-                       style="width: 100%; display: flex; flex-direction: column; align-items:
-                       flex-end; padding-left: 20px; justify-content: flex-end;">
 
-                      <button  class="btn border border-secondary small-btn" type="button" style="background-color:transparent;
-                      color: #1b1b1b;  font-size: 13px; font-weight: 600; text-align:center" >Chọn
-                      </button>
-
-
-                    <button class="btn border border-secondary small-btn mt-3" style="background-color:transparent;
-                     color: #1b1b1b; font-size: 13px ; font-weight: 600; text-align:center" type="button" > Chi tiết
-                    </button>
-
+                  <!-- Mã vạch -->
+                  <div class="panel-action">
+                    <div class="barcode">
+                      <img [src]="'https://barcode.tec-it.com/barcode.ashx?data=' + coupon.id + '&code=Code128'" alt="Barcode">
+                    </div>
                   </div>
+
+                  <!-- Button -->
+                  <div class="button-group">
+                    <!-- Nút chọn mã giảm giá -->
+                    <button class="btn" type="button"  (click)="selectCoupon(coupon.id)" >Chọn</button>
+
+                    <button class="btn" type="button">Chi tiết</button>
+                  </div>
+
                 </div>
               </div>
             </div>
           </div>
         </li>
       </ul>
+
+      <!-- Hiển thị khi không có mã giảm giá -->
+      <p *ngIf="coupons?.length === 0" class="text-center text-muted">Không có mã giảm giá nào khả dụng.</p>
     </div>
   </div>
-
-  <div class="row g-3" >
-    <div class="col">
-      <button class="btn btn-address" style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
-              type="button" id="apply" [disabled]="!selectCoupon" (click)="applySelectedCoupon()">ÁP DỤNG
-      </button>
-    </div>
-    <div class="col">
-      <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
-              type="button"  id="cancel" (click)="cancel()">Huỷ </button>
-    </div>
-  </div>
-
 </div>
 
 

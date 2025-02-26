@@ -24,14 +24,62 @@ body {
   margin-left: 150px;
   padding: 12px;
   margin-bottom: 120px;
+
 }
 
 .coupon-box span, .text {
   //font-weight: bolder
   text-decoration: none;
 }
+.panel-action {
+
+  flex-direction: column;
+  align-items: center; /* Căn giữa nội dung theo chiều ngang */
+
+  gap: 10px; /* Khoảng cách giữa các phần tử bên trong */
+  padding: 10px;
+}
+
+.barcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 8px; /* Bo góc nhẹ */
+  border: 1px solid #ddd; /* Viền nhạt */
+}
+
+.barcode img {
+  max-width: 400px; /* Giới hạn chiều rộng */
+  height: auto;
+
+}
 
 
+.button-group {
+  display: flex;
+  flex-direction: column; /* Sắp xếp nút theo chiều dọc */
+  align-items: center; /* Căn giữa theo chiều ngang */
+  gap: 10px; /* Khoảng cách giữa các nút */
+ margin: 20px 0px 0px 50px;
+}
+
+.button-group .btn {
+  width: 120px; /* Độ rộng đồng đều */
+  height: 40px; /* Chiều cao */
+  border-radius: 8px; /* Bo góc */
+  border: 2px solid #1b1b1b; /* Viền đậm hơn */
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-group .btn:hover {
+  background-color: #1b1b1b; /* Nền đen khi hover */
+  color: #fff; /* Chữ trắng */
+}
 
 
 button .disabled {
@@ -195,18 +243,35 @@ span .fr-icon .info {
 .fr-coupon-list-item {
   display: flex;
 }
+.fr-coupon-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px; /* Đảm bảo khung ảnh cố định */
+  height: 180px;
+  padding-top: 20px;
+
+
+
+
+
+}
 
 .fr-coupon-image .thumb-img {
-  display: block;
-  position: relative;
-  width: 117px;
-  height: 117px;
+  width: 100%; /* Ảnh tự căn chỉnh theo khung */
+  height: 100%;
+  object-fit: cover; /* Đảm bảo ảnh không bị méo, lấp đầy khung */
+
 }
+
+
+
 
 .fr-coupon-list-item-info {
   flex-grow: 1;
   text-decoration: none;
   margin-left: 10px;
+  padding: 20px;
 }
 
 .coupon-name {

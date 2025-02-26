@@ -1,6 +1,6 @@
 
 
-<!--<div class="row" >-->
+
 
 <div class=" fr-contents-card full">
   <div class="accordion-item" style="border: none">
@@ -227,42 +227,50 @@
                 <div>
                   <div>
                     <div>
-                      <ul  class="fr-list bordered-between-content mt-m mb-l">
-                        <li class="">
+                      <ul class="fr-list bordered-between-content mt-m mb-l">
+                        <li *ngFor="let addr of address">
                           <div>
-                            <div class="fr-panel" data-test="address-0">
+                            <div class="fr-panel" data-test="address">
                               <div class="panel-inner">
                                 <div class="panel-contents">
                                   <div class="info-section">
                                     <section class="fr-info-section">
                                       <div class="info-container">
-                                        <div class="left-info"><h4 class="info-main">Tài Báo (Địa chỉ thành viên)</h4>
+                                        <div class="left-info">
+                                          <h4 class="info-main">
+                                            {{ addr.firstName }} <span *ngIf="addr.lastName ">(Địa chỉ thành viên)</span>
+                                          </h4>
                                         </div>
-                                        <div class="right-info"><p>Hoàng Hoa Thám, Phường 5, Quận Phú Nhuận, Hồ Chí
-                                          Minh</p>
-                                          <p>0378983454</p></div>
+                                        <div class="right-info">
+                                          <p>{{ addr.street }},  {{addr.ward}},  {{addr.district}},  {{addr.province}}</p>
+                                          <p>{{ addr.phoneNumber }}</p>
+                                        </div>
                                       </div>
                                     </section>
                                   </div>
                                   <div class="panel-action" style="padding-left: 20px;">
                                     <div class="mb-xs">
-                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" type="button" data-test="đã-chọn-button">
+                                      <!-- Nếu địa chỉ này đang được chọn -->
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" type="button"
+                                              *ngIf="addr.id === selectedAddressId">
                                         <div class="absolute fr-icon check_large center-vertical" aria-hidden="true"></div>
                                         <div>Đã chọn</div>
                                       </button>
-                                    </div>
-                                    <div class="mb-xs">
-                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" data-test="sửa-button">
-                                        <div>Sửa</div>
+                                      <!-- Nếu địa chỉ này chưa được chọn -->
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn"
+                                              *ngIf="addr.id !== selectedAddressId" (click)="selectAddress(addr)">
+                                        <div>Chọn</div>
                                       </button>
                                     </div>
                                   </div>
+
                                 </div>
                               </div>
                             </div>
                           </div>
                         </li>
                       </ul>
+
                       <div class="button-container">
                     <span class="mr-s">
                       <button (click)="goToPayment()" class="fr-btn btn-dark w4-f" type="button" data-test="tiếp-tục-thanh-toán-button"
@@ -277,18 +285,29 @@
                 </div>
               </div>
             </div>
-
           </div>
-
-
         </div>
+
+
       </div>
     </div>
+
   </div>
 
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

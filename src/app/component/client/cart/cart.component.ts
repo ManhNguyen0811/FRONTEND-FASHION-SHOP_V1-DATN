@@ -25,6 +25,8 @@ import { FormsModule } from '@angular/forms';
 import { InventoryDTO } from '../../../dto/InventoryDTO';
 import { ModalNotifyDeleteComponent } from '../Modal-notify/modal-notify-delete/modal-notify-delete.component';
 import { ModalRegisterSuccessComponent } from '../Modal-notify/modal-register-success/modal-register-success.component';
+import {CouponLocalizedDTO} from '../../../dto/coupon/CouponClientDTO';
+import {CouponService} from '../../../services/client/CouponService/coupon-service.service';
 
 @Component({
   selector: 'app-cart',
@@ -44,7 +46,7 @@ export class CartComponent implements OnInit {
   sessionId?: string;
   currentCurrencyDetail?: Currency;
   qtyNew?: number
-
+  appliedCoupon : CouponLocalizedDTO | null = null;
   dataDetailsProduct: DetailProductDTO | null = null;
   dataCart: CartDTO | null = null;
   dataProductDetail: ProductVariantDetailDTO[] = [];
@@ -59,6 +61,7 @@ export class CartComponent implements OnInit {
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
     private dialog: MatDialog,
+    private couponService : CouponService
 
 
   ) {
@@ -72,6 +75,12 @@ export class CartComponent implements OnInit {
     this.fetchCurrency()
     await this.fetchApiCart();
     await this.loadProductDetails();
+    this.appliedCoupon = this.couponService.getCouponDTO();
+    if (this.appliedCoupon) {
+      console.log('🎉 Coupon áp dụng:', this.appliedCoupon);
+    } else {
+      console.log('⚠️ Không có mã giảm giá nào!');
+    }
 
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
 
@@ -302,4 +311,19 @@ export class CartComponent implements OnInit {
       })
     );
   }
+  // coupon
+  getDiscountAmount(): number {
+    if (!this.appliedCoupon || !this.dataCart) return 0;
+
+    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
+      return (this.dataCart.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
+    }
+
+    return this.appliedCoupon.discountValue ?? 0;
+  }
+
+  getTotalAfterDiscount(): number {
+    return Math.max((this.dataCart?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
+  }
+
 }

@@ -243,7 +243,6 @@
 }
 
 
-
 .priceBill {
 
     padding: 16px;
@@ -261,7 +260,7 @@
 
 }
 
- 
+
 
 .total-decor-bold {
     color: #000017;
@@ -287,9 +286,9 @@
     font-weight: 400;
     color: #000017;
 }
- 
 
- 
+
+
 .total-decor-bold-coupon{
     color: #000017;
     display: flex;
@@ -313,7 +312,7 @@
     width: 260px;
     height: 50px;
     border: 1px solid #dadada;
- 
+
 }
 
 
@@ -382,6 +381,204 @@
     width: auto;
     z-index: 9999;
 }
+
+
+
+
+
+
+/* Coupon Button */
+.mt-m {
+  margin-top: 20px;
+}
+.mr-xxs {
+  margin-right: 8px;
+}
+.mr-m {
+  margin-right: 20px;
+}
+.fr-link-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //padding: 10px;
+  //border: 1px solid #ddd;
+  //border-radius: 4px;
+  //background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.fr-link-wrapper:hover {
+  background-color: #f0f0f0;
+}
+
+.fr-link-wrapper .text {
+  //font-weight: bold;
+  line-height: 24px;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+svg {
+  pointer-events: none;
+}
+
+.fr-icon {
+  background-size: 1em 1em;
+  display: inline-block;
+  font-size: 24px;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: bottom;
+  width: 1em;
+}
+button:focus {
+  outline: none;
+}
+.fr-transition-btn-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.fr-link-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn button:hover {
+  background-color: #f5f5f5;
+}
+
+.fr-link-wrapper.fr-flbox.middle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.block-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mr-xxs {
+  margin-right: 5px;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fr-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+// css btn ma giam
+.fr-transition-btn-cards {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.fr-link-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn button:hover {
+  background-color: #f5f5f5;
+}
+
+.fr-link-wrapper.fr-flbox.middle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.block-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mr-xxs {
+  margin-right: 5px;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fr-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width:1090px) {
     .cart-title {
         margin-top: 30px;
@@ -449,7 +646,31 @@
         width: 100%;
     }
 
-    
+  .fr-icon.coupon {
+    background-size: 3em 1em;
+  }
+  .fr-transition-btn-cards .inner {
+    list-style: none;
+    margin-left: initial;
+    padding-left: initial;
+  }
+  .fr-transition-btn-cards button {
+    width: 100%;
+  }
+  .fr-transition-btn-cards {
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  button, input, select, textarea {
+    background-color: transparent;
+    border-style: none;
+    color: inherit;
+  }
+  .fr-icon.coupon {
+    background-image: url(https://asset.uniqlo.com/g/icons/coupon.svg);
+  }
 }
 
 .clear-cart{
@@ -457,7 +678,7 @@
     color: black;
     font-family: "Kanit", sans-serif;
     cursor: pointer;
-    
+
 }
 .clear-cart:hover{
     color: red;
