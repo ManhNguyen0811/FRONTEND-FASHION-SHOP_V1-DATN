@@ -156,7 +156,7 @@ export class CartComponent implements OnInit {
     }
     this.getStatusQuantityInStock(productId, colorId, sizeId).subscribe(item => {
       if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < newQuantity) {
-        // this.dialog.open(ModalNotifyErrorComponent);  
+        // this.dialog.open(ModalNotifyErrorComponent);
         newQuantity = 1;
       }
 
@@ -171,7 +171,7 @@ export class CartComponent implements OnInit {
           console.log("Giỏ hàng đã được làm mới:", this.cartItems);
 
 
-         
+
         }, (error) => {
           console.error("Lỗi khi cập nhật số lượng:", error);
         });
