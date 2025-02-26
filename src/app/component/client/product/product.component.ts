@@ -27,7 +27,7 @@ import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 import {AuthService} from '../../../services/Auth/auth.service';
 import {ModalService} from '../../../services/Modal/modal.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModelNotifySuccsessComponent } from '../Modal-notify/model-notify-succsess/model-notify-succsess.component';
+import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-product',
@@ -86,6 +86,8 @@ export class ProductComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // Lấy ngôn ngữ hiện tại trước khi gọi API
+
+
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
     this.currentCurrency = await  firstValueFrom(this.navigationService.currentCurrency$);
     this.fetchCurrency()
@@ -113,6 +115,7 @@ export class ProductComponent implements OnInit {
   }
 eventClick(){
   this.dialog.open(ModelNotifySuccsessComponent)
+
 }
   fetchProducts(
     categoryId: number | undefined,

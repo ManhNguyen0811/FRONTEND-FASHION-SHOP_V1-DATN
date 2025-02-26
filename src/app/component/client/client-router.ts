@@ -134,7 +134,7 @@ export const clientRouter: Routes =[
           { path: 'otp',
             component: OTPComponent },
 
-          { path: 'reset-password',
+          { path: 'reset-password/:email',
             component: ResetPasswordComponent },
         ]
     },

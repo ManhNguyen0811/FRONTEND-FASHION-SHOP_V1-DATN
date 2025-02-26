@@ -95,6 +95,10 @@ export class LoginComponent implements OnInit{
     // Đóng modal login
     this.modalService.closeLoginModal();
 
+    if(this.authService.getReturnUrl() === '/'){
+      this.authService.setReturnUrl(`/client/${this.currentCurrency}/${this.currentLang}`)
+    }
+
     // Điều hướng đến trang trước đó
     const returnUrl = this.authService.getReturnUrl();
 
