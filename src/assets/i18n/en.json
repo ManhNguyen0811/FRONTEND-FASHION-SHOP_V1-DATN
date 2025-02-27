@@ -153,7 +153,7 @@
 
   "_commentStore-modal-succcsess": "----------------------Phần Store Inventory----------------------------",
   "Hoàn Thành": "Completed",
-  "Thêm Thành Công": "Added Successfully",
+  "Thành Công": "Successfully",
 
   "_commentStore-modal-error": "----------------------Phần commentStore-modal-error ----------------------------",
   "Lỗi": "Error",

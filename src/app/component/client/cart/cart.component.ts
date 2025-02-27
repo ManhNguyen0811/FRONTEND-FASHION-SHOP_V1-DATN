@@ -25,6 +25,9 @@ import { FormsModule } from '@angular/forms';
 import { InventoryDTO } from '../../../dto/InventoryDTO';
 import { ModalNotifyDeleteComponent } from '../Modal-notify/modal-notify-delete/modal-notify-delete.component';
 import { ModalRegisterSuccessComponent } from '../Modal-notify/modal-register-success/modal-register-success.component';
+import { CouponLocalizedDTO } from '../../../dto/coupon/CouponClientDTO';
+import { CouponService } from '../../../services/client/CouponService/coupon-service.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -44,7 +47,7 @@ export class CartComponent implements OnInit {
   sessionId?: string;
   currentCurrencyDetail?: Currency;
   qtyNew?: number
-
+  appliedCoupon: CouponLocalizedDTO | null = null;
   dataDetailsProduct: DetailProductDTO | null = null;
   dataCart: CartDTO | null = null;
   dataProductDetail: ProductVariantDetailDTO[] = [];
@@ -59,6 +62,8 @@ export class CartComponent implements OnInit {
     private currencySevice: CurrencyService,
     private detailProductService: DetailProductService,
     private dialog: MatDialog,
+    private couponService: CouponService,
+    private http : HttpClient
 
 
   ) {
@@ -66,15 +71,62 @@ export class CartComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.userId = this.tokenService.getUserId() ?? 0;
+
+
+      this.getQtyCartAuto().subscribe(total => {
+        this.qtyTotal = total;
+        console.log('Tổng số lượng giỏ hàng:', this.qtyTotal);
+      });
+
     this.currentLang = await firstValueFrom(this.navigationService.currentLang$);
     this.currentCurrency = await firstValueFrom(this.navigationService.currentCurrency$);
-    this.userId = this.tokenService.getUserId() ?? 0;
     this.fetchCurrency()
     await this.fetchApiCart();
     await this.loadProductDetails();
+    this.appliedCoupon = this.couponService.getCouponDTO();
+    if (this.appliedCoupon) {
+      console.log('🎉 Coupon áp dụng:', this.appliedCoupon);
+    } else {
+      console.log('⚠️ Không có mã giảm giá nào!');
+    }
+
+
 
     console.log("Danh sách sản phẩm đã tải:", this.qtyTotal);
 
+  }
+
+
+  getQtyCartAuto(): Observable<number> {
+    const userId = this.tokenService.getUserId() ?? 0;
+    const sessionId = this.cookieService.get('SESSION_ID') || '';
+
+    let params: string[] = [];
+    let check = false;
+
+    if (userId !== 0) {
+      check = true;
+      params.push(`userId=${encodeURIComponent(userId)}`);
+    }
+    if (!check && sessionId.trim()) {
+      params.push(`sessionId=${encodeURIComponent(sessionId)}`);
+    }
+
+    // Nếu cả userId === 0 và sessionId === '' thì không gọi API, trả về 0
+    if (!params.length) {
+      return of(0);
+    }
+
+    const queryString = params.length ? `?${params.join('&')}` : '';
+
+    return this.http.get<ApiResponse<TotalQty>>(`http://localhost:8080/api/v1/cart/total`).pipe(
+      map(response => (response.status === 200 && response.data) ? response.data.totalCart : 0),
+      catchError(error => {
+        console.error('Lỗi khi lấy tổng số giỏ hàng:', error);
+        return of(0);
+      })
+    );
   }
 
   async fetchApiCart(): Promise<void> {
@@ -127,26 +179,29 @@ export class CartComponent implements OnInit {
 
   clearCart() {
     const dialogRef = this.dialog.open(ModalNotifyDeleteComponent);
-    dialogRef.afterClosed().subscribe(result =>{
-    if(result){
-      this.cartService.clearCart(this.userId ?? 0,this.sessionId ?? '').subscribe ( async response =>{
-        this.dialog.open(ModalRegisterSuccessComponent);
-        await this.fetchApiCart();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cartService.clearCart(this.userId ?? 0, this.sessionId ?? '').subscribe(async response => {
+          this.dialog.open(ModalRegisterSuccessComponent);
+          await this.fetchApiCart();
 
-      })
-    }
+        })
+      }
     })
   }
   deleteCart(cardId: number) {
     const dialogRef = this.dialog.open(ModalNotifyDeleteComponent);
-    dialogRef.afterClosed().subscribe(result =>{
-    if(result){
-      this.cartService.deleteCart(this.userId ?? 0,this.sessionId ?? '',cardId).subscribe ( async response =>{
-        this.dialog.open(ModalRegisterSuccessComponent);
-        await this.fetchApiCart();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.cartService.deleteCart(this.userId ?? 0, this.sessionId ?? '', cardId).subscribe(async response => {
+          this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
+            this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
+          });
+          this.dialog.open(ModelNotifySuccsessComponent);
+          await this.fetchApiCart();
 
-      })
-    }
+        })
+      }
     })
   }
 
@@ -156,7 +211,7 @@ export class CartComponent implements OnInit {
     }
     this.getStatusQuantityInStock(productId, colorId, sizeId).subscribe(item => {
       if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < newQuantity) {
-        // this.dialog.open(ModalNotifyErrorComponent);  
+        // this.dialog.open(ModalNotifyErrorComponent);
         newQuantity = 1;
       }
 
@@ -171,7 +226,7 @@ export class CartComponent implements OnInit {
           console.log("Giỏ hàng đã được làm mới:", this.cartItems);
 
 
-         
+
         }, (error) => {
           console.error("Lỗi khi cập nhật số lượng:", error);
         });
@@ -302,4 +357,19 @@ export class CartComponent implements OnInit {
       })
     );
   }
+  // coupon
+  getDiscountAmount(): number {
+    if (!this.appliedCoupon || !this.dataCart) return 0;
+
+    if (this.appliedCoupon.discountType === 'PERCENTAGE') {
+      return (this.dataCart.totalPrice ?? 0) * (this.appliedCoupon.discountValue / 100);
+    }
+
+    return this.appliedCoupon.discountValue ?? 0;
+  }
+
+  getTotalAfterDiscount(): number {
+    return Math.max((this.dataCart?.totalPrice ?? 0) - this.getDiscountAmount(), 0); // Đảm bảo không bị âm
+  }
+
 }
