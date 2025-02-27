@@ -21,13 +21,18 @@
             <img src="../../../../assets/images/value.png" width="18" alt=""><span
                 class="menu-mini">Attribute</span>
         </div>
+          <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/list_coupon"
+               routerLinkActive="active-routerLink">
+            <img src="../../../../assets/images/value.png" width="18" alt=""><span
+            class="menu-mini">Coupon</span>
+          </div>
             <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/list_order"
                 routerLinkActive="active-routerLink">
                 <img src="../../../../assets/images/checkout.png" width="18" alt=""> <span
                     class="menu-mini">Order</span>
             </div>
 
-            <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/edit_product" 
+            <div class="menu-item" [class.activeRespone]="isActive" routerLink="/admin/edit_product"
             routerLinkActive="active-routerLink">
                 <img src="../../../../assets/images/shirt.png" width="18" alt=""><span class="menu-mini">Product</span>
             </div>
@@ -53,7 +58,7 @@
         </div>
         <div class="footer-menu">
             <button class="menu-item" [class.activeRespone]="isActive">
-                <img src="../../../../assets/images/turn-off.png" width="18" alt=""> 
+                <img src="../../../../assets/images/turn-off.png" width="18" alt="">
                 <span class="menu-mini">Sign Up
                 Log Out
             </span>

@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
- 
+
 import { ListCategoryComponent } from "./categoty/list-category/list-category.component";
 import { EditCategoryComponent } from "./categoty/edit-category/edit-category.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
@@ -11,8 +11,11 @@ import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { EditAttributeComponent } from "./attribute/edit-attribute/edit-attribute.component";
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
 import { LoginAdminComponent } from "./login-admin/login-admin.component";
+import {EditCouponComponent} from './coupon/edit-coupon/edit-coupon.component';
+import {ListCouponComponent} from './coupon/list-coupon/list-coupon.component';
+
 import { ListAttributeComponent } from "./attribute/list-attribute/list-attribute.component";
- 
+
 export const adminRouter: Routes =[
     {
         path: '',
@@ -70,7 +73,20 @@ export const adminRouter: Routes =[
             {
                 path:'edit_product',
                 component: EditProductComponent
-            }
+            },
+           {
+             path:'edit_coupon',
+             component: EditCouponComponent
+           },
+           {
+             path:'list_coupon',
+             component: ListCouponComponent
+           },
+           {
+             path:'edit_coupon/:id',
+             component: EditCouponComponent
+           },
+
          ]
     }
 ]
