@@ -27,7 +27,7 @@ import {ProductSuggestDTO} from '../../../dto/ProductSuggestDTO';
 import {AuthService} from '../../../services/Auth/auth.service';
 import {ModalService} from '../../../services/Modal/modal.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModelNotifySuccsessComponent } from '../model-notify-succsess/model-notify-succsess.component';
+import { ModelNotifySuccsessComponent} from '../Modal-notify/model-notify-succsess/model-notify-succsess.component';
 
 @Component({
   selector: 'app-product',
