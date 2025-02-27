@@ -44,14 +44,14 @@
                             Last Name
                         </ng-container>
                         <ng-container *ngIf="header !== 'imageUrl'
-                             && header !== 'isActive' 
+                             && header !== 'isActive'
                              && header !== 'parentsID'
                              && header !== 'parentsName'
                              && header !== 'dateOfBirth'
                              && header !== 'firstName'
                              && header !== 'lastName'
                              && header !== 'createdBy'&& header !== 'updatedBy'
-                             
+
                              && header !== 'createdAt' && header !== 'updatedAt'
                              && header !== 'dateOfBirth'">
                             {{ header }}
@@ -85,6 +85,11 @@
                                     class="avatar rounded-circle" style="width: 50px; height: 50px;">
                             </ng-container>
 
+                          <ng-container *ngIf="typeImage === 'coupons'">
+                            <img *ngIf="item[header]"
+                                 [src]="'http://localhost:8080/uploads/images/coupons/'+item[header]" alt="Image"
+                                 class="avatar rounded-circle" style="width: 50px; height: 50px;">
+                          </ng-container>
 
 
 
