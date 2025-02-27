@@ -205,8 +205,11 @@ export class DashboardComponent implements OnInit {
 
 
 
-  percent(numberToday : number , numberYesterday : number): number {
-      const total = ( (numberToday  - numberYesterday) / numberYesterday ) * 100 
-    return total;
+  percent(numberToday: number, numberYesterday: number): number {
+    if (numberYesterday === 0) {
+      return numberToday === 0 ? 0 : 100; // Nếu cả hai bằng 0 thì không thay đổi, nếu numberToday > 0 thì tăng vô hạn.
+    }
+    return ((numberToday - numberYesterday) / numberYesterday) * 100;
   }
+  
 }
