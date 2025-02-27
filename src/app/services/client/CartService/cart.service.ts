@@ -34,7 +34,7 @@ export class CartService {
   
     const queryString = params.length ? `?${params.join('&')}` : '';
   
-    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`).pipe(
+    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}` ,{ withCredentials: true }).pipe(
       map(response => (response.status === 200 && response.data) ? response.data.totalCart : 0),
       catchError(error => {
         console.error('Lỗi khi lấy tổng số giỏ hàng:', error);
@@ -44,27 +44,22 @@ export class CartService {
   }
 
   
-  
   getTotalQty(userId: number, sessionId: string): Observable<ApiResponse<TotalQty>> {
     let params: string[] = [];
-    let check = false;
-  
-    // Nếu userId === 0 và sessionId === '' thì trả về giá trị mặc định, không gọi API
-    if (userId === 0 && sessionId.trim() === '') {
-      return of({ data: { totalCart: 0 } } as ApiResponse<TotalQty>);
-    }
-  
-    if (userId !== null && userId !== undefined && userId !== 0) {
-      check = true;
+
+    if (userId !== null && userId !== undefined) {
       params.push(`userId=${encodeURIComponent(userId)}`);
     }
-    if (!check && sessionId.trim()) {
+    if (sessionId?.trim()) { // Kiểm tra sessionId có giá trị hợp lệ
       params.push(`sessionId=${encodeURIComponent(sessionId)}`);
     }
-  
+
     const queryString = params.length ? `?${params.join('&')}` : '';
-  
-    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`);
+
+    // console.log('Request URL:', `${this.apiUrl}/total${queryString}`);
+
+    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`
+      ,{ withCredentials: true }) ;
   }
   
 
