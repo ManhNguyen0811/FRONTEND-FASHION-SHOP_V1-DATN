@@ -29,9 +29,9 @@ import {AuthGuardFn} from '../../guards/auth.guard';
 import { StoreInventoryComponent } from "./store-inventory/store-inventory.component";
 import {StoreDetailComponent} from './store-detail/store-detail.component';
 import {PaymentSuccessComponent} from './payment-success/payment-success.component';
+import {combineLatestAll} from 'rxjs';
 import {OTPComponent} from './otp/otp.component';
 import {ResetPasswordComponent} from './reset-password/reset-password.component';
-import {combineLatestAll} from 'rxjs';
 
 
 export const clientRouter: Routes =[
@@ -69,10 +69,10 @@ export const clientRouter: Routes =[
               { path: '', redirectTo: 'shipping', pathMatch: 'full' },
             ],
           },
+
           { path: 'coupon',
             component: CouponComponent
           },
-
             {
                 path: 'login',
                 component: LoginComponent
@@ -101,6 +101,7 @@ export const clientRouter: Routes =[
                     { path: 'order_history', component: OrderHistoryComponent },
                      { path: 'order_history/order_detail/:id', component: OrderDetailComponent },
                     { path: 'edit_profile', component: EditProfileComponent },
+                    { path: 'order_history/order_detail', component: OrderDetailComponent  },
                     { path: 'edit_address', component: EditAddressComponent },
                 ],
               canActivate: [AuthGuardFn]

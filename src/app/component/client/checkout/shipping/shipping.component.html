@@ -1,7 +1,3 @@
-
-
-<!--<div class="row" >-->
-
 <div class=" fr-contents-card full">
   <div class="accordion-item" style="border: none">
     <div class="mb-xl">
@@ -18,7 +14,8 @@
                    padding: 28px 20px;">
         <div class="fr-wrapper mb-m" style="width: auto;">
           <h4 class="text-uppercase accordion-header">
-            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#delivery" aria-expanded="true" aria-controls="delivery">
+            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#delivery"
+                    aria-expanded="true" aria-controls="delivery">
               <span class="title">1. Tùy chọn giao hàng</span>
             </button>
           </h4>
@@ -29,7 +26,6 @@
       </div>
       <div id="delivery" class="accordion-collapse collapse show">
         <div class="accordion-body">
-
           <div style="border: 1px solid rgb(224, 224, 224); padding: 28px 20px;">
             <div style="width: auto;">
               <div class="mb-m pr-s">
@@ -117,7 +113,7 @@
                             </button>
                           </div>
                         </div>
-                        <ul  class="fr-list bordered-bottom-with-pd mt-l mb-xl">
+                        <ul class="fr-list bordered-bottom-with-pd mt-l mb-xl">
                           <li class="">
                             <div>
                               <div class="fr-panel">
@@ -125,7 +121,7 @@
                                   <div class="panel-contents">
                                     <div class="fr-showmore close">
                                       <div>
-                                        <div><h4  class="fr-head h4"><span
+                                        <div><h4 class="fr-head h4"><span
                                           class="title">UNIQLO Vạn Hạnh Mall</span></h4></div>
                                         <div class="mt-xxs">
                                           <div class="fr-text bold">Tầng 1, Số 11, Đ. Sư Vạn Hạnh, Phường 12, Quận 10,
@@ -163,11 +159,11 @@
                                         <div class="mt-xxs">
                                           <div class="fr-text">Ngày lễ 09:30 AM - 10:00 PM</div>
                                         </div>
-<!--                                        <div class="mt-xxs">-->
-<!--                                          <div class="fr-text"></div>-->
-<!--                                          <div class="fr-text"></div>-->
-<!--                                        </div>-->
-                                        <div class="mt-xxs"><h4  class="fr-head h4"><span
+                                        <!--                                        <div class="mt-xxs">-->
+                                        <!--                                          <div class="fr-text"></div>-->
+                                        <!--                                          <div class="fr-text"></div>-->
+                                        <!--                                        </div>-->
+                                        <div class="mt-xxs"><h4 class="fr-head h4"><span
                                           class="title">Bãi đậu xe</span></h4></div>
                                         <div class="mt-xxs">
                                           <div class="fr-text">Có bãi đậu xe</div>
@@ -178,14 +174,15 @@
                                          style="width: 50%; display: flex; flex-direction: column; align-items: flex-end; padding-left: 20px; justify-content: flex-start;">
                                       <div class="mb-xs">
                                         <button class="fr-btn small fr-btn panel-action-button w2-f" type="button"
-                                                data-test="chọn-button" >Chọn
+                                                data-test="chọn-button">Chọn
                                         </button>
                                       </div>
                                       <div class="mb-xs">
-                                      <button class=" icon relative small panel-action-button w2-f btn-text fr-btn"  data-test="chi-tiết-button">
-<!--                                        <div class="fr-btn small panel-action-button w2-f"></div>Chi tiết-->
-                                        Chi tiết
-                                      </button>
+                                        <button class=" icon relative small panel-action-button w2-f btn-text fr-btn"
+                                                data-test="chi-tiết-button">
+                                          <!--                                        <div class="fr-btn small panel-action-button w2-f"></div>Chi tiết-->
+                                          Chi tiết
+                                        </button>
                                       </div>
                                     </div>
                                   </div>
@@ -195,8 +192,8 @@
                           </li>
 
                         </ul>
-<!--                        <div data-test="loadingIndicator" class=""><span-->
-<!--                          class="_2vJqfSRj93G2OKjQYIF5OI" style="animation-delay: 0s;"></span></div>-->
+                        <!--                        <div data-test="loadingIndicator" class=""><span-->
+                        <!--                          class="_2vJqfSRj93G2OKjQYIF5OI" style="animation-delay: 0s;"></span></div>-->
                         <a class="" href="#" target="_self">
                           <div class="fr-load-more noborder"><span class="text">Xem thêm</span><span class="arrow"><span
                             class="fr-icon chevron_updown" style="font-size: 24px;" role="img" aria-label="View more"
@@ -217,7 +214,6 @@
             </div>
 
 
-
             <!-- Danh sách địa chỉ -->
             <div class="fr-h-rule full">
               <hr style="color: rgb(224, 224, 224)">
@@ -227,68 +223,250 @@
                 <div>
                   <div>
                     <div>
-                      <ul  class="fr-list bordered-between-content mt-m mb-l">
-                        <li class="">
+                      <ul class="fr-list bordered-between-content mt-m mb-l">
+                        <li *ngFor="let addr of address">
                           <div>
-                            <div class="fr-panel" data-test="address-0">
+                            <div class="fr-panel" data-test="address">
                               <div class="panel-inner">
                                 <div class="panel-contents">
                                   <div class="info-section">
                                     <section class="fr-info-section">
                                       <div class="info-container">
-                                        <div class="left-info"><h4 class="info-main">Tài Báo (Địa chỉ thành viên)</h4>
+                                        <div class="left-info">
+                                          <h4 class="info-main">
+                                            {{ addr.firstName }} <span
+                                            *ngIf="addr.lastName ">(Địa chỉ thành viên)</span>
+                                          </h4>
                                         </div>
-                                        <div class="right-info"><p>Hoàng Hoa Thám, Phường 5, Quận Phú Nhuận, Hồ Chí
-                                          Minh</p>
-                                          <p>0378983454</p></div>
+                                        <div class="right-info">
+                                          <p>{{ addr.street }},  {{ addr.ward }},  {{ addr.district }}
+                                            ,  {{ addr.province }}</p>
+                                          <p>{{ addr.phoneNumber }}</p>
+                                        </div>
                                       </div>
                                     </section>
                                   </div>
                                   <div class="panel-action" style="padding-left: 20px;">
                                     <div class="mb-xs">
-                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" type="button" data-test="đã-chọn-button">
-                                        <div class="absolute fr-icon check_large center-vertical" aria-hidden="true"></div>
+                                      <!-- Nếu địa chỉ này đang được chọn -->
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn"
+                                              type="button"
+                                              *ngIf="addr.id === selectedAddressId">
+                                        <div class="absolute fr-icon check_large center-vertical"
+                                             aria-hidden="true"></div>
                                         <div>Đã chọn</div>
                                       </button>
-                                    </div>
-                                    <div class="mb-xs">
-                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn" data-test="sửa-button">
+                                      <!-- Nếu địa chỉ này chưa được chọn -->
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn"
+                                              *ngIf="addr.id !== selectedAddressId" (click)="selectAddress(addr)">
+                                        <div>Chọn</div>
+                                      </button>
+                                      <button class="icon relative small panel-action-button w2-f btn-text fr-btn"
+                                              type="button"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#dang-ky-dia-chi"
+                                              (click)="editAddress(addr)">
                                         <div>Sửa</div>
                                       </button>
                                     </div>
                                   </div>
+
                                 </div>
                               </div>
                             </div>
                           </div>
                         </li>
                       </ul>
+
                       <div class="button-container">
                     <span class="mr-s">
-                      <button (click)="goToPayment()" class="fr-btn btn-dark w4-f" type="button" data-test="tiếp-tục-thanh-toán-button"
+                      <button (click)="goToPayment()" class="fr-btn btn-dark w4-f" type="button"
+                              data-test="tiếp-tục-thanh-toán-button"
                       >Tiếp tục thanh toán</button>
-                    </span><span>
+                    </span>
+                        <span>
                     <button
-                      class="fr-btn back w4-f border" type="button" data-bs-toggle="modal" data-bs-target="#dang-ky-dia-chi">
-                    Đăng ký một địa chỉ mới</button></span>
+                      class="fr-btn back w4-f border" type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#dang-ky-dia-chi"
+                      data-bs-backdrop="false">
+                    Đăng ký một địa chỉ mới</button>
+
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
-
-
         </div>
+
+
       </div>
     </div>
+
   </div>
 
+</div>
 
+<div class="modal" id="dang-ky-dia-chi" tabindex="-1" aria-labelledby="modal-new-address" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title text-uppercase">Đăng ký một địa chỉ mới</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Hủy"></button>
+      </div>
+      <div class="modal-body">
+        <div class="wrapper">
+          <form #addressForm="ngForm" novalidate class="form-new-address">
+            <h3
+              class="modal-title text-uppercase"> {{ NewAddress.id === 0 ? 'Thêm địa chỉ mới' : 'Chỉnh sửa địa chỉ' }}</h3>
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Tên&nbsp;</label>
+              <div class="col-sm-9">
+                <input class="form-control" maxlength="30" name="givenName"
+                       placeholder="Vui lòng nhập tên của bạn" autocomplete="on" type="text"
+                       pattern="^.{1,30}$"
+                       required [(ngModel)]="NewAddress.lastName" #givenName="ngModel">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Họ&nbsp;</label>
+              <div class="col-sm-9">
+                <input class="form-control" maxlength="30" name="familyName" pattern="^.{1,30}$"
+                       placeholder="Vui lòng nhập họ của bạn" autocomplete="on" required
+                       [(ngModel)]="NewAddress.firstName" #familyName="ngModel" type="text">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Tỉnh&nbsp;</label>
+              <div class="col-sm-9">
+                <select class="form-select" required name="state" [(ngModel)]="selectedProvince" #province="ngModel"
+                        (change)="onProvinceChange($event)"
+                        [ngClass]="{'is-invalid': province.invalid && province.touched}">
+                  <option value="">Chọn tỉnh/thành</option>
+                  <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+                </select>
+                <div *ngIf="province.invalid && province.touched" class="invalid-feedback">
+                  <small>Vui lòng chọn tỉnh/thành.</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quận/Huyện -->
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Quận/Huyện:</label>
+              <div class="col-sm-9">
+                <select
+                  class="form-select"
+                  required
+                  [(ngModel)]="selectedDistrict"
+                  #district="ngModel"
+                  (change)="onDistrictChange($event)"
+                  [disabled]="!selectedProvince"
+                  [ngClass]="{'is-invalid': district.invalid && district.touched}">
+                  <option value="">Chọn quận/huyện</option>
+                  <option *ngFor="let district of districts" [value]="district.code">
+                    {{ district.name }}
+                  </option>
+                </select>
+                <div *ngIf="district.invalid && district.touched" class="invalid-feedback">
+                  <small>Vui lòng chọn quận/huyện.</small>
+                </div>
+              </div>
+            </div>
+            <!-- Phường/Xã -->
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Phường/Xã:</label>
+              <div class="col-sm-9">
+                <select
+                  class="form-select"
+                  required
+                  [(ngModel)]="selectedWard"
+                  #ward="ngModel"
+                  (change)="onWardChange($event)"
+                  [disabled]="!selectedDistrict"
+                  [ngClass]="{'is-invalid': ward.invalid && ward.touched}">
+                  <option value="">Chọn phường/xã</option>
+                  <option *ngFor="let ward of wards" [value]="ward.code">
+                    {{ ward.name }}
+                  </option>
+                </select>
+                <div *ngIf="ward.invalid && ward.touched" class="invalid-feedback">
+                  <small>Vui lòng chọn phường/xã.</small>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mb-3">
+              <label class="col-sm-3 col-form-label">Chi tiết địa chỉ&nbsp;</label>
+              <div class="col-sm-9">
+                <input class="form-control" maxlength="70" name="street2" pattern="^.{0,70}$"
+                       placeholder="Căn hộ, dãy phòng, khu, tòa nhà, tầng, v.v." autocomplete="on"
+                       required [(ngModel)]="NewAddress.street" #street="ngModel"
+                       type="text">
+                <div class="form-text">
+                  Để hóa đơn hợp lệ, yêu cầu điền chính xác thông tin bằng tiếng Việt có dấu.&nbsp;
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mb-3" style="width: auto;">
+              <label class="col-sm-3 col-form-label"> Điện thoại&nbsp;</label>
+              <div class="col-sm-9">
+                <input class="form-control" maxlength="11" name="phone"
+                       pattern="^0[235789][0-9]{8,9}$" placeholder="Nhập 10-11 số bắt đầu bằng số 0"
+                       autocomplete="on" type="text1"
+                       required [(ngModel)]="NewAddress.phoneNumber" #phone="ngModel">
+                <div class="form-text">
+                  Vui lòng nhập 10-11 số bắt đầu bằng 0&nbsp;
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="form-text">Chúng tôi có thể liên hệ với bạn qua điện thoại hoặc email nếu chúng tôi có
+                thắc mắc về đơn đặt hàng và tùy chọn giao hàng của bạn.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col">
+                <button class="btn btn-address" [disabled]="addressForm.invalid"
+                        style="padding: 10px 100px; background-color: #1b1b1b; color: #ffffff"
+                        type="button" (click)="isUpdate ? updateAddress() : addNewAddress()">
+                  {{ isUpdate ? 'Cập nhật' : 'Xác nhận' }}
+                </button>
+
+              </div>
+              <div class="col">
+                <button class="btn btn-address border" style="padding: 10px 100px;color: #1b1b1b"
+                        type="button" data-bs-dismiss="modal" (click)="resetForm()">Huỷ
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
+
+
+
+
+
+
+
+
+
 
 
 

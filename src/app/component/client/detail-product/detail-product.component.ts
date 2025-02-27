@@ -229,23 +229,24 @@ export class DetailProductComponent implements OnInit {
     return true;
   }
   createCart() {
- 
+
     this.getStatusQuantityInStock(this.productId ?? 0, this.colorId ?? 0, this.sizeId ?? 0).subscribe(item => {
- 
+
       if (item?.quantityInStock === undefined || item?.quantityInStock === 0 || item?.quantityInStock < this.qtyCart) {
-        this.dialog.open(ModalNotifyErrorComponent);   
-        return;   
+        this.dialog.open(ModalNotifyErrorComponent);
+        return;
       }
-  
-      
+
+
       const qty = Number(this.qtyCart);
       this.cart = { productVariantId: this.variantId ?? 0, quantity: qty };
-  
-      if (this.isValidToAddCart()) {   
+
+      if (this.isValidToAddCart()) {
         if (this.cart.productVariantId !== 0 && this.cart.quantity !== 0) {
           console.log(`this.cart :`, this.cart);
           this.cartService.createCart(this.userId, this.sessionId ?? '', this.cart).subscribe((response) => {
             this.dialog.open(ModelNotifySuccsessComponent);  // Hiển thị thông báo thành công
+
             this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
               this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
             });
@@ -254,19 +255,19 @@ export class DetailProductComponent implements OnInit {
       }
     });
   }
-  
+
 
 
   onInput(event: any): void {
     // Lọc chỉ cho phép nhập số
     const inputValue = event.target.value;
-    
+
     // Chỉ giữ lại số, bỏ qua chữ và ký tự đặc biệt
     const numericValue = inputValue.replace(/[^0-9]/g, '');
 
     // Cập nhật lại giá trị qtyCart chỉ với các chữ số
     this.qtyCart = numericValue ? parseInt(numericValue, 10) : 0;
-    
+
     // Cập nhật lại giá trị input field
     event.target.value = this.qtyCart;
   }

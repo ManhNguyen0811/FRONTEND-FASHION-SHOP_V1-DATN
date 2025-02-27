@@ -34,7 +34,7 @@ export class CartService {
   
     const queryString = params.length ? `?${params.join('&')}` : '';
   
-    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`).pipe(
+    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}` ,{ withCredentials: true }).pipe(
       map(response => (response.status === 200 && response.data) ? response.data.totalCart : 0),
       catchError(error => {
         console.error('Lỗi khi lấy tổng số giỏ hàng:', error);
@@ -42,12 +42,30 @@ export class CartService {
       })
     );
   }
-  
 
+  
   getTotalQty(userId: number, sessionId: string): Observable<ApiResponse<TotalQty>> {
     let params: string[] = [];
-    let check = false
 
+    if (userId !== null && userId !== undefined) {
+      params.push(`userId=${encodeURIComponent(userId)}`);
+    }
+    if (sessionId?.trim()) { // Kiểm tra sessionId có giá trị hợp lệ
+      params.push(`sessionId=${encodeURIComponent(sessionId)}`);
+    }
+
+    const queryString = params.length ? `?${params.join('&')}` : '';
+
+    // console.log('Request URL:', `${this.apiUrl}/total${queryString}`);
+
+    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`
+      ,{ withCredentials: true }) ;
+  }
+  
+
+  getAllCart(userId: number, sessionId: string): Observable<ApiResponse<CartDTO>> {
+    let params: string[] = [];
+    let check = false
 
     if (userId !== null && userId !== undefined && userId !== 0) {
       check = true
@@ -61,25 +79,8 @@ export class CartService {
 
     const queryString = params.length ? `?${params.join('&')}` : '';
 
-    // console.log('Request URL:', `${this.apiUrl}/total${queryString}`);
 
-    return this.http.get<ApiResponse<TotalQty>>(`${this.apiUrl}/total${queryString}`);
-  }
-
-  getAllCart(userId: number, sessionId: string): Observable<ApiResponse<CartDTO>> {
-    let params: string[] = [];
-
-    if (userId !== null && userId !== undefined && userId !== 0) {
-      params.push(`userId=${encodeURIComponent(userId)}`);
-    }
-    if (sessionId?.trim()) {
-      params.push(`sessionId=${encodeURIComponent(sessionId)}`);
-    }
-
-    const queryString = params.length ? `?${params.join('&')}` : '';
-
-
-    // console.log('Request URL:', `${this.apiUrl}${queryString}`);
+    console.log('Request URL:', `${this.apiUrl}${queryString}`);
 
 
     return this.http.get<ApiResponse<CartDTO>>(`${this.apiUrl}${queryString}`);
@@ -88,6 +89,8 @@ export class CartService {
   createCart(userId: number, sessionId: string, variant: CreateCartDTO): Observable<any> {
     let params: string[] = [];
     let check = false
+    console.log("ider: "+ userId)
+    console.log("ider: "+ sessionId)
 
     if (userId !== null && userId !== undefined && userId !== 0) {
       check = true
@@ -160,5 +163,12 @@ export class CartService {
 
     return this.http.delete<ApiResponse<CartDTO>>(`${this.apiUrl}/clear${queryString}`);
   }
+
+  mergeCart(userId: number, sessionId: string) :Observable<any>{
+    
+    return this.http.post(`${this.apiUrl}/merge?sessionId=${sessionId}&userId=${userId}`,{})
+    
+  }
+
 
 }
