@@ -13,7 +13,7 @@ import { NavBottomComponent } from '../nav-bottom/nav-bottom.component';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../../services/Navigation/navigation.service';
 import { BannerService } from '../../../services/client/BannerService/banner.service';
-import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
+import { catchError, firstValueFrom, forkJoin, map, Observable, of } from 'rxjs';
 import { BannerDTO } from '../../../models/BannerDTO';
 import { response } from 'express';
 import { ApiResponse } from '../../../dto/Response/ApiResponse';
@@ -53,8 +53,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.fetchTotalQty()
 
+      this.fetchApiCart()
     
    
 
@@ -83,12 +83,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   };
 
   async ngOnInit(): Promise<void> {
-    this.fetchTotalQty()
-    if (this.userId === 0) {
+    
+    await this.fetchApiCart()
 
 
       this.sessionId = this.cookieService.get('SESSION_ID') || '';
-    }
+    
     if (isPlatformBrowser(this.platformId)) {
       this.handleScroll(); // Gọi xử lý ban đầu khi load trang
     }
@@ -135,18 +135,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  fetchTotalQty(): void {
-    (this.userId === 0
-      ? this.getTotalQty(0, '')
-      : this.getTotalQty(this.userId ?? 0, '')
-    ).pipe(
-      catchError(() => of({ totalCart: 0 })) // Nếu API lỗi, trả về { totalCart: 0 }
-    ).subscribe(total => {
-      this.qtyTotal = total?.totalCart ?? 0; // Đảm bảo giá trị không phải null
-      console.log('Total quantity in cart:', this.qtyTotal);
-    });
-  }
-
+  async fetchApiCart(): Promise<void> {
+     if (!this.sessionId) {
+       this.sessionId = this.cookieService.get('SESSION_ID') || '';
+     }
+ 
+     console.log('SESSION_ID:', this.sessionId);
+     console.log('userId:', this.userId);
+ 
+     const callApi = {
+       qtyTotal: this.getTotalQty(this.userId ?? 0, this.sessionId),
+ 
+     };
+ 
+     const response = await firstValueFrom(forkJoin(callApi));
+ 
+     this.qtyTotal = response.qtyTotal?.totalCart ?? 0;
+ 
+ 
+     console.log("Cart Items:", this.qtyTotal);
+   }
+ 
   // Định nghĩa qtyTotal với kiểu số
   qtyTotal: number = 0;
 

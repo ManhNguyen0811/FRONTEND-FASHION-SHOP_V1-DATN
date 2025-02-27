@@ -197,7 +197,7 @@ export class CartComponent implements OnInit {
           this.cartService.getQtyCart(this.userId ?? 0, this.sessionId ?? '').subscribe(total => {
             this.cartService.totalCartSubject.next(total);  // Cập nhật tổng số lượng giỏ hàng
           });
-          this.dialog.open(ModalRegisterSuccessComponent);
+          this.dialog.open(ModelNotifySuccsessComponent);
           await this.fetchApiCart();
 
         })
