@@ -134,7 +134,7 @@ export class EditProfileComponent implements OnInit{
 
     console.log("Dữ liệu gửi đi:", updatedUserData);
 
-    this.userService.updateUser(3, updatedUserData).subscribe({
+    this.userService.updateUser(this.tokenService.getUserId(), updatedUserData).subscribe({
       next: (response) => {
         if(this.updateEmail){
           this.authService.setReturnUrl(this.router.url);

@@ -124,6 +124,9 @@ export class ProductServiceService {
   getVideosProduct(productId: number): Observable<ApiResponse<ImagesDetailProductDTO[]>>{
     return this.http.get<ApiResponse<ImagesDetailProductDTO[]>>(`${this.apiUrl}/videos/${productId}`)
   }
+  getProductVariant(lang : string,productVariantId : number): Observable<ApiResponse<ProductVariantDetailDTO>>{
+    return this.http.get<ApiResponse<ProductVariantDetailDTO>>(`${this.apiUrl}/variants/${lang}/${productVariantId}`)
+  }
 
   isInWishlist(userId: number, productId: number, colorId: number): Observable<ApiResponse<WishlistCheckResponse>> {
     const params = new HttpParams()
@@ -151,4 +154,6 @@ export class ProductServiceService {
       map(response => response.data || [])
     );
   }
+
+  
 }

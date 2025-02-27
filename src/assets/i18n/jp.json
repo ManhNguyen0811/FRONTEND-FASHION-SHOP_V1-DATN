@@ -81,6 +81,7 @@
   "MÃ GIẢM": "割引コード",
   "MUA NGAY": "今すぐ購入",
   "TIẾP TỤC MUA SẮM": "ショッピングを続ける",
+  "Xóa giỏ hàng" : "カートをクリア",
 
   "_commentDetailImage": "----------------------詳細画像部分----------------------",
   "HÌNH ẢNH CHI TIẾT": "詳細画像",
@@ -106,9 +107,15 @@
 
   "_commentStore-modal-succcsess" :"----------------------Phần Store Inventory----------------------------",
   "Hoàn Thành": "完了しました",
-  "Thêm Thành Công": "追加に成功しました",
+  "Thành Công": "追加に成功しました",
 
   "_commentStore-modal-error": "----------------------Phần commentStore-modal-error ----------------------------",
     "Lỗi": "エラー",
-  "Thêm Thất Bại": "追加に失敗しました"
+  "Thêm Thất Bại": "追加に失敗しました",
+  
+
+  "_commentStore-modal-delete": "----------------------Phần commentStore-modal-delete ----------------------------",
+  "Bạn có muốn xóa không": "削除しますか",
+  "Hủy": "キャンセル"
+
 }

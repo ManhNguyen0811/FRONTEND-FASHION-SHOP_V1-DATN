@@ -132,6 +132,8 @@
   "MÃ GIẢM": "MÃ GIẢM",
   "MUA NGAY": "MUA NGAY",
   "TIẾP TỤC MUA SẮM": "TIẾP TỤC MUA SẮM",
+  "Xóa giỏ hàng" : "Xóa giỏ hàng",
+
 
 
   "_commentDetailImage" :"----------------------Phần Detail Imgage----------------------------",
@@ -159,11 +161,12 @@
 
   "_commentStore-modal-succcsess" :"----------------------Phần _commentStore-modal-succcsess----------------------------",
   "Hoàn Thành" : "Hoàn Thành",
-  "Thêm Thành Công" : "Thêm Thành Công",
+  "Thành Công" : "Thành Công",
 
   
-  "_commentStore-modal-error " :"----------------------Phần commentStore-modal-error ----------------------------",
-  "Lỗi" : "Lỗi",
-  "Thêm Thất Bại" : "Thêm Thất Bại"
+  "_commentStore-modal-delete": "----------------------Phần commentStore-modal-delete ----------------------------",
+  "Bạn có muốn xóa không" : "Bạn có muốn xóa không",
+  "Hủy" : "Hủy"
+
  
 }
